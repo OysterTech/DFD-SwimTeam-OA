@@ -1,12 +1,12 @@
 <?php
 
 /**
-* -----------------------------------------
+* ----------------------------------------
 * @name PHP公用函数库 1 内容显示函数
 * @copyright 版权所有：小生蚝 <master@xshgzs.com>
 * @create 创建时间：2016-09-16
-* @modify 最后修改时间：2017-04-09
-* -----------------------------------------
+* @modify 最后修改时间：2017-05-25
+* ----------------------------------------
 */
 
 
@@ -21,8 +21,8 @@
 function ShowCSS($Path,$FileName)
 {
  //两个变量的类型检测
- if(!is_array($Path) && is_array($FileName)){die("111");}
- if(is_array($Path) && !is_array($FileName)){die("112");}
+ if(!is_array($Path) && is_array($FileName)){die("F111");}
+ if(is_array($Path) && !is_array($FileName)){die("F112");}
  
  //如果不是Array
  if(!is_array($Path) && !is_array($FileName)){
@@ -35,11 +35,11 @@ function ShowCSS($Path,$FileName)
   
   //判断两个Array元素数量是否相同
   if($TotalPath != $TotalName){
-   die("113");
+   die("F113");
   }
   
   for($i=0;$i<$TotalPath;$i++){
-   echo "<link rel='stylesheet' href='/res/css/$Path[$i]/$FileName[$i].css'>";
+   echo "<link rel='stylesheet' href='/res/css/{$Path[$i]}/{$FileName[$i]}.css'>";
   }
  }
 }
@@ -63,7 +63,7 @@ function ShowJS($FileName)
   $TotalName=sizeof($FileName);
   
   for($i=0;$i<$TotalName;$i++){
-   echo "<script src='/res/js/$FileName[$i].js'></script>";
+   echo "<script src='/res/js/{$FileName[$i]}.js'></script>";
   }
  }
 }

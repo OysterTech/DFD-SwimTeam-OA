@@ -28,7 +28,7 @@ function SetSess($SessName,$SessValue)
    toAlertDie("211");
   }
   for($i=0;$i<$TotalName;$i++){
-   $_SESSION[$SessName[$i]]=$SessValue[$i];  
+   $_SESSION[$SessName[$i]]=$SessValue[$i];
   }
  }
 }

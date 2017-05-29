@@ -5,11 +5,18 @@
 * @name PHP公用函数库 3 系统隐私函数
 * @copyright 版权所有：小生蚝 <master@xshgzs.com>
 * @create 创建时间：2016-08-28
-* @modify 最后修改时间：2016-11-23
+* @modify 最后修改时间：2017-05-25
 * -----------------------------------------
 */
 
 
+/**
+* -------------------------------------
+* getRanPW 获取随机密码
+* -------------------------------------
+* @param Array (明文密码,salt值,密文密码)
+* -------------------------------------
+*/
 function getRanPW()
 {
   $salt="";$letters="";$num1="";$num2="";
@@ -58,10 +65,65 @@ function getRanSTR($length,$LettersType=2)
 }
 
 
+/**
+* -------------------------------------
+* encryptPW 密码加密函数
+* -------------------------------------
+* @param STR  需要加密的密码（明文）
+* @param STR  salt值
+* -------------------------------------
+* @return STR 加密后的字符串
+* -------------------------------------
+*/
 function encryptPW($Password,$salt)
 {
   $Password=md5($Password);
   $Password=base64_encode($salt.$Password);
   $Password=sha1($Password);
   return $Password;
+}
+
+
+/**
+* -------------------------------------
+* AddLog 新增操作记录
+* -------------------------------------
+* @param Obj  PDO数据库连接对象
+* @param STR  操作记录类型
+* @param STR  操作记录内容
+* @param STR  操作用户
+* -------------------------------------
+*/
+function AddLog($dbcon,$LogType,$LogContent,$User){
+  if(strlen($LogType)>6){
+    toAlertDie("F304-LTT-LG");
+  }
+  
+  $sql="INSERT INTO sys_log(LogType,LogContent,User) VALUES(?,?,?)";
+  $rs=PDOQuery($dbcon,$sql,[$LogType,$LogContent,$User],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR]);
+  
+  if($rs[1]==1){
+    return true;
+  }else{
+    toAlertDie("F304-IST-F");
+  }
+}
+
+
+function emptyCache($dbcon,$Suffix)
+{
+  $TableName="cache_".$Suffix;
+  $time=time();
+  $sql="DELETE FROM $TableName WHERE ExpTime<$time";
+  $rs=PDOQuery($dbcon,$sql,[],[]);
+  return $rs[1];
+}
+
+
+function delCache($dbcon,$Suffix,$SessionID,$UserID)
+{
+  $TableName="cache_".$Suffix;
+  $sql="DELETE FROM $TableName WHERE SessionID=? AND UserID=?";
+  $rs=PDOQuery($dbcon,$sql,[$SessionID,$UserID],[PDO::PARAM_STR,PDO::PARAM_STR]);
+  return $rs[1];
 }

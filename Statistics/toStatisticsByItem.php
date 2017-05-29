@@ -38,18 +38,19 @@ for($k=0;$k<$GamesItem_total;$k++){
 
 <center>
   <h3 style="color:green;font-weight:bolder;"><?php echo $GamesName; ?></h3>
-  <h3>按项目统计</h3>
-  <h4><a href="index.php?file=Statistics&action=toStatisticsByAth.php&GamesID=<?php echo $GamesID; ?>">（点此按运动员个人统计）</a></h4>
+  <h3>按单项统计</h3>
+  <h4><a href="index.php?file=Statistics&action=toStatisticsByAth.php&GamesID=<?php echo $GamesID; ?>&GamesName=<?php echo $GamesName; ?>">（点此按运动员个人统计）</a></h4>
 </center>
 
 <hr>
 
+<!-- ▼ [下拉框]项目选择 ▼ -->
 <center>
   <font color="blue" style="font-size:22;">
     请选择需要统计的项目：
   </font>
   <br>
-  <select id="ItemList" onchange="showExportButton();showEnrollAthByItem(this.value)">
+  <select id="ItemList" onchange="showEnrollAthByItem(this.value);/*showExportButton();*/">
   <option selected disabled>----- 请选择项目 -----</option>
   <?php
   for($i=0;$i<$GamesItem_total;$i++){
@@ -64,15 +65,18 @@ for($k=0;$k<$GamesItem_total;$k++){
   <?php } ?>
   </select>
 </center>
+<!-- ▲ [下拉框]项目选择 ▲ -->
 
 <hr>
 
+<!-- ▼ 数据导出按钮(暂未启用) ▼ -->
 <div id="ExportButton" style="display:none;">
   <center>
     <button class="btn btn-primary" style="width:97%" onclick="exportEnrollDatabyItem()">导出该项目的报名数据（Excel）</button>
   </center>
   <hr>
 </div>
+<!-- ▲ 数据导出按钮(暂未启用) ▲ -->
 
 <table class="table table-hover table-striped table-bordered" style="border-radius: 5px; border-collapse: separate;" id="AthList">
 <tr>
@@ -129,10 +133,10 @@ function showEnrollAthByItem(ItemID){
   }
   
   $.ajax({
-    url:"Functions/Api/getEnrollData.php",
+    url:"Functions/Api/getEnrollDataByItem.php",
     type:"post",
     dataType:"text",
-    data:{"Sign":Sign,"SortBy":"Item","GamesID":GamesID,"ItemID":ItemID},
+    data:{"Sign":Sign,"GamesID":GamesID,"ItemID":ItemID},
     error:function(e){
       alert(JSON.stringify(e));
       console.log(JSON.stringify(e));
@@ -158,6 +162,8 @@ function showEnrollAthByItem(ItemID){
           for(j in got[i]){
             if(j==="AthID"){
               AthID=got[i][j];
+            }else if(j==="Sex"){
+              Sex=got[i][j];
             }else if(j==="RealName"){
               AthName=got[i][j];
             }else if(j==="SchoolGrade"){
@@ -172,7 +178,7 @@ function showEnrollAthByItem(ItemID){
           ct=""
           +"<tr>"
           +"<td>"
-          +AthName+"（"+SchoolGrade+"年"+SchoolClass+"班）"
+          +AthName+"（"+Sex+" - "+SchoolGrade+"年"+SchoolClass+"班）"
           +"</td>"
           +"<td>"
           +'<button class="btn btn-info" onclick="toViewAthDataDetail('+AthID+')">详细</button>'

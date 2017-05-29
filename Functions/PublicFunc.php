@@ -4,7 +4,7 @@
 * @name 小生蚝角色权限系统 PHP公用函数库
 * @copyright 版权所有：小生蚝 <master@xshgzs.com>
 * @create 创建时间：2016-09-16
-* @modify 最后修改时间：2016-12-04
+* @modify 最后修改时间：2017-05-28
 * -----------------------------------------
 */
 
@@ -20,6 +20,8 @@ require_once("Package/Session.func.php");
 require_once("Package/Privacy.func.php");
 /* Require Class <Global Settings> */
 require_once("Package/Settings.class.php");
+/* Require Class <Cache> */
+require_once("Package/Cache.class.php");
 
 
 
@@ -34,10 +36,13 @@ require_once("Package/Settings.class.php");
 function toAlertDie($ErrorNo,$Tips="",$isInScript="")
 {
  if($isInScript=="Ajax"){
+  // Ajax处理页（直接返回错误内容文字）
   $Alerting=$ErrorNo."\n".$Tips;
  }else if($isInScript==0 || $isInScript==""){
- $Alerting='<script>alert("Oops！系统处理出错了！\n\n错误码：'.$ErrorNo.'\n'.$Tips.'");</script>';
+  // PHP普通页面（script标签+alert）
+  $Alerting='<script>alert("Oops！系统处理出错了！\n\n错误码：'.$ErrorNo.'\n'.$Tips.'");</script>';
  }else if($isInScript==1){
+  // JS代码内（直接alert）
   $Alerting='alert("Oops！系统处理出错了！\n\n错误码：'.$ErrorNo.'\n'.$Tips.'");';
  } 
  die($Alerting.$ErrorNo);
@@ -80,5 +85,23 @@ function TextFilter($str)
   }
   
   return $str;
+}
+
+
+function getIP()
+{
+if(!empty($_SERVER["HTTP_CLIENT_IP"])){
+  $cip = $_SERVER["HTTP_CLIENT_IP"];
+}
+elseif(!empty($_SERVER["HTTP_X_FORWARDED_FOR"])){
+  $cip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+}
+elseif(!empty($_SERVER["REMOTE_ADDR"])){
+  $cip = $_SERVER["REMOTE_ADDR"];
+}
+else{
+  $cip = "无法获取！";
+}
+return $cip;
 }
 ?>
