@@ -1,5 +1,11 @@
 {
     "System": {
-        "Title": "东风东游泳队报名系统 \/ Powered By 生蚝科技"
+        "Title": "东风东游泳队报名系统 \/ Powered By 生蚝科技",
+        "SessionSuffix": "ODST",
+        "CacheList": "报名数据导出,export_excel|登录记录,login"
+    },
+    "Global": {
+        "Notice_Content": "风平浪静~<br>快去好好训练为学校和个人争取更多奖项吧！",
+        "Notice_PubTime": "2017-06-18 22:02:51"
     }
 }

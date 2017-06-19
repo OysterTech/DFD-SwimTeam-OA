@@ -32,31 +32,35 @@
 </div>
 
 <script>
+window.onload=function(){
+  $("#UserName").focus();
+}
+
 function toLogin(){
-	lockScreen();
-	$("input")[0].disabled=1;
-	name=$("#UserName").val();
-	pw=$("#Password").val();
-	
-	re_file=getURLParam("re_file");
-	re_action=getURLParam("re_action");
+  lockScreen();
+  $("input")[0].disabled=1;
+  name=$("#UserName").val();
+  pw=$("#Password").val();
+  
+  re_file=getURLParam("re_file");
+  re_action=getURLParam("re_action");
 
-	if(name==""){
-		$("#tips").html("请输入用户名！");
-		unlockScreen();
-		$("input")[0].disabled=0;
-		$("#myModal").modal('show');
-		return false;
-	}
-	if(pw==""){
-		$("#tips").html("请输入密码！");
-		unlockScreen();
-		$("input")[0].disabled=0;
-		$("#myModal").modal('show');
-		return false;
-	}
-
-	$.ajax({
+  if(name==""){
+    $("#tips").html("请输入用户名！");
+    unlockScreen();
+    $("input")[0].disabled=0;
+    $("#myModal").modal('show');
+   return false;
+  }
+  if(pw==""){
+    $("#tips").html("请输入密码！");
+    unlockScreen();
+    $("input")[0].disabled=0;
+    $("#myModal").modal('show');
+    return false;
+  }
+  
+  $.ajax({
     url:"toLogin.php",
     type:"post",
     data:{"Name":name,"Password":pw,"re_file":re_file,"re_action":re_action},
@@ -73,12 +77,18 @@ function toLogin(){
       if(got.substr(0,1)=="1"){
       	  URL=got.substr(1);
         window.location.href=URL;
+      }else if(got=="UserForbidden"){
+        $("#tips").html("当前用户被禁用！<br>请联系管理员！");
+		      unlockScreen();
+		      $("input")[0].disabled=0;
+		      $("#myModal").modal('show');
+		      return false;
       }else{
         $("#tips").html("用户名或密码错误！"+got);
-		    unlockScreen();
-		    $("input")[0].disabled=0;
-		    $("#myModal").modal('show');
-		    return false;
+		      unlockScreen();
+		      $("input")[0].disabled=0;
+		      $("#myModal").modal('show');
+		      return false;
       }
     }  
   });

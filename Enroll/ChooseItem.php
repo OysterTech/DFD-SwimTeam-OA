@@ -12,7 +12,7 @@ $showCount=-1;
 $Enroll_SQL="SELECT * FROM enroll_item WHERE GamesID=? AND AthID=?";
 $Enroll_rs=PDOQuery($dbcon,$Enroll_SQL,[$GamesID,$AthID],[PDO::PARAM_STR,PDO::PARAM_STR]);
 if($Enroll_rs[1]>0){
-  header("Location: index.php?file=Enroll&action=ViewEnrollItem.php&GamesID=$GamesID");
+  header("Location: index.php?file=Enroll&action=ViewEnrollItem.php&GamesID=$GamesID&GamesName=$GamesName");
 }
 
 $GamesItem_list=PDOQuery($dbcon,"SELECT * FROM games_item WHERE GamesID=?",[$GamesID],[PDO::PARAM_STR]);

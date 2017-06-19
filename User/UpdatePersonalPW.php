@@ -1,18 +1,27 @@
 <?php
+$RealName=getSess("SOA_RealName");
+
 if(isset($_POST) && $_POST){
-  $ipt_PW=$_POST['Password'];
-  $NowUserid=GetSess("SOA_Userid");
+  if(!isset($_GET['isFirst']) || $_GET['isFirst']!=1){
   
-  $sql1="SELECT Password,salt,UserName,RealName FROM sys_user WHERE Userid=?";
-  $rs1=PDOQuery($dbcon,$sql1,[$NowUserid],[PDO::PARAM_INT]);
-  $PW_indb=$rs1[0][0]['Password'];
-  $salt=$rs1[0][0]['salt'];
-  $UserName=$rs1[0][0]['UserName'];
-  $RealName=$rs1[0][0]['RealName'];
-  $iptPW=encryptPW($ipt_PW,$salt);
+    $ipt_PW=$_POST['Password'];
+    $NowUserid=GetSess("SOA_Userid");
   
-  if($iptPW != $PW_indb){
-    die('<script>alert("原密码错误！");history.back();</script>');
+    $sql1="SELECT Password,salt,UserName,RealName FROM sys_user WHERE Userid=?";
+    $rs1=PDOQuery($dbcon,$sql1,[$NowUserid],[PDO::PARAM_INT]);
+    $PW_indb=$rs1[0][0]['Password'];
+    $salt=$rs1[0][0]['salt'];
+    $UserName=$rs1[0][0]['UserName'];
+    $RealName=$rs1[0][0]['RealName'];
+    $iptPW=encryptPW($ipt_PW,$salt);
+  
+    if($iptPW != $PW_indb){
+      die('<script>alert("原密码错误！");history.back();</script>');
+    }
+  }else{
+    addLog($dbcon,"用户","强制修改密码",$RealName);
+    $UserName=$_GET['u'];
+    $RealName=$_GET['r'];
   }
   
   $salt=getRanSTR(8);
@@ -38,7 +47,7 @@ if(isset($_POST) && $_POST){
   <img src="res/img/back.png" style="position:absolute;width:24px;top:17px;left:5%;cursor:pointer" onclick="history.back()" aria-label="返回">
   <h3>修改密码</h3><br>
   <div class="col-md-offset-2" style="line-height:12px;">
-      <div class="input-group">
+      <div class="input-group" id="OldPassword">
         <span class="input-group-addon">旧密码</span>
         <input type="password" class="form-control" name="Password">
         <span class="input-group-addon" id="forgot">&lt;</span>
@@ -65,5 +74,6 @@ window.onload=function(){
   isFirst=getURLParam("isFirst");
   if(isFirst=="1"){
     $("#FirstMSG").attr("style","");
+    $("#OldPassword").attr("style","display:none");
   }
 }

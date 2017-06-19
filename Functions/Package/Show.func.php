@@ -5,7 +5,7 @@
 * @name PHP公用函数库 1 内容显示函数
 * @copyright 版权所有：小生蚝 <master@xshgzs.com>
 * @create 创建时间：2016-09-16
-* @modify 最后修改时间：2017-05-25
+* @modify 最后修改时间：2017-06-10
 * ----------------------------------------
 */
 
@@ -73,14 +73,14 @@ function ShowJS($FileName)
 * ------------------------------
 * makeOprBtn 显示带参数的按钮
 * ------------------------------
-* @param Str 按钮颜色类
+* @param Str 显示内容
+* @param Str 按钮颜色类(Bootstrap)
 * @param Str 所在文件夹
 * @param Str 文件名
 * @param Arr 参数
-* @param Str 显示内容
 * ------------------------------
 **/
-function makeOprBtn($color,$file,$action,$param=array(),$name)
+function makeOprBtn($name,$color,$file,$action,$param=array())
 {
   $url_param="index.php?file=$file&action=$action";
   
@@ -92,6 +92,13 @@ function makeOprBtn($color,$file,$action,$param=array(),$name)
   
   $url='<a class="btn btn-'.$color.'" href="'.$url_param.'">'.$name.'</a>';
   return $url;
+}
+
+
+function getLetter($LetterID){
+  // 首位符号是为了占位(第0个)，方便按顺序取字母
+  $AllLetters="|ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  return $Letter=$AllLetters[$LetterID];
 }
 
 

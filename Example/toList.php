@@ -26,10 +26,8 @@ if($Limit>$total){$Limit=$total;}
   ?>
 </center>
 <hr>
+
 <table class="table table-hover table-striped table-bordered" style="border-radius: 5px; border-collapse: separate;">
-<tr>
-  <td colspan="3"><center><a href="?file=Role&action=AddRole.php" class="btn btn-success" style="width:80%">新 增 角 色</a></center></td>
-</tr>
 <tr>
   <th>角色名</th>
   <th>角色描述</th>
@@ -42,27 +40,12 @@ for($i=0;$i<$total;$i++){
   $name=$list[0][$i]['RoleName'];
   $brief=$list[0][$i]['Brief'];
   $isSuper=$list[0][$i]['isSuper']; 
-$OprURL_edit=makeOprBtn("编辑","info","Role","EditRoleData.php",[["RID",$RID],["n",$name]]);
 $OprURL_del=makeOprBtn("删除","danger","Role","toDelRole.php",[["RID",$RID]]);
-  if($isSuper=="1"){
-    $OprURL_purv=makeOprBtn("更新权限","success","Role","UpdatePurviewforSystem.php",[["RID",$RID]]);  
-  }else{
-    $OprURL_purv=makeOprBtn("分配权限","success","Role","SelectPurview.php",[["RID",$RID]]);
-  }
 ?>
 
 <tr>
   <td><?php echo $name; ?></td>
   <td><?php echo $brief; ?></td>
-  <td>
-  <?php
-    echo $OprURL_edit;
-    if($isSuper=="0"){
-      echo " ".$OprURL_del;
-    }
-    echo " ".$OprURL_purv;
-  ?>
-  </td>
 </tr>
 <?php } ?>
 </table>

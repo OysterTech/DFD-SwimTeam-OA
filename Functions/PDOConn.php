@@ -6,7 +6,7 @@
 * Copyright (C) 2016-2017
 * ------------------------------------
 */
-  
+
 $dbcon=null;
 $dbms="mysql";
 $host="localhost";

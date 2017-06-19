@@ -39,8 +39,13 @@ $UserID=GetSess("SOA_Reg_UserID");
       <span class="input-group-addon" id="forgot">&lt;</span>
     </div>
     <div class="input-group">
+      <span class="input-group-addon">手机号</span>
+      <input type="text" class="form-control" name="Phone" id="Phone" onkeyup="if(event.keyCode==13 || this.value.length==11){$('#IDCardType')[0].focus();}">
+      <span class="input-group-addon" id="forgot">&lt;</span>
+    </div>
+    <div class="input-group">
       <span class="input-group-addon">性别</span>
-      <select name="Sex" id="Sex" class="form-control" onchange="$('#Phone')[0].focus();">
+      <select name="Sex" id="Sex" class="form-control" onchange="$('#IDCardType')[0].focus();">
         <option selected="true" disabled>---请选择性别---</option>
         <option value="男">▲ 男性</option>
         <option disabled>——————————</option>
@@ -48,12 +53,6 @@ $UserID=GetSess("SOA_Reg_UserID");
       </select>      
       <span class="input-group-addon" id="forgot">&lt;</span>
     </div>
-    <div class="input-group">
-      <span class="input-group-addon">手机号</span>
-      <input type="text" class="form-control" name="Phone" id="Phone" onkeyup="if(event.keyCode==13){$('#IDCardType')[0].focus();}if(this.value.length==11)$('#IDCardType')[0].focus();">
-      <span class="input-group-addon" id="forgot">&lt;</span>
-    </div>
-
     <hr>
 
     <div class="input-group">
@@ -69,12 +68,12 @@ $UserID=GetSess("SOA_Reg_UserID");
     </div>
     <div class="input-group">
       <span class="input-group-addon">证件号</span>
-      <input type="text" class="form-control" name="IDCard" id="IDCard" onkeyup="if(event.keyCode==13){$('#YearGroup')[0].focus();getYearGroup();}">
+      <input type="text" class="form-control" name="IDCard" id="IDCard" onkeyup="if(event.keyCode==13){getYearGroup();}">
       <span class="input-group-addon" id="forgot">&lt;</span>
     </div>
     <div class="input-group">
       <span class="input-group-addon">出生年份</span>
-      <input type="text" class="form-control" name="YearGroup" id="YearGroup" onfocus="getYearGroup()">
+      <input type="text" class="form-control" name="YearGroup" id="YearGroup" onfocus="getYearGroup()" disabled>
       <span class="input-group-addon" id="forgot">&lt;</span>
     </div>
       
@@ -109,6 +108,10 @@ $UserID=GetSess("SOA_Reg_UserID");
 </div>
 
 <script>
+window.onload=function(){
+  $("#Phone").focus();
+}
+
 function getYearGroup(){
   IDCard=$("#IDCard").val();
   IDCardType=$("#IDCardType").val();
@@ -116,7 +119,7 @@ function getYearGroup(){
   if(IDCardType=="1"){
     YearGroup=IDCard.substr(6,4);
     $("#YearGroup").val(YearGroup);
-    $("#YearGroup").attr("disabled","true");
+    $("SchoolGrade").focus();
     return true;
   }else{
     $("#YearGroup").removeAttr("disabled");

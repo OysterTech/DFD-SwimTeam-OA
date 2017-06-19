@@ -17,24 +17,24 @@ if(GetSess("SOA_isAthlete")==1){
   <div class="col-md-offset-2" style="line-height:12px;">
     <div class="input-group">
       <span class="input-group-addon">真实姓名</span>
-      <input type="text" class="form-control" name="RealName" id="RealName">
+      <input type="text" class="form-control" name="RealName" id="RealName" onkeyup="if(event.keyCode==13){$('#Phone')[0].focus();}">
+      <span class="input-group-addon" id="forgot">&lt;</span>
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon">手机号</span>
+      <input type="text" class="form-control" name="Phone" id="Phone" onkeyup="if(event.keyCode==13 || this.value.length==11){$('#IDCardType')[0].focus();}">
       <span class="input-group-addon" id="forgot">&lt;</span>
     </div>
     <div class="input-group">
       <span class="input-group-addon">性别</span>
-      <select name="Sex" id="Sex" class="form-control" required>
+      <select name="Sex" id="Sex" class="form-control" required disabled>
         <option selected=true disabled>---请选择性别---</option>
         <option value="男">▲ 男性</option>
         <option disabled>——————————</option>
         <option value="女">▲ 女性</option>
       </select>      
       <span class="input-group-addon" id="forgot">&lt;</span>
-    </div>
-    <div class="input-group">
-      <span class="input-group-addon">手机号</span>
-      <input type="text" class="form-control" name="Phone" id="Phone">
-      <span class="input-group-addon" id="forgot">&lt;</span>
-    </div>
+    </div>    
 
     <hr>
 
@@ -51,12 +51,12 @@ if(GetSess("SOA_isAthlete")==1){
     </div>
     <div class="input-group">
       <span class="input-group-addon">证件号</span>
-      <input type="text" class="form-control" name="IDCard" id="IDCard">
+      <input type="text" class="form-control" name="IDCard" id="IDCard" onkeyup="if(event.keyCode==13){getYearGroup();}">
       <span class="input-group-addon" id="forgot">&lt;</span>
     </div>
     <div class="input-group">
       <span class="input-group-addon">出生年份</span>
-      <input type="text" class="form-control" name="YearGroup" id="YearGroup">
+      <input type="text" class="form-control" name="YearGroup" id="YearGroup" disabled>
       <span class="input-group-addon" id="forgot">&lt;</span>
     </div>
       
@@ -104,6 +104,21 @@ $(document).ready(function(){
   getUserData(AthID);
 });
 
+function getYearGroup(){
+  IDCard=$("#IDCard").val();
+  IDCardType=$("#IDCardType").val();
+  
+  if(IDCardType=="1"){
+    YearGroup=IDCard.substr(6,4);
+    $("#YearGroup").val(YearGroup);
+    $("SchoolGrade").focus();
+    return true;
+  }else{
+    $("#YearGroup").removeAttr("disabled");
+    $("#YearGroup").focus();
+    return true;
+  }
+}
 
 function getUserData(AthID){
  $.ajax({

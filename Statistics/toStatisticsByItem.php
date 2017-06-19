@@ -50,18 +50,26 @@ for($k=0;$k<$GamesItem_total;$k++){
     请选择需要统计的项目：
   </font>
   <br>
-  <select id="ItemList" onchange="showEnrollAthByItem(this.value);/*showExportButton();*/">
+  <select id="ItemList" onchange="showEnrollAthByItem(this.value);">
   <option selected disabled>----- 请选择项目 -----</option>
   <?php
+  $TotalEnrollAth=0;
+  $nowYearGroup=0;
   for($i=0;$i<$GamesItem_total;$i++){
     $ItemID=$showItemID[$i];
     $ItemName=$showItemName[$i];
     $YearGroup=$showItemYearGroup[$i];
-  
+    
+    if($nowYearGroup != $YearGroup){
+      $nowYearGroup=$YearGroup;
+      echo "<option disabled>---------- {$nowYearGroup}年组 ----------</option>";
+    }
+    
     $Enroll_list=PDOQuery($dbcon,"SELECT * FROM enroll_item WHERE GamesID=? AND ItemID=?",[$GamesID,$ItemID],[PDO::PARAM_STR,PDO::PARAM_STR]);
     $EnrollAth=$Enroll_list[1];
+    $TotalEnrollAth+=$EnrollAth;
   ?>
-    <option id="<?php echo $ItemID; ?>" value="<?php echo $ItemID; ?>" totalAth="<?php echo $EnrollAth; ?>"><?php echo "[".$YearGroup."年组] ".$ItemName."（".$EnrollAth."人）"; ?></option>
+    <option id="<?php echo $ItemID; ?>" value="<?php echo $ItemID; ?>" totalAth="<?php echo $EnrollAth; ?>"><?php echo $ItemName."（".$EnrollAth."人）"; ?></option>
   <?php } ?>
   </select>
 </center>
@@ -69,14 +77,18 @@ for($k=0;$k<$GamesItem_total;$k++){
 
 <hr>
 
-<!-- ▼ 数据导出按钮(暂未启用) ▼ -->
+<!-- ▼ [隐藏]当前比赛报名人次 ▼ -->
+<input type="hidden" id="TotalAth" value="<?php echo $TotalEnrollAth; ?>">
+<!-- ▲ [隐藏]当前比赛报名人次 ▲ -->
+
+<!-- ▼ 数据导出按钮 ▼ -->
 <div id="ExportButton" style="display:none;">
   <center>
-    <button class="btn btn-primary" style="width:97%" onclick="exportEnrollDatabyItem()">导出该项目的报名数据（Excel）</button>
+    <button class="btn btn-primary" style="width:97%" onclick="exportEnrollData()">导出所有人的报名数据（Excel）</button>
   </center>
   <hr>
 </div>
-<!-- ▲ 数据导出按钮(暂未启用) ▲ -->
+<!-- ▲ 数据导出按钮 ▲ -->
 
 <table class="table table-hover table-striped table-bordered" style="border-radius: 5px; border-collapse: separate;" id="AthList">
 <tr>
@@ -97,23 +109,22 @@ SetSess("SOA_Ajax_Sign",$Ajax_Sign);
 <script>
 var Sign="<?php echo $Ajax_Sign; ?>";
 
-function exportEnrollDatabyItem(){
-  GamesID=getURLParam("GamesID");
-  ItemID=$("#ItemList").val();
+window.onload=function(){
+  TotalAth=$("#TotalAth").val();
+  if(TotalAth>0){showExportButton();}
+}
 
-  URL="index.php?file=Statistics"+"&action=toExportEnrollData.php"+"&GamesID="+GamesID+"&ItemID="+ItemID+"&SortBy=Item";
+function exportEnrollData(){
+  GamesID=getURLParam("GamesID");
+  GamesName=getURLParam("GamesName");
+  
+  URL="Statistics/toExportEnrollData.php"+"?GamesID="+GamesID+"&GamesName="+GamesName+"&SortBy=Ath";
   
   window.open(URL);
 }
 
 function showExportButton(){
-  total=$("#ItemList").find("option:selected").attr("totalAth");
-  
-  if(total>0){
-    $("#ExportButton").attr("style","");
-  }else{
-    $("#ExportButton").attr("style","display:none;");
-  }
+  $("#ExportButton").attr("style","");
 }
 
 function showEnrollAthByItem(ItemID){

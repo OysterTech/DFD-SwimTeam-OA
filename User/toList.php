@@ -76,21 +76,21 @@ setSess("SOA_inUserList","1");
 <?php
   for($i=$Begin;$i<$Limit;$i++){
     $Userid=$list[0][$i]['Userid'];
-    $Name=$list[0][$i]['UserName'];
+    $UserName=$list[0][$i]['UserName'];
     $RealName=$list[0][$i]['RealName'];
     $Roleid=$list[0][$i]['Roleid'];
     $Status=$list[0][$i]['Status'];
     $originPassword=$list[0][$i]['originPassword'];
     if($Userid!=$MyUserid){
-      $oprURL=makeOprBtn("info","User","EditUserData.php",[["UID",$Userid]],"编辑");
-      $oprURL.=makeOprBtn("danger","User","toDelUser.php",[["UID",$Userid]],"删除");
+      $oprURL=makeOprBtn("编辑","info","User","EditUserData.php",[["UID",$Userid],["UserName",$UserName],["RealName",$RealName]]);
+      $oprURL.=makeOprBtn("删除","danger","User","toDelUser.php",[["UID",$Userid]]);
     }else{
       $oprURL="";
     }
     $Roleinfo=PDOQuery($dbcon,"SELECT * FROM role_list WHERE Roleid=?",[$Roleid],[PDO::PARAM_INT]);
     $Rolename=@$Roleinfo[0][0]['RoleName'];
     if($Rolename==""){
-      $Rolename="无角色用户";
+      $Rolename="<font color='red'>无角色用户</font>";
     }
     
     // 根据用户状态判断它能否重置密码
@@ -98,7 +98,7 @@ setSess("SOA_inUserList","1");
      //禁用，不能重置密码
      case 0:
       $Status="<a style='color:red' onclick='updateStatus($Userid)'>已禁用</a>";
-      $originPassword="/";
+      $originPassword="<center>/</center>";
       break;
      //未激活，显示初始密码
      case 1:
@@ -109,7 +109,7 @@ setSess("SOA_inUserList","1");
       $Status="<a style='color:green' onclick='updateStatus($Userid)'>使用中</a>";
       //如果不是现在这个用户，可以重置
       if($Userid!=$MyUserid){
-        $originPassword='<a class="btn btn-warning" href="?file=User&action=toResetPw.php&UID='.$Userid.'&n='.$Name.'&r='.$RealName.'">重置密码</a>';
+        $originPassword='<a class="btn btn-warning" href="?file=User&action=toResetPw.php&UID='.$Userid.'&n='.$UserName.'&r='.$RealName.'">重置密码</a>';
       }else{
         $originPassword="";
       }
@@ -122,7 +122,7 @@ setSess("SOA_inUserList","1");
 
 ?>
 <tr>
-  <td><?php echo $Name; ?></td>
+  <td><?php echo $UserName; ?></td>
   <td><?php echo $RealName; ?></td>
   <td><?php echo "<a onclick='getRole($Userid)'>".$Rolename."</a>"; ?></td>
   <td><?php echo $Status; ?></td>

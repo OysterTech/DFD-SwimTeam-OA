@@ -20,12 +20,12 @@ $total=sizeof($list[0]);
 for($i=0;$i<$total;$i++){
   $GamesID=$list[0][$i]['GamesID'];
   $GamesName=$list[0][$i]['GamesName'];
-  $oprURL=makeOprBtn("info","Statistics","toStatisticsByItem.php",[["GamesID",$GamesID],["GamesName",$GamesName]],"统计");
+  $oprURL=makeOprBtn("统计","info","Statistics","toStatisticsByItem.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
 ?>
 
 <tr>
   <td><?php echo $GamesName; ?></td>
-  <td><?php echo $oprURL; ?></td>
+  <td><center><?php echo $oprURL; ?></center></td>
 </tr>
 <?php } ?>
 </table>

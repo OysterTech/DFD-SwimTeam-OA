@@ -4,8 +4,8 @@
 * @name 生蚝比赛报名系统
 * @user 广州市越秀区东风东路小学
 * @copyright 版权所有：小生蚝 <master@xshgzs.com>
-* @create 系统创建时间：2017-04-09
-* @modify 最后修改时间：2017-05-20
+* @create 系统创建时间：2017-04-08
+* @modify 最后修改时间：2017-06-16
 * ---------------------------------------
 */
 
@@ -13,10 +13,20 @@ require_once("Functions/PDOConn.php");
 require_once("Functions/PublicFunc.php");
 
 define("GlobalSetName","GlobalSettings.json");
-$Sets=new Settings(GlobalSetName);
-$title=$Sets->G("Title",2,"System");
+$GB_Sets=new Settings(GlobalSetName);
+$title=$GB_Sets->G("Title",2,"System");
 
-$nowURL=$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+$Query=explode("&",$_SERVER['QUERY_STRING']);
+// 去除页码的参数
+foreach($Query as $Key=>$Value){
+  if(substr($Value,0,4)=="Page"){
+    unset($Query[$Key]);
+  }
+}
+$Query=implode("&",$Query);
+$nowURL=$_SERVER['PHP_SELF'].'?'.$Query;
+unset($Query);
+
 ?>
 
 <html>
@@ -26,6 +36,7 @@ $nowURL=$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
   <meta name="keyword" content="东风东,东风东路小学,东风东游泳队,生蚝科技,东风东游泳队报名系统">
   
   <link rel="stylesheet" href="res/css/demo.css" type="text/css">
+  <link rel="stylesheet" href="res/css/Notification.css" type="text/css">
   <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.bootcss.com/zTree.v3/3.5.28/css/zTreeStyle/zTreeStyle.min.css" type="text/css">
@@ -36,11 +47,12 @@ $nowURL=$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
   <script type="text/javascript" src="https://cdn.bootcss.com/zTree.v3/3.5.28/js/jquery.ztree.excheck.min.js"></script>
   <script type="text/javascript" src="https://cdn.bootcss.com/zTree.v3/3.5.28/js/jquery.ztree.exedit.min.js"></script>
   <script src="res/js/utils.js"></script>
+  <script src="res/js/Notification.js"></script>
   
   <title><?php echo $title; ?></title>
   	
   <style>
-    th{font-weight:bold;}
+    th{font-weight:bolder;text-align:center;}
     body{padding-top:70px;}
   </style>
   
@@ -61,7 +73,7 @@ $RoleName=GetSess("SOA_RoleName");
 
 //待加载页面的参数 + 参数过滤
 $file=@$_GET['file']==''?'View':$_GET['file'];
-$action=@$_GET['action']==''?'Index':$_GET['action'];
+$action=@$_GET['action']==''?'Index.php':$_GET['action'];
 $file=TextFilter($file);
 $action=TextFilter($action);
 
@@ -110,3 +122,7 @@ if($includeStatus==false){
 // 脚部版权文件
 include("footer.php");
 ?>
+
+<!-- ▼ 警示框 ▼ -->
+<div id="dm-notif"></div>
+<!-- ▲ 警示框 ▲ -->

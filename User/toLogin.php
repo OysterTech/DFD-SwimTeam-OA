@@ -27,6 +27,11 @@ if(isset($_POST) && $_POST){
   $Status=$rs[0][0]['Status'];
   $originPassword=$rs[0][0]['originPassword'];
   
+  // 用户被禁用
+  if($Status==0){
+    die("UserForbidden");
+  }
+  
   // 获取角色资料
   $roleinfo_sql="SELECT RoleName,isAthlete FROM role_list WHERE Roleid=?";
   $roleinfo_rs=PDOQuery($dbcon,$roleinfo_sql,[$Roleid],[PDO::PARAM_INT]);
@@ -49,16 +54,18 @@ if(isset($_POST) && $_POST){
       array_push($SessVal,$AthID);
     }
     
+    $Date=date("Y-m-d H:i:s");
+    $rs2=PDOQuery($dbcon,"UPDATE sys_user SET LastDate=? WHERE Userid=?",[$Date,$Userid],[PDO::PARAM_STR,PDO::PARAM_INT]);
+    
     SetSess($SessName,$SessVal);
     
     if($_POST['re_file']!="" && $_POST['re_action']!=""){
       die("1"."../index.php?file=".$_POST['re_file']."&action=".$_POST['re_action']);
     }elseif($Status==1){
-      $Status_rs=PDOQuery($dbcon,"UPDATE sys_user SET Status=2,originPassword='' WHERE Userid='$Userid'",[],[]);
-      die("1"."../index.php?file=User&action=UpdatePersonalPW.php&isFirst=1");
+      die("1"."../index.php?file=User&action=UpdatePersonalPW.php&isFirst=1&u={$ipt_UserName}&r={$RealName}");
     }else{
       die("1"."../index.php");
-    }
+    }    
   }
 }
 ?>

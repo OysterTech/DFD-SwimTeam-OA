@@ -43,14 +43,14 @@ if($Limit>$total){$Limit=$total;}
     $SchoolGrade=$list[0][$i]['SchoolGrade'];
     $SchoolClass=$list[0][$i]['SchoolClass'];
     $Phone=$list[0][$i]['Phone'];
-    $oprURL=makeOprBtn("info","Athlete","EditData.php",[["AthID",$AthID]],"编辑");
+    $oprURL=makeOprBtn("编辑","info","Athlete","EditData.php",[["AthID",$AthID]]);
         $SchoolGrade_CN=showCNNum($SchoolGrade);
 ?>
 <tr>
   <td><?php echo $RealName; ?></td>
   <td><?php echo $Sex; ?></td>
   <td><?php echo $SchoolGrade_CN."年".$SchoolClass."班"; ?></td>
-  <td><?php echo $Phone; ?></td>
+  <td><a href="tel:<?php echo $Phone; ?>"><?php echo $Phone; ?></a></td>
   <td><?php echo $oprURL; ?> <button class="btn btn-primary" onclick='toViewAthDataDetail("<?php echo $AthID; ?>")'>详细</button></td>
 </tr>
 <?php } ?>

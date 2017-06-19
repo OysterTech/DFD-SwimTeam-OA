@@ -1,20 +1,146 @@
 <?php
-header("Content-Type: text/html;charset=utf-8");
-include '../res/Plugin/PHPExcel/PHPExcel.php';
-include '../res/Plugin/PHPExcel/PHPExcel/Writer/Excel2007.php';
-$objPHPExcel = new PHPExcel();
+require_once("../Functions/PDOConn.php");
+require_once("../Functions/PublicFunc.php");
+include('../res/Plugin/PHPExcel/PHPExcel.php');
+include('../res/Plugin/PHPExcel/PHPExcel/Writer/Excel2007.php');
+
+$ItemIDs=array();
+$ItemNames=array();
+$ItemYearGroup=array();
+$showItemID=array();
+$showItemName=array();
+$showItemYearGroup=array();
 
 $GamesName=isset($_GET['GamesName'])?$_GET['GamesName']:toAlertDie("500","参数错误！\\n请从正确途径进入本页面！");
+$GamesID=isset($_GET['GamesID'])?$_GET['GamesID']:toAlertDie("500","参数错误！\\n请从正确途径进入本页面！");
 $FileName="东风东游泳队-".$GamesName."报名表.xlsx";
 
-$Cache_sql="SELECT * FROM cache_"
-// 设定当前操作第1张表
-$objPHPExcel->setActiveSheetIndex(0);
-// 表名
-$objPHPExcel->getActiveSheet()->setTitle('广州市东风东路小学');
-$objPHPExcel->getActiveSheet()->setCellValue('A1', 'String');
+/******* ▼ 获取比赛所有人的报名数据 ▼ *******/
+$Cache=new Cache($dbcon,"enroll_export");
+$UserID=GetSess("SOA_Userid");
+$SessionID=session_id();
+$getCacheCondition[0]=["UserID",$UserID];
+$getCacheCondition[1]=["SessionID",$SessionID];
+$EnrollData=$Cache->G($getCacheCondition);
+var_dump($EnrollData=json_decode($EnrollData[0][0]['Content'],true));
+/******* ▲ 获取比赛所有人的报名数据 ▲ *******/
 
-// 输出Excel表格到浏览器下载
+
+/******* ▼ 获取比赛项目详细信息 ▼ **********/
+$GamesItem_list=PDOQuery($dbcon,"SELECT * FROM games_item WHERE GamesID=?",[$GamesID],[PDO::PARAM_STR]);
+$GamesItem_total=sizeof($GamesItem_list[0]);
+
+$Item_list=PDOQuery($dbcon,"SELECT * FROM item_list",[],[]);
+$Item_total=sizeof($Item_list[0]);
+
+for($j=0;$j<$Item_total;$j++){
+  array_push($ItemIDs,$Item_list[0][$j]['ItemID']);
+  array_push($ItemNames,$Item_list[0][$j]['ItemName']);
+  array_push($ItemYearGroup,$Item_list[0][$j]['YearGroup']);
+}
+
+for($k=0;$k<$GamesItem_total;$k++){
+  $ItemID=$GamesItem_list[0][$k]['ItemID'];
+  
+  if(in_array($ItemID,$ItemIDs)){
+    $Loc=array_search($ItemID,$ItemIDs);
+    $ItemName=$ItemNames[$Loc];
+    $YearGroup=$ItemYearGroup[$Loc];
+    
+    array_push($showItemID,$ItemID);
+    array_push($showItemYearGroup,$YearGroup);
+    array_push($showItemName,$ItemName);
+  }
+}
+/******* ▲ 获取比赛项目详细信息 ▲ **********/
+
+
+/********** ▼ 设置Excel内容 ▼ ***********/
+$objPHPExcel = new PHPExcel();
+$SheetID=0;
+for($i=8;$i<13;$i++){
+  $YearGroup=date("Y")-$i;
+  $ItemNametoRow=array();
+  
+  // 设定当前操作的工作表
+  if($SheetID!=0){
+    // 建表
+    $objPHPExcel->createSheet();
+  }
+  $objPHPExcel->setActiveSheetIndex($SheetID);
+  // 表名
+$objPHPExcel->getActiveSheet()->setTitle($YearGroup.'年组');
+  // 大表头
+  $objPHPExcel->getActiveSheet()->setCellValue('A1', "广州市东风东路小学{$GamesName}报名表");
+  // 详细表头
+  $objPHPExcel->getActiveSheet()->setCellValue('A2',"姓名");
+  $objPHPExcel->getActiveSheet()->setCellValue('B2',"性别");
+  $objPHPExcel->getActiveSheet()->setCellValue('C2',"班别");
+  $objPHPExcel->getActiveSheet()->setCellValue('D2',"证件号");
+  $objPHPExcel->getActiveSheet()->setCellValue('E2',"手机");
+  $RowsID=5;// 当前单元格列号
+  $ColsID=2;// 当前单元格行号
+  
+  // 显示项目名称
+  foreach($showItemName as $key=>$Value){
+    $RowsID++;
+    $RowLetter=getLetter($RowsID);
+    
+    if($showItemYearGroup[$key]!=$YearGroup){
+      continue;
+    }
+    
+    // 每个项目对应的列号
+    array_push($ItemNametoRow,$Value);
+  
+    $objPHPExcel->getActiveSheet()->setCellValue($RowLetter."2",$Value);
+  }
+  
+  $RowLetter=getLetter($RowsID);
+  $objPHPExcel->getActiveSheet()->mergeCells('A1:'.$RowLetter.'1');
+  
+  // 显示运动员资料
+  foreach($EnrollData as $Value){
+    $ColsID++;
+  
+    $EnrollItem=$Value['ItemName'];
+    $EnrollItem2=explode(",",$EnrollItem);
+    $EnrollYearGroup=$Value['YearGroup'];
+    $EnrollYearGroup2=explode(",",$EnrollYearGroup);
+    $EnrollYearGroup3=$EnrollYearGroup2[0];
+    
+    if($EnrollYearGroup3!=$YearGroup){
+      continue;
+    }
+    
+    $RealName=$Value['RealName'];
+    $Sex=$Value['Sex'];
+    $Phone=$Value['Phone'];
+    $IDCard=$Value['IDCard'];
+    $SchoolGrade=$Value['SchoolGrade'];
+    $SchoolClass=$Value['SchoolClass'];
+    $showClass=$SchoolGrade."年".$SchoolClass."班";
+    
+    $objPHPExcel->getActiveSheet()->setCellValue("A".$ColsID,$RealName);
+    $objPHPExcel->getActiveSheet()->setCellValue("B".$ColsID,$Sex);
+    $objPHPExcel->getActiveSheet()->setCellValue("C".$ColsID,$showClass);
+    $objPHPExcel->getActiveSheet()->setCellValue("D".$ColsID,$IDCard);
+    $objPHPExcel->getActiveSheet()->setCellValue("E".$ColsID,$Phone);
+  
+    // 每个项目
+    foreach($EnrollItem2 as $Value2){
+      $Loc=array_search($Value2,$ItemNametoRow);
+      $RowLetter=getLetter($Loc+5);
+      $objPHPExcel->getActiveSheet()->setCellValue($RowLetter.$ColsID,"√");
+    }
+  }
+  
+  $SheetID++;
+}
+/********** ▲ 设置Excel内容 ▲ ***********/
+
+
+/********** ▼ 输出并下载文件 ▼ ***********/
 ob_end_clean();
 header('Cache-Control: max-age=1');
 header("Pragma: public");
@@ -29,5 +155,6 @@ header("Content-Transfer-Encoding:binary");
 
 $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
 $objWriter->save('php://output');
+/********** ▲ 输出并下载文件 ▲ ***********/
 
 ?>

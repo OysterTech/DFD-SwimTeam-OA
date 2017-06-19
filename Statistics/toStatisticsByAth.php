@@ -54,7 +54,7 @@ for($k=0;$k<$GamesItem_total;$k++){
 <!-- ▼ 数据导出按钮 ▼ -->
 <div id="ExportButton" style="display:none;">
   <center>
-    <button class="btn btn-primary" style="width:97%" onclick="exportEnrollDatabyAth()">导出所有人的报名数据（Excel）</button>
+    <button class="btn btn-primary" style="width:97%" onclick="exportEnrollData()">导出所有人的报名数据（Excel）</button>
   </center>
   <hr>
 </div>
@@ -83,7 +83,7 @@ window.onload=function(){
   showEnrollAthByAth();
 }
 
-function exportEnrollDatabyAth(){
+function exportEnrollData(){
   GamesID=getURLParam("GamesID");
   GamesName=getURLParam("GamesName");
   
@@ -137,8 +137,7 @@ function showEnrollAthByAth(){
         $("#AthList").append(ct);
         unlockScreen();
         return false;
-      }else{  
-        alert(got);
+      }else{
         got=$.parseJSON(got);
         for(i in got){
           for(j in got[i]){
@@ -177,7 +176,8 @@ function showEnrollAthByAth(){
         }
       }
       
-      $("#TotalAth").val(i);
+      // i为键值，从0开始，所以要+1
+      $("#TotalAth").val(i+1);
       showExportButton();
       unlockScreen();
     }

@@ -46,12 +46,12 @@ class Settings{
   
   /**
   * function S 设置全局设置项的内容
-  * @param String 设置项名称
   * @param String 内容
+  * @param String 设置项名称
   * @param 1|2 全局设置项所在数组维度
   * @param String 所在二维数组的第一维名称
   */
-  function S($Name,$Value,$Dimension=1,$FirstName="")
+  function S($Value,$Name,$Dimension=1,$FirstName="")
   {
     $Settings_json="";
     if(is_writable($this->FileName)){

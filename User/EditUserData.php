@@ -1,7 +1,9 @@
 <?php
 $Userid=isset($_GET['UID'])?$_GET['UID']:"";
+$UserName=isset($_GET['UserName'])?$_GET['UserName']:"";
+$RealName=isset($_GET['RealName'])?$_GET['RealName']:"";
 
-if($Userid=="") ErrCodedie("500");
+if($Userid=="" || $UserName=="" || $RealName=="") ErrCodedie("500");
 
 if(isset($_POST) && $_POST){
   $UserName=$_POST['UserName'];
@@ -10,9 +12,9 @@ if(isset($_POST) && $_POST){
   $rs=PDOQuery($dbcon,$sql,[$UserName,$RealName,$Userid],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_INT]);
 
   if($rs[1]==1){
-    echo "<script>alert('修改成功！');window.location.href='$nowURL';</script>";
+    echo "<script>alert('修改成功！');window.location.href='index.php?file=User&action=toList.php';</script>";
   }else{
-    echo "<script>alert('修改失败！！！');window.location.href='$nowURL';</script>";
+    echo "<script>alert('修改失败！！！');window.location.href='index.php?file=User&action=toList.php';</script>";
   }
 }
 ?>
@@ -24,12 +26,12 @@ if(isset($_POST) && $_POST){
   <div class="col-md-offset-2" style="line-height:12px;">
       <div class="input-group">
         <span class="input-group-addon">用户名</span>
-        <input type="text" class="form-control" name="UserName" id="UserName">
+        <input type="text" class="form-control" name="UserName" id="UserName" value="<?php echo $UserName; ?>">
         <span class="input-group-addon" id="forgot">&lt;</span>
       </div>
       <div class="input-group">
         <span class="input-group-addon">真实姓名</span>
-        <input type="text" class="form-control" name="RealName" id="RealName">
+        <input type="text" class="form-control" name="RealName" id="RealName" value="<?php echo $RealName; ?>">
         <span class="input-group-addon" id="forgot">&lt;</span>
       </div>
       <hr>
@@ -37,43 +39,3 @@ if(isset($_POST) && $_POST){
   </div>
 </div>
 </form>
-
-<script>
-function getUserData(Userid){
- $.ajax({
-  url:"Functions/Api/getUserData.php",
-  data:{UID:Userid},
-  type:"post",
-  dataType:"json",
-  error:function(e){alert("数据传输出错！\n"+ JSON.stringify(e));},
-  success:function(got){
-   for(i in got[0]){
-    if(i==="UserName"){
-     $('#UserName').val(got[0][i]);
-    }
-    else if(i==="RealName"){
-     $('#RealName').val(got[0][i]);
-    }else{
-     continue;
-    }
-   }
-  }
- });
-}
-
-function URL_GetData(name)
-{
- var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
- var r = window.location.search.substr(1).match(reg);
- if(r!=null){return unescape(r[2]);}
- else{return null;}
-}
-
-$(document).ready(function(){
- var Userid=URL_GetData("UID");
- if(Userid==null ||Userid.toString().length<1){
-  return alert("参数错误！\n请从正确途径进入此页！");
- }
- getUserData(Userid);
-});
-</script>

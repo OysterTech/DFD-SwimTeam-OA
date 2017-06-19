@@ -27,12 +27,15 @@ if(isset($_POST) && $_POST){
   }
   
   // 获取所有运动员信息
-  $rs2=PDOQuery($dbcon,"SELECT AthID,RealName,SchoolGrade,SchoolClass FROM athlete_list",[],[]);
+  $rs2=PDOQuery($dbcon,"SELECT * FROM athlete_list",[],[]);
   $total2=sizeof($rs2[0]);  
   for($m=0;$m<$total2;$m++){
     array_push($AllAthID,$rs2[0][$m]['AthID']);
     $SchoolGrade=showCNNum($rs2[0][$m]['SchoolGrade']);
     $AllAth[$m]['AthID']=$rs2[0][$m]['AthID'];
+    $AllAth[$m]['Sex']=$rs2[0][$m]['Sex'];
+    $AllAth[$m]['Phone']=$rs2[0][$m]['Phone'];
+    $AllAth[$m]['IDCard']=$rs2[0][$m]['IDCard'];
     $AllAth[$m]['RealName']=$rs2[0][$m]['RealName'];
     $AllAth[$m]['SchoolGrade']=$SchoolGrade;
     $AllAth[$m]['SchoolClass']=$rs2[0][$m]['SchoolClass'];
@@ -63,6 +66,9 @@ if(isset($_POST) && $_POST){
       if(!in_array($AthID,$alreadyAthID)){
         $rtn[$j]['AthID']=$AthID;
         $rtn[$j]['RealName']=$AllAth[$Loc]['RealName'];
+        $rtn[$j]['Sex']=$AllAth[$Loc]['Sex'];
+        $rtn[$j]['Phone']=$AllAth[$Loc]['Phone'];
+        $rtn[$j]['IDCard']=$AllAth[$Loc]['IDCard'];
         $rtn[$j]['SchoolGrade']=$AllAth[$Loc]['SchoolGrade'];
         $rtn[$j]['SchoolClass']=$AllAth[$Loc]['SchoolClass'];
       }
@@ -89,26 +95,27 @@ if(isset($_POST) && $_POST){
     array_push($alreadyAthID,$AthID);
   }
   
-  $rtn=urldecode(json_encode($rtn));
+  $rtn=json_encode($rtn,JSON_UNESCAPED_UNICODE);
   
   $Cache=new Cache($dbcon,"enroll_export");
   // 删除导出缓存
   $SessionID=session_id();
   $UserID=GetSess("SOA_Userid");
-  echo $Cache->emptyCache();
-  echo $Cache->delCache($SessionID,$UserID);
+  $Cache->E();
+  $Cache->D($SessionID,$UserID);
   
   // 新增导出缓存
   $ExpTime=time()+1800;// 30分钟后过期
   $IP=getIP();
   $AddCache_Param=array("SessionID","UserID","Content","ExpTime","IP");
   $AddCache_Value=array($SessionID,$UserID,$rtn,$ExpTime,$IP);
-  $AddCache_rs=$Cache->setCache($AddCache_Param,$AddCache_Value);
+  $AddCache_rs=$Cache->S($AddCache_Param,$AddCache_Value);
   
   if($AddCache_rs[1]!=1){
     die("AddCacheFailed");
   }
   
+  $rtn=urldecode($rtn);
   echo $rtn;
 }
 ?>

@@ -1,5 +1,6 @@
 <?php
 $GamesID=isset($_GET['GamesID'])?$_GET['GamesID']:toAlertDie("500","参数错误！\n\n请从正确方式进入本页面！");
+$GamesName=isset($_GET['GamesName'])?$_GET['GamesName']:toAlertDie("500","参数错误！\n\n请从正确方式进入本页面！");
 $AthID=GetSess("SOA_AthID");
 $YearGroup=GetSess("SOA_Ath_YearGroup");
 
@@ -19,7 +20,8 @@ for($j=0;$j<$Item_total;$j++){
 ?>
 
 <center>
-  <h1>报名项目</h1>
+  <h2><?php echo $GamesName; ?></h2>
+  <h2>报名项目</h2>
 </center>
 <hr>
 

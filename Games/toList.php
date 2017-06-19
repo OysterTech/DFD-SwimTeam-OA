@@ -66,14 +66,14 @@ if($Limit>$total){$Limit=$total;}
     $EndMD=substr($EndDate,4,4);
     $EndDate=$EndYear."<br>".$EndMD;
     
-    $oprURL=makeOprBtn("info","Games","EditGames.php",[["GamesID",$GamesID],["GamesName",$GamesName]],"编辑");
-    $oprURL=$oprURL." ".makeOprBtn("success","Games","ChooseGamesItem.php",[["GamesID",$GamesID],["GamesName",$GamesName]],"选择项目");
+    $oprURL=makeOprBtn("编辑","info","Games","EditGames.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
+    $oprURL=$oprURL." ".makeOprBtn("选择项目","success","Games","ChooseGamesItem.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
 
     if($isPrivate=="0"){
       $AllowStatus="<font color=green>全体</font>";
     }elseif($isPrivate=="1"){
       $AllowStatus="<font color=blue>限制</font>";
-      $oprURL=$oprURL." ".makeOprBtn("warning","Games","ChooseGamesAthlete.php",[["GamesID",$GamesID]],"选择选手");
+      $oprURL=$oprURL." ".makeOprBtn("选择选手","warning","Games","ChooseGamesAthlete.php",[["GamesID",$GamesID]]);
     }
     
     if($isOpen=="0") $Status='<a onclick="changeOpen('.$GamesID.',0)" style="color:red;font-weight:bolder;" id="Status'.$GamesID.'">关闭</a>';
