@@ -80,8 +80,4 @@
 
 * [`Bootstrap 3.3`](https://getbootstrap.com/)，遵循`MIT`协议
 
-<<<<<<< HEAD
-▲ Font-awesome、Bootstrap
-=======
 * Github提供的免费代码仓库
->>>>>>> 39ab5ca... build 10B58(10158): 修改多项细节、新增比赛通知功能
