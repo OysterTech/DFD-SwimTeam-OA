@@ -115,7 +115,6 @@ if($includeStatus==false){
   $ErrTips.="&copy; 生蚝科技 2014-".date("Y");
   $ErrTips.='</p>';
   $ErrTips.='</center>';
-
   die($ErrTips);
 }
 

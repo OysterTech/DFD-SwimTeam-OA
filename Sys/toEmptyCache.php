@@ -5,7 +5,8 @@ require_once("../Functions/PublicFunc.php");
 if(isset($_POST) && $_POST){
 	$Password=$_POST['Password'];
 	$Sign=$_POST['Sign'];
-
+  $CacheType=$_POST['CacheType'];
+  
 	if(getSess("SOA_Ajax_Sign") != $Sign){
 		die("InvaildSign");
 	}
@@ -23,7 +24,9 @@ if(isset($_POST) && $_POST){
     die('PasswordErr');
   }
   
-  //addLog($dbcon,"系统","清空",$NowUserName);
+  $Cache=new Cache($dbcon,$CacheType);
+  // 删除导出缓存
+  $Cache->E();
 
   die("1");
 }

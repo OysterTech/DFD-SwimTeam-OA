@@ -95,12 +95,12 @@ function InputErrResponse(InputName,Content){
 
 function changePrivateType(){
   Name_Type=$("#Name_Type").val();
-  if(Name_Type!="0"){
-  	$("#isPrivate").val("0");
-  	$("#isPrivate").attr("disabled","disabled");
+  if(Name_Type=="（选拔赛）"){
+    $("#isPrivate").val("0");
+    $("#isPrivate").attr("disabled","disabled");
   }else if(Name_Type=="0"){
-  	$("#isPrivate").val("1");
-  	$("#isPrivate").attr("disabled","disabled");
+   	$("#isPrivate").val("1");
+   	$("#isPrivate").attr("disabled","disabled");
   }
 }
 

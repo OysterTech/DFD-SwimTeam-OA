@@ -67,14 +67,16 @@ if($Limit>$total){$Limit=$total;}
     $EndDate=$EndYear."<br>".$EndMD;
     
     $oprURL=makeOprBtn("编辑","info","Games","EditGames.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
-    $oprURL=$oprURL." ".makeOprBtn("选择项目","success","Games","ChooseGamesItem.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
+    $oprURL=$oprURL." ".makeOprBtn("项目","success","Games","ChooseGamesItem.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
 
     if($isPrivate=="0"){
       $AllowStatus="<font color=green>全体</font>";
     }elseif($isPrivate=="1"){
       $AllowStatus="<font color=blue>限制</font>";
-      $oprURL=$oprURL." ".makeOprBtn("选择选手","warning","Games","ChooseGamesAthlete.php",[["GamesID",$GamesID]]);
+      $oprURL=$oprURL." ".makeOprBtn("选手","warning","Games","ChooseGamesAthlete.php",[["GamesID",$GamesID]]);
     }
+    
+    $oprURL=$oprURL." ".makeOprBtn("通知","primary","Games","toGamesNoticeList.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
     
     if($isOpen=="0") $Status='<a onclick="changeOpen('.$GamesID.',0)" style="color:red;font-weight:bolder;" id="Status'.$GamesID.'">关闭</a>';
     elseif($isOpen=="1") $Status='<a onclick="changeOpen('.$GamesID.',1)" style="color:green;font-weight:bolder;" id="Status'.$GamesID.'">开放</a>';
@@ -173,7 +175,7 @@ function toDelGames(){
     success:function(got){
       if(got=="1"){
         alert("删除成功！");
-        window.reload();
+        location.reload();
       }else{
         alert("删除失败！！！\n错误码："+got+"\n\n请联系管理员并提交错误码！");
         unlockScreen();

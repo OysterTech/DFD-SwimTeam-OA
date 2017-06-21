@@ -24,10 +24,16 @@
         <input type="password" class="form-control" id="Password" onkeyup="if(event.keyCode==13)toLogin();">
         <span class="input-group-addon" id="forgot">&lt;</span>
       </div>
+      
       <hr>
-      <button class="btn btn-success" style="width:100%" onclick="toLogin()"> 登 录 Login </button>
-      <hr>
-      <button class="btn btn-primary" style="width:100%" onclick="window.location.href='Reg.php'"> 注 册 Register </button>
+      
+      <button class="btn btn-primary" style="width:48%" onclick="window.location.href='Reg.php'"> 注 册 Register </button> <button class="btn btn-success" style="width:48%" onclick="toLogin()"> 登 录 Login </button>
+     
+      <br><br>
+      
+      <div style="text-align:right">
+        <a href="ForgetPwd.php" target="_blank">忘记密码</a>
+      </div>
   </div>
 </div>
 
@@ -42,15 +48,21 @@ function toLogin(){
   name=$("#UserName").val();
   pw=$("#Password").val();
   
-  re_file=getURLParam("re_file");
-  re_action=getURLParam("re_action");
-
+  re_Param=getURLParam("re_Param");
+  
   if(name==""){
     $("#tips").html("请输入用户名！");
     unlockScreen();
     $("input")[0].disabled=0;
     $("#myModal").modal('show');
-   return false;
+    return false;
+  }
+  if(name.length<5){
+    $("#tips").html("用户名错误！");
+    unlockScreen();
+    $("input")[0].disabled=0;
+    $("#myModal").modal('show');
+    return false;  
   }
   if(pw==""){
     $("#tips").html("请输入密码！");
@@ -59,11 +71,18 @@ function toLogin(){
     $("#myModal").modal('show');
     return false;
   }
+  if(pw.length<6){
+    $("#tips").html("密码错误！");
+    unlockScreen();
+    $("input")[0].disabled=0;
+    $("#myModal").modal('show');
+    return false;  
+  }
   
   $.ajax({
     url:"toLogin.php",
     type:"post",
-    data:{"Name":name,"Password":pw,"re_file":re_file,"re_action":re_action},
+    data:{"Name":name,"Password":pw,"re_Param":re_Param},
     error:function(e){
       alert(JSON.stringify(e));
       console.log(JSON.stringify(e));

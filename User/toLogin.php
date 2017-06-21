@@ -58,9 +58,19 @@ if(isset($_POST) && $_POST){
     $rs2=PDOQuery($dbcon,"UPDATE sys_user SET LastDate=? WHERE Userid=?",[$Date,$Userid],[PDO::PARAM_STR,PDO::PARAM_INT]);
     
     SetSess($SessName,$SessVal);
-    
-    if($_POST['re_file']!="" && $_POST['re_action']!=""){
-      die("1"."../index.php?file=".$_POST['re_file']."&action=".$_POST['re_action']);
+
+    $Cache=new Cache($dbcon,"login");
+    $SessionID=session_id();
+    $ExpTime=time()+2592000;// 30天后过期
+    $IP=getIP();
+    $Cache_Param=array("SessionID","UserID","RealName","ExpTime","IP");
+    $Cache_Value=array($SessionID,$Userid,$RealName,$ExpTime,$IP);
+    $Cache_rs=$Cache->S($Cache_Param,$Cache_Value);
+
+    if($_POST['re_Param']!=""){
+      $re_Param=$_POST['re_Param'];
+      $re_Param=base64_decode($re_Param);
+      die("1"."../index.php?re=1&".$re_Param);
     }elseif($Status==1){
       die("1"."../index.php?file=User&action=UpdatePersonalPW.php&isFirst=1&u={$ipt_UserName}&r={$RealName}");
     }else{

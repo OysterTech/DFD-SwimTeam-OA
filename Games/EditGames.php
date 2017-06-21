@@ -1,8 +1,8 @@
 <?php
-$Gamesid=isset($_GET['GamesID'])?$_GET['GamesID']:"";
+$GamesID=isset($_GET['GamesID'])?$_GET['GamesID']:"";
 $GamesName=isset($_GET['GamesName'])?$_GET['GamesName']:"";
 
-if($Gamesid=="" || $GamesName=="") ErrCodedie("500");
+if($GamesID=="" || $GamesName=="") ErrCodedie("500");
 
 ?>
 
@@ -96,12 +96,12 @@ function InputErrResponse(InputName,Content){
 
 function changePrivateType(){
   Name_Type=$("#Name_Type").val();
-  if(Name_Type!="0"){
+  if(Name_Type=="（选拔赛）"){
     $("#isPrivate").val("0");
     $("#isPrivate").attr("disabled","disabled");
   }else if(Name_Type=="0"){
-    $("#isPrivate").val("1");
-    $("#isPrivate").attr("disabled","disabled");
+   	$("#isPrivate").val("1");
+   	$("#isPrivate").attr("disabled","disabled");
   }
 }
 

@@ -43,7 +43,7 @@ if($Limit>$total){$Limit=$total;}
     $SchoolGrade=$list[0][$i]['SchoolGrade'];
     $SchoolClass=$list[0][$i]['SchoolClass'];
     $Phone=$list[0][$i]['Phone'];
-    $oprURL=makeOprBtn("编辑","info","Athlete","EditData.php",[["AthID",$AthID]]);
+    $oprURL=makeOprBtn("编辑","success","Athlete","EditData.php",[["AthID",$AthID]]);
         $SchoolGrade_CN=showCNNum($SchoolGrade);
 ?>
 <tr>

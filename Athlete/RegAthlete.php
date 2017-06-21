@@ -58,7 +58,7 @@ $UserID=GetSess("SOA_Reg_UserID");
     <div class="input-group">
       <span class="input-group-addon">证件类型</span>
       <select name="IDCardType" id="IDCardType" class="form-control" onchange="$('#IDCard')[0].focus();">
-        <option value="1" selected="true">▲ 大陆二代身份证</option>
+        <option value="1" selected="true">▲ 中国二代身份证</option>
         <option disabled>——————————</option>
         <option value="2">▲ 香港居民身份证</option>
         <option disabled>——————————</option>
@@ -169,7 +169,11 @@ function toRegAthlete(){
     showModalErr("请输入运动员出生年份！");
     return false;
   }
-	
+	if(IDCardType==1 && IDCard.length!=18){
+    showModalErr("证件号位数有误！");
+    return false;
+  }
+
 	$.ajax({
     url:"toRegAthlete.php",
     type:"post",

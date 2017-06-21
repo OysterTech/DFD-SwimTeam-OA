@@ -1,11 +1,15 @@
 <?php
 
-$url="user/Logout.php";
+$url="User/Logout.php";
 
-$re_file=isset($_GET['file'])?$_GET['file']:"";
-$re_action=isset($_GET['action'])?$_GET['action']:"";
-if($re_file!="" && $re_action!=""){
-  $url=$url."?re_file=".$re_file."&re_action=".$re_action;
+$re_Param="";
+$Param=isset($_GET)?$_GET:"";
+foreach($Param as $Key=>$Value){
+  $re_Param=$re_Param."&".$Key."=".$Value;
+}
+$re_Param=base64_encode($re_Param);
+if($re_Param!=""){
+  $url=$url."?re_Param=".$re_Param;
 }
 
 // 是否有登录

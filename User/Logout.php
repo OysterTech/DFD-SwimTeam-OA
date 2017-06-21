@@ -4,10 +4,9 @@ session_destroy();
 
 $url="Login.php";
 
-$re_file=isset($_GET['re_file'])?$_GET['re_file']:"";
-$re_action=isset($_GET['re_action'])?$_GET['re_action']:"";
-if($re_file!="" && $re_action!=""){
-  $url=$url."?re_file=".$re_file."&re_action=".$re_action;
+$re_Param=isset($_GET['re_Param'])?$_GET['re_Param']:"";
+if($re_Param!=""){
+  $url=$url."?re=1&re_Param=".$re_Param;
 }
 
 header("Location: $url");

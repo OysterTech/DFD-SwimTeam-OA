@@ -3,7 +3,6 @@ $RealName=getSess("SOA_RealName");
 
 if(isset($_POST) && $_POST){
   if(!isset($_GET['isFirst']) || $_GET['isFirst']!=1){
-  
     $ipt_PW=$_POST['Password'];
     $NowUserid=GetSess("SOA_Userid");
   
@@ -27,6 +26,11 @@ if(isset($_POST) && $_POST){
   $salt=getRanSTR(8);
   $ipt_New=$_POST['NewPW'];
   $ipt_Vrf=$_POST['VerifyPW'];
+  
+  if(strlen($ipt_New)<6){
+    die("<script>alert('密码长度须大于6位！');</script>");
+  }
+
   $NewPW=encryptPW($ipt_New,$salt);
   if($ipt_New!=$ipt_Vrf){
     die("<script>alert('两次输入的密码不相同！');</script>");

@@ -98,7 +98,12 @@ function makeOprBtn($name,$color,$file,$action,$param=array())
 function getLetter($LetterID){
   // 首位符号是为了占位(第0个)，方便按顺序取字母
   $AllLetters="|ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  return $Letter=$AllLetters[$LetterID];
+
+  if($LetterID>26){
+    return "";
+  }else{
+    return $AllLetters[$LetterID];
+  }
 }
 
 

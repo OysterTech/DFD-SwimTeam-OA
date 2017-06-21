@@ -55,21 +55,32 @@ function toReg(){
 		showModalErr("请输入用户名！");
 		return false;
 	}
+  if(name.length<6){
+    showModalErr("用户名长度必须大于6位！<br>请重新输入！");
+    return false;
+  }
 	if(RealName==""){
 		showModalErr("请输入真名！");
 		return false;
 	}
+  if(isChn(RealName)==0 || RealName.length<2){
+    showModalErr("您的真实姓名有误！<br>请重新输入！");
+    return false;
+  }
 	if(pw==""){
 		showModalErr("请输入密码！");
 		return false;
 	}
+  if(pw.length<6){
+    showModalErr("密码长度必须大于6位！<br>请重新输入！");
+    return false;
+  }
 	if(vrf_pw==""){
 		showModalErr("请再次输入密码！");
 		return false;
 	}
-	
 	if(vrf_pw != pw){
-		showModalErr("两次输入的密码不相同！");
+		showModalErr("两次输入的密码不相同！<br>请重新输入！");
 		return false;
 	}
 	

@@ -53,11 +53,11 @@ $isAthlete=getSess("SOA_isAthlete");
 var GlobalNotice="";
 
 window.onload=function(){
-	getGlobalNotice();
+  getGlobalNotice();
 };
 
 function getGlobalNotice(){
-	$.ajax({
+  $.ajax({
     url:"Functions/Api/getGlobalNotice.php",
     type:"get",
     dataType:"json",
@@ -65,8 +65,8 @@ function getGlobalNotice(){
     	if(got.Content!="" && got.PubTime!=""){
     		Content=got.Content;
     		PubTime=got.PubTime;
-    		msg="发布时间："+PubTime+"<hr><b>"+Content+"</b>";
-    		dm_notification(msg,'green',10000);
+    		msg="发布时间：<b>"+PubTime+"</b><hr>"+Content;
+    		dm_notification(msg,'green',7000);
     	}
     }
 	});

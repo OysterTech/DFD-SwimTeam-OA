@@ -41,7 +41,7 @@ if(GetSess("SOA_isAthlete")==1){
     <div class="input-group">
       <span class="input-group-addon">证件类型</span>
       <select name="IDCardType" id="IDCardType" class="form-control" required>
-        <option value="1" selected="true">▲ 大陆二代身份证</option>
+        <option value="1" selected="true">▲ 中国二代身份证</option>
         <option disabled>——————————</option>
         <option value="2">▲ 香港居民身份证</option>
         <option disabled>——————————</option>

@@ -25,16 +25,17 @@
 <tr>
   <td class="EptCache_tbl">报名数据</td>
   <!--<td></td>-->
-  <td><button class="btn btn-danger" style="width:98%" onclick='toVerify("enroll_export");'>清 空 Clear</button></td>
+  <td><button class="btn btn-danger" style="width:98%" onclick='toVerify("enroll_export","报名数据");'>清 空 Clear</button></td>
 </tr>
 <tr>
   <td class="EptCache_tbl">登录记录</td>
   <!--<td></td>-->
-  <td><button class="btn btn-danger" style="width:98%" onclick='toVerify("login");'>清 空 Clear</button></td>
+  <td><button class="btn btn-danger" style="width:98%" onclick='toVerify("login","登录记录");'>清 空 Clear</button></td>
 </tr>
 </table>
 
 <input type="hidden" id="CacheType">
+<input type="hidden" id="CacheName">
 
 <?php
 SetSess("SOA_Ajax_Sign","");
@@ -49,8 +50,9 @@ var toURL="Sys/toEmptyCache.php";
 var NoPwd="请输入密码！";
 var ErrMSG="系统错误！";
 
-function toVerify(CacheType){
+function toVerify(CacheType,CacheName){
   $("#CacheType").val(CacheType);
+  $("#CacheName").val(CacheName);
   $("#VerifyModal").modal("show");
 }
 
@@ -61,10 +63,13 @@ function toEmptyCache(){
     showError(NoPwd);
   }
   
+  CacheType=$("#CacheType").val();
+  CacheName=$("#CacheName").val();
+
   $.ajax({
     url:toURL,
     type:"post",
-    data:{"Password":Pwd,"Sign":Sign},
+    data:{"Sign":Sign,"Password":Pwd,"CacheType":CacheType,"CacheName":CacheName},
     error:function(e){
       alert(JSON.stringify(e));
       console.log(JSON.stringify(e));
@@ -79,8 +84,6 @@ function toEmptyCache(){
         showError("Sign签名错误！");
       }else if(got=="PasswordErr"){
         showError("密码认证失败！");
-      }else if(got=="0"){
-      
       }else{
         showError(ErrMSG+got);
       }

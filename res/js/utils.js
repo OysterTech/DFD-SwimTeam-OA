@@ -91,3 +91,20 @@ function isInArray(arr,val){
     return false;
   }
 }
+
+
+/**
+* -----------------------------------
+* isChn 字符串是否全为汉字
+* -----------------------------------
+* @param String 待检测的字符串
+* -----------------------------------
+**/
+function isChn(str){ 
+  var reg = /^[\u4E00-\u9FA5]+$/; 
+  if(!reg.test(str)){ 
+    return 0; 
+  }else{
+    return 1;
+  }
+}

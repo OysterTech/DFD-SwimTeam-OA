@@ -4,17 +4,31 @@
 
 ## 简介
 
-▲ 主要功能：东风东路小学游泳队运动员管理及比赛报名。
+▲ 主要功能：东风东路小学游泳队运动员管理及比赛报名
 
 ▲ 开发商：生蚝科技（广州市生蚝计算机科技有限公司）
 
 ▲ 被授权方：广州市越秀区东风东路小学游泳队
 
-▲ 版本信息：***Build 10B36(10136)(2017-06-19 13:02)***
+▲ 版本信息：***Build 10B58(10158)(2017-06-21 20:38)***
 
 ---
 
 ## 更新日志
+
+*****---2017-06-21 (10B58)---*****
+
+新增| 比赛通知（规程、秩序册）功能
+
+新增| JS检测汉字函数、用户名密码校验
+
+修改| 全局公告的显示、部分按钮的文字
+
+修改| 重新登陆可以传参
+
+待完善| 比赛通知（规程、秩序册）功能
+
+已完善| 清空缓存功能
 
 *****---2017-06-19 (10B36)---*****
 
@@ -50,20 +64,24 @@
 
 * 比赛规程、秩序册显示
 
-* 清空缓存
-
 ---
 
 ## 鸣谢
 
-▲ @zhangjingye03 提供的PDO二次开发函数库、“表格内单击某行以选择该行”的思想
+* [`@zhangjingye03`](https://github.com/zhangjingye03) 提供的PDO二次开发函数库、“表格内单击某行以选择该行”的思想
 
-▲ @SmallOyster 提供的“小生蚝角色权限系统”
+* [`@SmallOyster`](https://github.com/SmallOyster) 提供的[`小生蚝角色权限系统`](https://github.com/SmallOyster/Role-Purview-System)
 
-▲ PHPExcel
+* [`PHPExcel`](https://github.com/PHPOffice/PHPExcel)，遵循`LGPL`协议
 
-▲ jQuery
+* [`zTree`](https://github.com/zTree/zTree_v3)
 
-▲ zTree
+* [`jQuery`](https://jquery.org/)，遵循`MIT`协议
 
+* [`Bootstrap 3.3`](https://getbootstrap.com/)，遵循`MIT`协议
+
+<<<<<<< HEAD
 ▲ Font-awesome、Bootstrap
+=======
+* Github提供的免费代码仓库
+>>>>>>> 39ab5ca... build 10B58(10158): 修改多项细节、新增比赛通知功能
