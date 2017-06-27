@@ -34,11 +34,11 @@ $ShowMenuIcon=array();
      $Child_rs=PDOQuery($dbcon,"SELECT * FROM sys_menu WHERE Fatherid=?",[$FatherNavid],[PDO::PARAM_INT]);
      //如果有子菜单
      if($Child_rs[1]>0){
-      //有多少个子菜单
+      // 有多少个子菜单
       $Totalchd=sizeof($Child_rs[0]);
       $nowchd=0;
       for($chd=0;$chd<$Totalchd;$chd++){
-       //如果没有该子菜单的权限
+       // 如果有该子菜单的权限
        if(in_array($Child_rs[0][$chd]['Menuid'],$AllPurv)){
         $HaveChd++;
         $ShowMenuFile[$fri][$nowchd]=$Child_rs[0][$chd]['PageFile'];
@@ -49,7 +49,7 @@ $ShowMenuIcon=array();
        }
       }
      }else{
-      //没有子菜单
+      // 没有子菜单
       $HaveChd=0;
      }
     }else{
@@ -78,7 +78,7 @@ $ShowMenuIcon=array();
     <?php } ?>
     </ul>
    </li>
-   <?php } }} ?>
+   <?php } } } ?>
   </ul>
   
   <ul class="nav navbar-nav navbar-right">
@@ -96,10 +96,10 @@ $ShowMenuIcon=array();
         <?php
         if(GetSess("SOA_isAthlete")==1){
         ?>
-        <li><a href="index.php?file=Athlete&action=EditData.php">修改运动员资料</a></li>       
-        <?php } ?>
+        <li><a href="index.php?file=Athlete&action=EditAthProfile.php">修改运动员资料</a></li>       
+        <?php } ?>      
         <li><a href="index.php?file=User&action=UpdatePersonalPW.php">修改您的密码</a></li>
-        <li><a href="User/Logout.php">注销当前帐号</a></li>
+        <li><a href="User/Logout.php">安全退出系统</a></li>
       </ul>
     </li>
   </ul>

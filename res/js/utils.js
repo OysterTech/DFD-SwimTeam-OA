@@ -6,7 +6,7 @@
 * -------------------------------
 **/
 function getURLParam(name){
-  var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+  var reg = new RegExp("(^|&)"+name+"=([^&]*)(&|$)");
   var r = window.location.search.substr(1).match(reg);
   if(r!=null){return decodeURI(r[2]);}
   else{return null;}
@@ -58,12 +58,12 @@ function showCNNum(number){
   else if(number=="2") rtn="二";
   else if(number=="3") rtn="三";
   else if(number=="4") rtn="四";
-  else if(number=="5") rtn="二";
-  else if(number=="6") rtn="五";
-  else if(number=="7") rtn="六";
-  else if(number=="8") rtn="七";
-  else if(number=="9") rtn="八";
-  else if(number=="0") rtn="九";
+  else if(number=="5") rtn="五";
+  else if(number=="6") rtn="六";
+  else if(number=="7") rtn="七";
+  else if(number=="8") rtn="八";
+  else if(number=="9") rtn="九";
+  else if(number=="0") rtn="零";
   
   return rtn;
 }

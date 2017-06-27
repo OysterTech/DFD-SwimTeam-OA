@@ -43,8 +43,8 @@ if($Limit>$total){$Limit=$total;}
     $SchoolGrade=$list[0][$i]['SchoolGrade'];
     $SchoolClass=$list[0][$i]['SchoolClass'];
     $Phone=$list[0][$i]['Phone'];
-    $oprURL=makeOprBtn("编辑","success","Athlete","EditData.php",[["AthID",$AthID]]);
-        $SchoolGrade_CN=showCNNum($SchoolGrade);
+    $oprURL=makeOprBtn("编辑","success","Athlete","EditAthProfile.php",[["AthID",$AthID]]);
+    $SchoolGrade_CN=showCNNum($SchoolGrade);
 ?>
 <tr>
   <td><?php echo $RealName; ?></td>
@@ -64,7 +64,7 @@ if($Limit>$total){$Limit=$total;}
     $Previous=$Page-1;
   ?>
   <li>
-   <a href="<?php echo $NowURL."?page=$Previous"; ?>" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a>
+   <a href="<?php echo $nowURL."&Page=$Previous"; ?>" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a>
   </li>
   <?php } ?>
   <?php
@@ -72,7 +72,7 @@ if($Limit>$total){$Limit=$total;}
    if($j==$Page){
     echo "<li class='disabled'><a>$j</a></li>";
    }else{
-    echo "<li><a href='$NowURL?page=$j'>$j</a></li>";
+    echo "<li><a href='$nowURL&Page=$j'>$j</a></li>";
    }
   }
   ?>
@@ -81,7 +81,7 @@ if($Limit>$total){$Limit=$total;}
     $next=$Page+1;
   ?>
   <li>
-   <a href="<?php echo $NowURL."?page=$next"; ?>" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
+   <a href="<?php echo $nowURL."&Page=$next"; ?>" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
   </li>
   <?php } ?>
  </ul>

@@ -2,7 +2,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-	<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../res/js/utils.js"></script>
 	<title>登录 / 东风东游泳队报名系统</title>
@@ -57,7 +57,7 @@ function toLogin(){
     $("#myModal").modal('show');
     return false;
   }
-  if(name.length<5){
+  if(name.length<4){
     $("#tips").html("用户名错误！");
     unlockScreen();
     $("input")[0].disabled=0;
@@ -94,20 +94,27 @@ function toLogin(){
     },
     success:function(got){
       if(got.substr(0,1)=="1"){
-      	  URL=got.substr(1);
+      	URL=got.substr(1);
         window.location.href=URL;
       }else if(got=="UserForbidden"){
         $("#tips").html("当前用户被禁用！<br>请联系管理员！");
-		      unlockScreen();
-		      $("input")[0].disabled=0;
-		      $("#myModal").modal('show');
-		      return false;
+		    unlockScreen();
+		    $("input")[0].disabled=0;
+		    $("#myModal").modal('show');
+		    return false;
+      }else if(got.substr(0,1)=="2"){
+        LoginTime=got.substr(1,19);
+        IP=got.substr(20);
+        $("#tips").html("您输入的用户名已有授权用户正在使用！本系统不支持一个账号同时登陆！<br><br>必须等对方按“退出系统”按钮后，您方可登陆。<br><br>如果您刚才退出系统时没有按“退出系统”按钮正常退出，</font><font color='green'>请等待10分钟后重新登陆！</font><hr>对方登录时间："+LoginTime+"<br>对方IP："+IP);
+        unlockScreen();
+        $("input")[0].disabled=0;
+        $("#myModal").modal('show');
       }else{
         $("#tips").html("用户名或密码错误！"+got);
-		      unlockScreen();
-		      $("input")[0].disabled=0;
-		      $("#myModal").modal('show');
-		      return false;
+		    unlockScreen();
+		    $("input")[0].disabled=0;
+		    $("#myModal").modal('show');
+		    return false;
       }
     }  
   });
@@ -140,7 +147,7 @@ function unlockScreen(){
       </div>
       <div class="modal-body">
         <form method="post">
-          <font color="red" style="font-weight:bolder;font-size:26;text-align:center;">
+          <font color="red" style="font-weight:bolder;font-size:24;text-align:center;">
             <p id="tips"></p>
           </font>
         </form>

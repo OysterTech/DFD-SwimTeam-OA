@@ -1,8 +1,8 @@
 <table class="table table-hover table-striped table-bordered" style="border-radius: 5px; border-collapse: separate;">
 
 <?php
-// 所有比赛都是8~13岁组
-for($i=8;$i<=13;$i++){
+// 所有比赛都是6~13岁组
+for($i=6;$i<=13;$i++){
   $YearGroup=date("Y")-$i;
   $list=PDOQuery($dbcon,"SELECT * FROM item_list WHERE YearGroup=$YearGroup",[],[]);
   $total=sizeof($list[0]);

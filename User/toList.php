@@ -82,7 +82,7 @@ setSess("SOA_inUserList","1");
     $Status=$list[0][$i]['Status'];
     $originPassword=$list[0][$i]['originPassword'];
     if($Userid!=$MyUserid){
-      $oprURL=makeOprBtn("编辑","info","User","EditUserData.php",[["UID",$Userid],["UserName",$UserName],["RealName",$RealName]]);
+      $oprURL=makeOprBtn("编辑","info","User","EditProfile.php",[["UID",$Userid],["UserName",$UserName],["RealName",$RealName]]);
       $oprURL.=makeOprBtn("删除","danger","User","toDelUser.php",[["UID",$Userid]]);
     }else{
       $oprURL="";
@@ -109,7 +109,7 @@ setSess("SOA_inUserList","1");
       $Status="<a style='color:green' onclick='updateStatus($Userid)'>使用中</a>";
       //如果不是现在这个用户，可以重置
       if($Userid!=$MyUserid){
-        $originPassword='<a class="btn btn-warning" href="?file=User&action=toResetPw.php&UID='.$Userid.'&n='.$UserName.'&r='.$RealName.'">重置密码</a>';
+        $originPassword='<a class="btn btn-warning" href="?file=User&action=toResetPW.php&UID='.$Userid.'&n='.$UserName.'&r='.$RealName.'">重置密码</a>';
       }else{
         $originPassword="";
       }
@@ -140,7 +140,7 @@ setSess("SOA_inUserList","1");
     $Previous=$Page-1;
   ?>
   <li>
-   <a href="<?php echo $nowURL."&page=$Previous"; ?>" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a>
+   <a href="<?php echo $nowURL."&Page=$Previous"; ?>" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a>
   </li>
   <?php } ?>
   <?php
@@ -148,7 +148,7 @@ setSess("SOA_inUserList","1");
    if($j==$Page){
     echo "<li class='disabled'><a>$j</a></li>";
    }else{
-    echo "<li><a href='$nowURL&page=$j'>$j</a></li>";
+    echo "<li><a href='$nowURL&Page=$j'>$j</a></li>";
    }
   }
   ?>
@@ -157,7 +157,7 @@ setSess("SOA_inUserList","1");
     $next=$Page+1;
   ?>
   <li>
-   <a href="<?php echo $nowURL."&page=$next"; ?>" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
+   <a href="<?php echo $nowURL."&Page=$next"; ?>" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
   </li>
   <?php } ?>
  </ul>

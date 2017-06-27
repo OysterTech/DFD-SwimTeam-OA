@@ -62,7 +62,9 @@ for($k=0;$k<$GamesItem_total;$k++){
     
     if($nowYearGroup != $YearGroup){
       $nowYearGroup=$YearGroup;
-      echo "<option disabled>---------- {$nowYearGroup}年组 ----------</option>";
+  ?>
+  <option disabled>---------- <?php echo $nowYearGroup; ?>年组 ----------</option>
+  <?php
     }
     
     $Enroll_list=PDOQuery($dbcon,"SELECT * FROM enroll_item WHERE GamesID=? AND ItemID=?",[$GamesID,$ItemID],[PDO::PARAM_STR,PDO::PARAM_STR]);

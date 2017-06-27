@@ -59,8 +59,14 @@ class Cache{
 
 
   function D($SessionID,$UserID){
-    $sql="DELETE FROM ".$this->TableName." WHERE SessionID=? AND UserID=?";
-    $rs=PDOQuery($this->dbcon,$sql,[$SessionID,$UserID],[PDO::PARAM_STR,PDO::PARAM_STR]);
+    if($SessionID==""){
+      $sql="DELETE FROM ".$this->TableName." WHERE UserID=?";
+      $rs=PDOQuery($this->dbcon,$sql,[$UserID],[PDO::PARAM_STR]);
+    }else{
+      $sql="DELETE FROM ".$this->TableName." WHERE SessionID=? AND UserID=?";
+      $rs=PDOQuery($this->dbcon,$sql,[$SessionID,$UserID],[PDO::PARAM_STR,PDO::PARAM_STR]);
+    }
+    
     return $rs;
   }
 }

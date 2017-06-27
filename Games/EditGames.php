@@ -1,9 +1,9 @@
 <?php
 $GamesID=isset($_GET['GamesID'])?$_GET['GamesID']:"";
 $GamesName=isset($_GET['GamesName'])?$_GET['GamesName']:"";
+$EndDate=isset($_GET['EndDate'])?$_GET['EndDate']:"";
 
-if($GamesID=="" || $GamesName=="") ErrCodedie("500");
-
+if($GamesID=="" || $GamesName=="" || $EndDate=="") ErrCodedie("500");
 ?>
 
 <div class="well col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 text-center col-xs-10 col-xs-offset-1">
@@ -16,7 +16,8 @@ if($GamesID=="" || $GamesName=="") ErrCodedie("500");
         <option value="" selected="selected" disabled>请选择比赛年份</option>
         <?php
           $y=date("Y");
-          for($y;$y<=2050;$y++){
+          $yl=$y+3;
+          for($y;$y<=$yl;$y++){
         ?>
         <option value="<?php echo $y; ?>"><?php echo $y; ?>年</option>
         <?php } ?>
@@ -44,7 +45,8 @@ if($GamesID=="" || $GamesName=="") ErrCodedie("500");
         <option value="" selected="selected" disabled>请选择（年）</option>
         <?php
           $y=date("Y");
-          for($y;$y<=2050;$y++){
+          $yl=$y+3;
+          for($y;$y<=$yl;$y++){
         ?>
         <option value="<?php echo $y; ?>"><?php echo $y; ?></option>
         <?php } ?>
@@ -88,6 +90,23 @@ if($GamesID=="" || $GamesName=="") ErrCodedie("500");
 </div>
 
 <script>
+window.onload=function(){
+  GamesName=getURLParam("GamesName");
+  EndDate=getURLParam("EndDate");
+
+  Name_Year=GamesName.substr(0,4);
+  Name_District=GamesName.substr(4,3);
+  EndYear=EndDate.substr(0,4);
+  EndMonth=EndDate.substr(4,2);
+  EndDay=EndDate.substr(6,2);
+
+  $("#Name_Year").val(Name_Year);
+  $("#Name_District").val(Name_District);
+  $("#EndYear").val(EndYear);
+  $("#EndMonth").val(EndMonth);
+  $("#EndDay").val(EndDay);
+}
+
 function InputErrResponse(InputName,Content){
   alert(Content);
   unlockScreen();

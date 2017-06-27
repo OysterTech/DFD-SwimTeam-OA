@@ -1,6 +1,3 @@
-<?php
-?>
-
 <style>
 .EptCache_tbl{
   text-align:center;
@@ -22,16 +19,22 @@
   <th>清空</th>
 </tr>
 
+<?php
+$AllCache=$GB_Sets->G("CacheList",2,"System");
+$AllCache=explode("|",$AllCache);
+
+foreach($AllCache as $value){
+  $Cache=explode(",",$value);
+  $CacheName=$Cache[0];
+  $CacheType=$Cache[1];
+?>
 <tr>
-  <td class="EptCache_tbl">报名数据</td>
+  <td class="EptCache_tbl"><?php echo $CacheName; ?></td>
   <!--<td></td>-->
-  <td><button class="btn btn-danger" style="width:98%" onclick='toVerify("enroll_export","报名数据");'>清 空 Clear</button></td>
+  <td><button class="btn btn-danger" style="width:98%" onclick='toVerify("<?php echo $CacheType; ?>","<?php echo $CacheName; ?>");'>清 空 Clear</button></td>
 </tr>
-<tr>
-  <td class="EptCache_tbl">登录记录</td>
-  <!--<td></td>-->
-  <td><button class="btn btn-danger" style="width:98%" onclick='toVerify("login","登录记录");'>清 空 Clear</button></td>
-</tr>
+<?php } ?>
+
 </table>
 
 <input type="hidden" id="CacheType">

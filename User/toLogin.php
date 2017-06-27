@@ -60,17 +60,28 @@ if(isset($_POST) && $_POST){
     SetSess($SessName,$SessVal);
 
     $Cache=new Cache($dbcon,"login");
+    $Cache->E();
     $SessionID=session_id();
-    $ExpTime=time()+2592000;// 30天后过期
+    $ExpTime=time()+600;// 10分钟后过期
     $IP=getIP();
+
+    // 检查是否有重复登录
+    $Condition[0]=array("UserID",$Userid);
+    $OldCache=$Cache->G($Condition);
+    if($OldCache[1]!=0){
+      die("2".$OldCache[0][0]['CacheTime'].$OldCache[0][0]['IP']);
+    }
+
     $Cache_Param=array("SessionID","UserID","RealName","ExpTime","IP");
     $Cache_Value=array($SessionID,$Userid,$RealName,$ExpTime,$IP);
     $Cache_rs=$Cache->S($Cache_Param,$Cache_Value);
 
+    addLog($dbcon,"登录","[$RealName] 登录系统",$ipt_UserName);
+
     if($_POST['re_Param']!=""){
       $re_Param=$_POST['re_Param'];
       $re_Param=base64_decode($re_Param);
-      die("1"."../index.php?re=1&".$re_Param);
+      die("1"."../index.php?re=1".$re_Param);
     }elseif($Status==1){
       die("1"."../index.php?file=User&action=UpdatePersonalPW.php&isFirst=1&u={$ipt_UserName}&r={$RealName}");
     }else{

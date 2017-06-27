@@ -1,5 +1,7 @@
 <?php
 $isAthlete=getSess("SOA_isAthlete");
+$nowDate=date("Ymd");
+PDOQuery($dbcon,"UPDATE games_list SET isOpen=0 WHERE EndDate<$nowDate",[],[]);
 ?>
 
 <h2 style="text-align:center">
@@ -11,21 +13,20 @@ $isAthlete=getSess("SOA_isAthlete");
 <center>
 
   <?php if($isAthlete==1){ ?>
-  <a class="btn btn-success" href="index.php?file=Enroll&action=toGamesList.php" style="width:98%">马 上 报 名</a>
-  <br><br>
-  <?php } ?>
-  
-  <?php if($isAthlete==1){ ?>
-  <a class="btn btn-info" href="index.php?file=Athlete&action=EditData.php" style="width:98%">资 料 修 改</a>
+  <a class="btn btn-success" href="index.php?file=Enroll&action=toGamesList.php" style="width:98%;font-size:18;font-weight:bolder;">马 上 报 名</a>
   <?php }elseif($isAthlete==0){ ?>
-  <a class="btn btn-info" href="index.php?file=Athlete&action=toList.php" style="width:98%">运 动 员 管 理</a>
+  <a class="btn btn-success" onclick='$("#myModal").modal("show");' style="width:98%;font-size:18;font-weight:bolder;">比 赛 管 理 / 统 计</a>
   <?php } ?>
-  
+
   <br><br>
-  
-  <?php if($isAthlete==0){ ?>
-  <a class="btn btn-success" onclick='$("#myModal").modal("show");' style="width:98%">比 赛 管 理 / 统 计</a>
+
+  <?php if($isAthlete==1){ ?>
+  <a class="btn btn-primary" href="index.php?file=Athlete&action=EditAthProfile.php" style="width:98%;font-size:18;">资 料 修 改</a>
+  <?php }elseif($isAthlete==0){ ?>
+  <a class="btn btn-primary" href="index.php?file=Athlete&action=toList.php" style="width:98%;font-size:18;">运 动 员 管 理</a>
   <?php } ?>
+
+  <br><br>
 
 </center>
 <hr>
@@ -39,7 +40,7 @@ $isAthlete=getSess("SOA_isAthlete");
         <h3 class="modal-title" id="ModalTitle">比赛管理 / 报名数据统计</h3>
       </div>
       <div class="modal-body">
-        <a class="btn btn-info" href="index.php?file=Games&action=toList.php" style="width:48%">比 赛 管 理</a> <a class="btn btn-success" href="index.php?file=Statistics&action=toGamesList.php" style="width:48%">报 名 统 计</a>
+        <a class="btn btn-primary" href="index.php?file=Games&action=toList.php" style="width:48%">比 赛 管 理</a> <a class="btn btn-success" href="index.php?file=Statistics&action=toGamesList.php" style="width:48%">报 名 统 计</a>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-warning" data-dismiss="modal">返回 &gt;</button>

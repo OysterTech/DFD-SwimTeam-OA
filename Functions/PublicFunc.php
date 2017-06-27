@@ -41,7 +41,7 @@ function toAlertDie($ErrorNo,$Tips="",$isInScript="")
     $Alerting=$ErrorNo."\n".$Tips;
   }else if($isInScript==0 || $isInScript==""){
     // PHP普通页面（script标签+alert）
-    $Alerting='<script>alert("Oops！系统处理出错了！\n\n错误码：'.$ErrorNo.'\n'.$Tips.'");</script>';
+    $Alerting='<script>alert("Oops！系统处理出错了！\n\n错误码：'.$ErrorNo.'\n'.$Tips.'");history.go(-1);</script>';
   }else if($isInScript==1){
     // JS代码内（直接alert）
     $Alerting='alert("Oops！系统处理出错了！\n\n错误码：'.$ErrorNo.'\n'.$Tips.'");';

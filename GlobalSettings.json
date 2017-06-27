@@ -1,11 +1,11 @@
 {
     "System": {
-        "Title": "东风东游泳队报名系统 \/ Powered By 生蚝科技",
+        "Title": "东风东游泳队报名系统（公测版） \/ Powered By 生蚝科技",
         "SessionSuffix": "ODST",
-        "CacheList": "报名数据导出,export_excel|登录记录,login"
+        "CacheList": "报名数据导出,enroll_export|登录记录,login"
     },
     "Global": {
-        "Notice_Content": "快去训练为学校和个人争取更多奖项吧！",
-        "Notice_PubTime": "2017-06-19 18:12:20"
+        "Notice_Content": "目前系统为测试阶段，欢迎各位随意篡改系统数据！\r\n<br>\r\n测试结束时间：2017-06-27 15:00:00",
+        "Notice_PubTime": "2017-06-26 10:36:37"
     }
 }

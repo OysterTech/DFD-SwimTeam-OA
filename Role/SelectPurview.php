@@ -34,9 +34,6 @@ if($Insert_count>0){
 }
 ?>
 
-<script type="text/javascript" src="res/js/jquery-1.4.4.min.js"></script>
-<script type="text/javascript" src="res/js/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="res/js/jquery.ztree.excheck.js"></script>
 <script>
 	var setting = {
 		view: {

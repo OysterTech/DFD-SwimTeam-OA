@@ -15,7 +15,8 @@
         <option value="" selected="selected" disabled>请选择比赛年份</option>
         <?php
           $y=date("Y");
-          for($y;$y<=2050;$y++){
+          $yl=$y+3;
+          for($y;$y<=$yl;$y++){
         ?>
         <option value="<?php echo $y; ?>"><?php echo $y; ?>年</option>
         <?php } ?>
@@ -43,7 +44,8 @@
         <option value="" selected="selected" disabled>请选择（年）</option>
         <?php
           $y=date("Y");
-          for($y;$y<=2050;$y++){
+          $yl=$y+3;
+          for($y;$y<=$yl;$y++){
         ?>
         <option value="<?php echo $y; ?>"><?php echo $y; ?>年</option>
         <?php } ?>
@@ -165,7 +167,7 @@ function toAddGames(){
   }
   
   if(Name_Type=="0"){
-  	Name_Type="";
+    Name_Type="";
   }
 
   GamesName=Name_Year+Name_District+"赛"+Name_Type;

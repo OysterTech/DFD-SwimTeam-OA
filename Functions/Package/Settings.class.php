@@ -85,7 +85,3 @@ class Settings{
     $this->Settings=(array)json_decode($this->Settings,true);
   }
 }
-
-
-
-

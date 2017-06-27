@@ -19,7 +19,7 @@ if(isset($_POST) && $_POST){
   
   addLog($dbcon,"系统","清空",$NowUserName);
  
-  echo "<script>alert('清空成功！');window.location.href='$rtnURL';</script>";
+  die("<script>alert('清空成功！');window.location.href='$rtnURL';</script>");
 }
 ?>
 

@@ -35,7 +35,7 @@ if($Limit>$total){$Limit=$total;}
 </tr>
 
 <?php
-for($i=0;$i<$total;$i++){
+for($i=$Begin;$i<$Limit;$i++){
   $RID=$list[0][$i]['Roleid'];
   $name=$list[0][$i]['RoleName'];
   $brief=$list[0][$i]['Brief'];
@@ -49,3 +49,36 @@ $OprURL_del=makeOprBtn("删除","danger","Role","toDelRole.php",[["RID",$RID]]);
 </tr>
 <?php } ?>
 </table>
+
+
+<!-- 分页功能@选择页码[Begin] -->
+<center><nav>
+ <ul class="pagination"> 
+  <?php
+  if($Page-1>0){
+    $Previous=$Page-1;
+  ?>
+  <li>
+   <a href="<?php echo $nowURL."&Page=$Previous"; ?>" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a>
+  </li>
+  <?php } ?>
+  <?php
+  for($j=1;$j<=$TotalPage;$j++){
+   if($j==$Page){
+    echo "<li class='disabled'><a>$j</a></li>";
+   }else{
+    echo "<li><a href='$nowURL&Page=$j'>$j</a></li>";
+   }
+  }
+  ?>
+  <?php
+  if($Page+1<=$TotalPage){
+    $next=$Page+1;
+  ?>
+  <li>
+   <a href="<?php echo $nowURL."&Page=$next"; ?>" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
+  </li>
+  <?php } ?>
+ </ul>
+</nav></center>
+<!-- 分页功能@选择页码[End] -->

@@ -17,7 +17,7 @@ if($OprType=="Edit"){
     $sql="UPDATE games_list SET GamesName=?,EndDate=?,isOpen='1',isPrivate=? WHERE GamesID=?";
   }
   
-  $rs=PDOQuery($dbcon,$sql,[$GamesName,$EndDate,$isPrivate,$GamesID],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_INT]);
+  $rs=PDOQuery($dbcon,$sql,[$GamesName,$EndDate,$isPrivate,$GamesID],[PDO::PARAM_STR,PDO::PARAM_INT,PDO::PARAM_STR,PDO::PARAM_INT]);
 
   if($rs[1]==1){
     die("1");
@@ -30,7 +30,7 @@ if($OprType=="Edit"){
   $isPrivate=$_POST['isPrivate'];
   
   $sql="INSERT INTO games_list(GamesName,EndDate,isPrivate) VALUES(?,?,?)";
-  $rs=PDOQuery($dbcon,$sql,[$GamesName,$EndDate,$isPrivate],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR]);
+  $rs=PDOQuery($dbcon,$sql,[$GamesName,$EndDate,$isPrivate],[PDO::PARAM_STR,PDO::PARAM_INT,PDO::PARAM_STR]);
   
   if($rs[1]==1){
     die("1");

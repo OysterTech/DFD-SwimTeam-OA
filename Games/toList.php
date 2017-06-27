@@ -66,7 +66,7 @@ if($Limit>$total){$Limit=$total;}
     $EndMD=substr($EndDate,4,4);
     $EndDate=$EndYear."<br>".$EndMD;
     
-    $oprURL=makeOprBtn("编辑","info","Games","EditGames.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
+    $oprURL=makeOprBtn("编辑","info","Games","EditGames.php",[["GamesID",$GamesID],["GamesName",$GamesName],["EndDate",$EndYear.$EndMD]]);
     $oprURL=$oprURL." ".makeOprBtn("项目","success","Games","ChooseGamesItem.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
 
     if($isPrivate=="0"){
@@ -157,6 +157,7 @@ function changeOpen(GamesID,Status){
 
 function readyDelGames(GamesID,GamesName){
   $("#GamesID").val(GamesID);
+  $("#GamesName").val(GamesName);
   $("#GamesName").html("【"+GamesName+"】");
   $('#myModal').modal('show');
 }
@@ -164,10 +165,11 @@ function readyDelGames(GamesID,GamesName){
 function toDelGames(){
   lockScreen();
   GamesID=$("#GamesID").val();
+  GamesName=$("#GamesName").val();
   $.ajax({
     url:"Games/toDelGames.php",
     type:"post",
-    data:{"GamesID":GamesID},
+    data:{"GamesID":GamesID,"GamesName":GamesName},
     error:function(e){
       alert(JSON.stringify(e));
       console.log(JSON.stringify(e));
@@ -197,6 +199,7 @@ function toDelGames(){
       <div class="modal-body">
         <form method="post">
           <input type="hidden" id="GamesID" name="GamesID">
+          <input type="hidden" id="GamesName" name="GamesName">
           <center>
           <font color="red" style="font-weight:bolder;font-size:23;">确定要删除下列比赛吗？</font>
           <br><br>
@@ -205,8 +208,8 @@ function toDelGames(){
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">&lt; 取消</button>
-        <button type="button" class="btn btn-success" id='okbtn' onclick='toDelGames()'>删除 &gt;</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal">&lt; 取消</button>
+        <button type="button" class="btn btn-danger" onclick='toDelGames()'>删除 &gt;</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

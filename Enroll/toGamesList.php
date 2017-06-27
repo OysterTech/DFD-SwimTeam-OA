@@ -51,25 +51,28 @@ if($Limit>$total){$Limit=$total;}
     $isOpen=$list[0][$i]['isOpen'];
     $AllowUser_arr=explode(",",$AllowUser);
     
-    // 公开报名
-    if($isPrivate=="0"){
-      $Enroll=makeOprBtn("报名","primary","Enroll","ConfirmAthleteInfo.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
-    }elseif($isPrivate=="1"){
-      // 限制报名(允许)
-      if(in_array($AthID,$AllowUser_arr)){
-        $Enroll=makeOprBtn("报名","primary","Enroll","ConfirmAthleteInfo.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
-      }else{// 限制报名(不允许)      
-        $Enroll="<center>/</center>";
-      }
-    }
+    $Enroll_rs=PDOQuery($dbcon,"SELECT * FROM enroll_item WHERE GamesID=? AND AthID=?",[$GamesID,$AthID],[PDO::PARAM_STR,PDO::PARAM_STR]);
     
-    // 结束报名
-    if($isOpen=="0"){
-      $Enroll_rs=PDOQuery($dbcon,"SELECT * FROM enroll_item WHERE GamesID=? AND AthID=?",[$GamesID,$AthID],[PDO::PARAM_STR,PDO::PARAM_STR]);
-      if($Enroll_rs[1]>0){
-        $Enroll=makeOprBtn("查看报项","success","Enroll","ViewEnrollItem.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
-      }else{
-        $Enroll="<font color=red>报名已关闭</font>";
+    if($Enroll_rs[1]>0){
+      $Enroll=makeOprBtn("查看报项","success","Enroll","ViewEnrollItem.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
+    }else{
+      // 公开报名
+      if($isPrivate=="0"){
+        $Enroll=makeOprBtn("报名","primary","Enroll","ConfirmAthleteInfo.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
+      }elseif($isPrivate=="1"){
+        // 限制报名(允许)
+        if(in_array($AthID,$AllowUser_arr)){
+          $Enroll=makeOprBtn("报名","primary","Enroll","ConfirmAthleteInfo.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
+        }else{// 限制报名(不允许)      
+          $Enroll="<center>/</center>";
+        }
+      }
+    
+      // 结束报名
+      if($isOpen=="0"){
+        if($Enroll_rs[1]==0){
+          $Enroll="<font color=red>报名已关闭</font>";
+        }
       }
     }
 ?>

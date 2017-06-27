@@ -3,7 +3,7 @@ $GamesID=isset($_GET['GamesID'])?$_GET['GamesID']:"";
 $GamesName=isset($_GET['GamesName'])?$_GET['GamesName']:"";
 $isAth=getSess("SOA_isAthlete");
 
-$sql="SELECT * FROM games_notice WHERE GamesID=?";
+$sql="SELECT * FROM games_notice WHERE GamesID=? AND isDelete=0";
 $rs=PDOQuery($dbcon,$sql,[$GamesID],[PDO::PARAM_STR]);
 $total=sizeof($rs[0]);
 ?>
@@ -21,7 +21,7 @@ $total=sizeof($rs[0]);
   <td colspan=3>
   <?php } ?>
     <center>
-      <a class="btn btn-primary" href="index.php?file=Games&action=AddGamesNotice.php&GamesID=<?php echo $GamesID; ?>" style="width:97%">新增比赛</a>
+      <a class="btn btn-primary" href="index.php?file=Games&action=PubGamesNotice.php&GamesID=<?php echo $GamesID; ?>" style="width:97%">发 布 新 通 知</a>
     </center>
   </td>
 </tr>
@@ -55,13 +55,14 @@ for($i=0;$i<$total;$i++){
   <td><?php echo $PubTime; ?></td>
   <td><?php echo $PageView; ?></td>
   <?php if($isAth==0){ ?>
-  <td><a class="btn btn-info" href="index.php?file=Games&action=toEditGamesNotice.php&NoticeID=<?php echo $NoticeID; ?>">编辑</a> <button class="btn btn-danger" onclick="toDelNotice()">删除</button></td>
+  <td><button class="btn btn-danger" onclick="toDel('<?php echo $NoticeID; ?>')">删除</button></td>
   <?php } ?>
 </tr>
 <?php } ?>
 </table>
 
 
+<?php if($isAth==0){ ?>
 <script>
 function toDel(NoticeID){
   if(confirm("您确定要删除此通知吗？")){
@@ -69,3 +70,4 @@ function toDel(NoticeID){
   }
 }
 </script>
+<?php } ?>

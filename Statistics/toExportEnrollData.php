@@ -64,7 +64,7 @@ unset($ItemYearGroup);
 /********** ▼ 设置Excel内容 ▼ ***********/
 $objPHPExcel = new PHPExcel();
 $SheetID=0;
-for($i=8;$i<13;$i++){
+for($i=6;$i<13;$i++){
   $YearGroup=date("Y")-$i;
   $ItemNametoRow=array();
   
@@ -122,7 +122,8 @@ for($i=8;$i<13;$i++){
     
     // 不是当前年龄组
     if($EnrollYearGroup3!=$YearGroup){
-      continue;
+    	$ColsID--;
+    	continue;
     }
     
     $RealName=$Value['RealName'];
@@ -142,17 +143,13 @@ for($i=8;$i<13;$i++){
     // 每个项目
     foreach($EnrollItem2 as $Value2){
       $Loc=array_search($Value2,$ItemNametoRow);
-      $RowLetter=getLetter($Loc+5);// 前五列是个人信息
+      $RowLetter=getLetter($Loc+6);// 前五列是个人信息
       $objPHPExcel->getActiveSheet()->setCellValue($RowLetter.$ColsID,"√");
     }
   }
   
   // 下一张工作表
   $SheetID++;
-
-  /*for($l=1;$l<=$RowsID;$l++){
-    $objPHPExcel->getActiveSheet()->getColumnDimension(getLetter($l))->setAutoSize(true);
-  }*/
 
   $Range='A1:'.getLetter($RowsID).$ColsID;
   $objPHPExcel->getActiveSheet()->getStyle($Range)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);

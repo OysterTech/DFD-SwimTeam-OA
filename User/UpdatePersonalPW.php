@@ -28,15 +28,15 @@ if(isset($_POST) && $_POST){
   $ipt_Vrf=$_POST['VerifyPW'];
   
   if(strlen($ipt_New)<6){
-    die("<script>alert('密码长度须大于6位！');</script>");
+    die("<script>alert('密码长度须大于6位！');history.go(-1);</script>");
   }
 
   $NewPW=encryptPW($ipt_New,$salt);
   if($ipt_New!=$ipt_Vrf){
-    die("<script>alert('两次输入的密码不相同！');</script>");
+    die("<script>alert('两次输入的密码不相同！');history.go(-1);</script>");
   }
   
-  $sql2="UPDATE sys_user SET Password=?, salt=?, OriginPassword='',Status=2 WHERE Userid=?";
+  $sql2="UPDATE sys_user SET Password=?,salt=?,OriginPassword='',Status=2 WHERE Userid=?";
   $rs2=PDOQuery($dbcon,$sql2,[$NewPW,$salt,$Userid],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_INT]);
 
   if($rs2[1]==1){

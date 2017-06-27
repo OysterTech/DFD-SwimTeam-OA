@@ -8,7 +8,6 @@
 * @modify 最后修改时间：2017-06-16
 * ---------------------------------------
 */
-
 require_once("Functions/PDOConn.php");
 require_once("Functions/PublicFunc.php");
 
@@ -26,7 +25,6 @@ foreach($Query as $Key=>$Value){
 $Query=implode("&",$Query);
 $nowURL=$_SERVER['PHP_SELF'].'?'.$Query;
 unset($Query);
-
 ?>
 
 <html>

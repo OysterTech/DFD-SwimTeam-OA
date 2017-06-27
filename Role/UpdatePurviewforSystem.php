@@ -11,7 +11,7 @@ if($vfy_rs[0][0]['isSuper']!="1") ErrCodedie("500-NS");
 // 删除当前角色所有权限
 $del_sql="DELETE FROM role_purview WHERE Roleid=?";
 $del_rs=PDOQuery($dbcon,$del_sql,[$Roleid],[PDO::PARAM_INT]);
-if($del_rs[1]<=0) ErrCodedie("500-DTFL");
+if($del_rs[1]<0) ErrCodedie("500-DTFL");
 
 // 查询所有菜单的ID
 $select_sql="SELECT * FROM sys_menu";
@@ -33,6 +33,6 @@ $rtnURL="index.php?file=Role&action=toList.php";
 if($Insert_count != $totalMenu){
   echo '<script>alert("更新权限出错！\n\n共有菜单数量：'.$totalMenu.'\n已添加权限数量：'.$Insert_count.'");window.location.href="'.$rtnURL.'";</script>';
 }else{
-  echo '<script>alert("成功给系统角色更新权限！");window.location.href="'.$rtnURL.'";</script>';
+  echo '<script>alert("成功给系统角色更新'.$Insert_count.'项权限！");window.location.href="'.$rtnURL.'";</script>';
 }
 ?>

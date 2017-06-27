@@ -51,7 +51,7 @@ if($Limit>$total){$Limit=$total;}
 </tr>
 
 <?php
-for($i=0;$i<$total;$i++){
+for($i=$Begin;$i<$Limit;$i++){
   $LogID=$list[0][$i]['LogID'];
   $LogType=$list[0][$i]['LogType'];
   $LogContent=$list[0][$i]['LogContent'];
