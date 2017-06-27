@@ -26,9 +26,9 @@ if(isset($_POST) && $_POST){
     die('<script>alert("身份认证失败！");history.go(-1);</script>');
   }
 
-  setSess("SOA_FGPW_isVerify","1");
-  setSess("SOA_FGPW_UserID",$UserID);
-  setSess("SOA_FGPW_RealName",$RealName);
+  setSess(Prefix."FGPW_isVerify","1");
+  setSess(Prefix."FGPW_UserID",$UserID);
+  setSess(Prefix."FGPW_RealName",$RealName);
 
   die('<script>window.location.href="ForgetPwd_2.php";</script>');
 }

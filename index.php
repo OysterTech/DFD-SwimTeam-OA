@@ -5,7 +5,7 @@
 * @user 广州市越秀区东风东路小学
 * @copyright 版权所有：小生蚝 <master@xshgzs.com>
 * @create 系统创建时间：2017-04-08
-* @modify 最后修改时间：2017-06-16
+* @modify 最后修改时间：2017-06-27
 * ---------------------------------------
 */
 require_once("Functions/PDOConn.php");
@@ -13,16 +13,18 @@ require_once("Functions/PublicFunc.php");
 
 define("GlobalSetName","GlobalSettings.json");
 $GB_Sets=new Settings(GlobalSetName);
-$title=$GB_Sets->G("Title",2,"System");
+$Title=$GB_Sets->G("Title",2,"System");
+define("Prefix",$GB_Sets->G("SessionPrefix",2,"System"));
 
 $Query=explode("&",$_SERVER['QUERY_STRING']);
-// 去除页码的参数
+// 去除页码参数
 foreach($Query as $Key=>$Value){
   if(substr($Value,0,4)=="Page"){
     unset($Query[$Key]);
   }
 }
 $Query=implode("&",$Query);
+
 $nowURL=$_SERVER['PHP_SELF'].'?'.$Query;
 unset($Query);
 ?>
@@ -47,7 +49,7 @@ unset($Query);
   <script src="res/js/utils.js"></script>
   <script src="res/js/Notification.js"></script>
   
-  <title><?php echo $title; ?></title>
+  <title><?php echo $Title; ?></title>
   	
   <style>
     th{font-weight:bolder;text-align:center;}
@@ -64,10 +66,10 @@ unset($Query);
 
 <?php
 
-$Userid=GetSess("SOA_Userid");
-$RealName=GetSess("SOA_RealName");
-$Roleid=GetSess("SOA_Roleid");
-$RoleName=GetSess("SOA_RoleName");
+$Userid=GetSess(Prefix."Userid");
+$RealName=GetSess(Prefix."RealName");
+$Roleid=GetSess(Prefix."Roleid");
+$RoleName=GetSess(Prefix."RoleName");
 
 //待加载页面的参数 + 参数过滤
 $file=@$_GET['file']==''?'View':$_GET['file'];

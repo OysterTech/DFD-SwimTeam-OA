@@ -7,11 +7,11 @@ if(isset($_POST) && $_POST){
 	$Sign=$_POST['Sign'];
   $CacheType=$_POST['CacheType'];
   
-	if(getSess("SOA_Ajax_Sign") != $Sign){
+	if(getSess(Prefix."Ajax_Sign") != $Sign){
 		die("InvaildSign");
 	}
 
-	$NowUserid=GetSess("SOA_Userid");
+	$NowUserid=GetSess(Prefix."Userid");
   
   $sql1="SELECT Password,salt FROM sys_user WHERE Userid=?";
   $Verify_rs=PDOQuery($dbcon,$sql1,[$NowUserid],[PDO::PARAM_INT]);

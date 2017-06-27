@@ -2,9 +2,9 @@
 require_once("../Functions/PDOConn.php");
 require_once("../Functions/PublicFunc.php");
 
-$isVerify=getSess("SOA_FGPW_isVerify");
-$UserID=getSess("SOA_FGPW_UserID");
-$RealName=getSess("SOA_FGPW_RealName");
+$isVerify=getSess(Prefix."FGPW_isVerify");
+$UserID=getSess(Prefix."FGPW_UserID");
+$RealName=getSess(Prefix."FGPW_RealName");
 if($isVerify!="1"){
   header("Location: ../index.php");
 }

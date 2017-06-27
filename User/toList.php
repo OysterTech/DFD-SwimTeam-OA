@@ -1,5 +1,5 @@
 <?php
-$MyUserid=GetSess("SOA_Userid");
+$MyUserid=GetSess(Prefix."Userid");
 $list=PDOQuery($dbcon,"SELECT * FROM sys_user",[],[]);
 $total=sizeof($list[0]);
 
@@ -50,7 +50,7 @@ if(isset($_POST) && $_POST){
 }
 
 //给重置密码验证是否直接输URL进行重置
-setSess("SOA_inUserList","1");
+setSess(Prefix."inUserList","1");
 ?>
 
 <center>

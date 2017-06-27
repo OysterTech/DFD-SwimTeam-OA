@@ -35,7 +35,7 @@ if(isset($_POST) && $_POST){
   <option value="1">通知</option>
   <option value="2">规程</option>
   <option value="3">秩序册</option>
-</select>]：<input name="Title">
+</select>]：<input name="Title" style="width:300px" autocomplete="off">
 
 <hr>
 

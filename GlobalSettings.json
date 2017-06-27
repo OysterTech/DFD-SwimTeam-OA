@@ -1,7 +1,7 @@
 {
     "System": {
         "Title": "东风东游泳队报名系统（公测版） \/ Powered By 生蚝科技",
-        "SessionSuffix": "ODST",
+        "SessionPrefix": "SOA_",
         "CacheList": "报名数据导出,enroll_export|登录记录,login"
     },
     "Global": {

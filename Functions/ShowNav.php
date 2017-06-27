@@ -86,11 +86,11 @@ $ShowMenuIcon=array();
       <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown"><img style="width:22px;border-radius:9px;" src="res/img/user.png"></a>
       <ul class="dropdown-menu">
         <li><a href="javascript:void(0)">
-          <b><font color="green"><?php echo GetSess("SOA_RealName"); ?></font></b>，欢迎回来！
+          <b><font color="green"><?php echo $RealName; ?></font></b>，欢迎回来！
         </a></li>
         <li class="divider"></li>
         <li><a href="javascript:void(0)">
-          角色：<font color="#F57C00"><?php echo GetSess("SOA_RoleName");?></font>
+          角色：<font color="#F57C00"><?php echo $RoleName; ?></font>
         </a></li>
         <li class="divider"></li>
         <?php

@@ -1,7 +1,7 @@
 <?php
 require_once("../Functions/PDOConn.php");
 require_once("../Functions/PublicFunc.php");
-$NowUserName=getSess("SOA_RealName");
+$NowUserName=getSess(Prefix."RealName");
 
 if(isset($_POST['GamesID']) && $_POST['GamesID']){
   $GamesID=$_POST['GamesID'];

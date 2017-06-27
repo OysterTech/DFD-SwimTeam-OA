@@ -4,7 +4,7 @@ $NoticeID=isset($_GET['NoticeID'])?$_GET['NoticeID']:"";
 if($GamesID=="" || $NoticeID=="") ErrCodedie("500");
 $FileDIR='UploadFile/Notice/'.$GamesID."/";
 
-$FileJSON=getSess("SOA_GN_File");
+$FileJSON=getSess(Prefix."GN_File");
 if($FileJSON==NULL) $FileJSON=array();
 else $FileJSON=json_decode($FileJSON);
 
@@ -33,7 +33,7 @@ if(isset($_FILES) && $_FILES){
         $Info['Path']=$FileDIR.$name;
         array_push($FileJSON,$Info);
         $FileJSON=json_encode($FileJSON);
-        setSess("SOA_GN_File",$FileJSON);
+        setSess(Prefix."GN_File",$FileJSON);
       }
     }else{
       $ErrorCode=$_FILES["file"]["error"][$key];
@@ -50,7 +50,7 @@ if(isset($_POST['Pub']) && $_POST['Pub']){
   $FileJSON=json_encode($FileJSON);
   $rs=PDOQuery($dbcon,"UPDATE games_notice SET FileJSON=? WHERE NoticeID=?",[$FileJSON,$NoticeID],[PDO::PARAM_STR,PDO::PARAM_INT]);
   if($rs[1]==1){
-    setSess("SOA_GN_File","");
+    setSess(Prefix."GN_File","");
     $URL="index.php?file=Games&action=toGamesNoticeList.php&GamesID=".$GamesID;
     die("<script>window.location.href='$URL';</script>");
   }else{

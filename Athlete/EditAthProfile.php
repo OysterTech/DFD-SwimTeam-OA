@@ -1,6 +1,6 @@
 <?php
-if(GetSess("SOA_isAthlete")==1){
-  $AthID=GetSess("SOA_AthID");
+if(GetSess(Prefix."isAthlete")==1){
+  $AthID=GetSess(Prefix."AthID");
 }else{
   $AthID=$_GET['AthID'];
 }

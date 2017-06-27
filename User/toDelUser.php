@@ -1,12 +1,12 @@
 <?php
-$NowUserName=getSess("SOA_RealName");
+$NowUserName=getSess(Prefix."RealName");
 if(isset($_GET['UID']) && $_GET['UID']){
   $UID=$_GET['UID'];  
   $Del_sql="DELETE FROM sys_user WHERE Userid=?";
   
   if(isset($_POST) && $_POST){
     $iptPW=$_POST['Password'];
-    $NowUserid=GetSess("SOA_Userid");
+    $NowUserid=GetSess(Prefix."Userid");
   
     $sql1="SELECT Password,salt FROM sys_user WHERE Userid=?";
     $rs1=PDOQuery($dbcon,$sql1,[$NowUserid],[PDO::PARAM_INT]);

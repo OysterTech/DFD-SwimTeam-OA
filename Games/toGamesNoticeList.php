@@ -1,7 +1,7 @@
 <?php
 $GamesID=isset($_GET['GamesID'])?$_GET['GamesID']:"";
 $GamesName=isset($_GET['GamesName'])?$_GET['GamesName']:"";
-$isAth=getSess("SOA_isAthlete");
+$isAth=getSess(Prefix."isAthlete");
 
 $sql="SELECT * FROM games_notice WHERE GamesID=? AND isDelete=0";
 $rs=PDOQuery($dbcon,$sql,[$GamesID],[PDO::PARAM_STR]);

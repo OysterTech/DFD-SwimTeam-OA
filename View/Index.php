@@ -1,5 +1,5 @@
 <?php
-$isAthlete=getSess("SOA_isAthlete");
+$isAthlete=getSess(Prefix."isAthlete");
 $nowDate=date("Ymd");
 PDOQuery($dbcon,"UPDATE games_list SET isOpen=0 WHERE EndDate<$nowDate",[],[]);
 ?>

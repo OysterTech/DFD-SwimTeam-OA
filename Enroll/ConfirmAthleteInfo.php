@@ -1,11 +1,11 @@
 <?php
-if(GetSess("SOA_isAthlete")!=1){
+if(GetSess(Prefix."isAthlete")!=1){
   toAlertDie("500","参数错误！\\n请从正确途径进入本页面！");
 }
 
 $GamesID=isset($_GET['GamesID'])?$_GET['GamesID']:"";
 $GamesName=isset($_GET['GamesName'])?$_GET['GamesName']:"";
-$AthID=GetSess("SOA_AthID");
+$AthID=GetSess(Prefix."AthID");
 
 // 判断是否已经报名
 $Enroll_SQL="SELECT * FROM enroll_item WHERE GamesID=? AND AthID=?";
@@ -42,7 +42,7 @@ switch($IDCardType){
     break;
 }
 
-SetSess("SOA_Ath_YearGroup",$YearGroup);
+SetSess(Prefix."Ath_YearGroup",$YearGroup);
 ?>
 
 <div class="well col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 text-center col-xs-10 col-xs-offset-1">

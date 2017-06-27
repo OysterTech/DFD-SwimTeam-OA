@@ -1,10 +1,10 @@
 <?php
-$NowUserName=getSess("SOA_RealName");
+$NowUserName=getSess(Prefix."RealName");
 $rtnURL="index.php?file=Sys&action=toLogList.php";
 
 if(isset($_POST) && $_POST){
   $iptPW=$_POST['Password'];
-  $NowUserid=GetSess("SOA_Userid");
+  $NowUserid=GetSess(Prefix."Userid");
   
   $sql1="SELECT Password,salt FROM sys_user WHERE Userid=?";
   $Verify_rs=PDOQuery($dbcon,$sql1,[$NowUserid],[PDO::PARAM_INT]);

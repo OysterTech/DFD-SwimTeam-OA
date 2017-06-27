@@ -41,11 +41,11 @@ foreach($AllCache as $value){
 <input type="hidden" id="CacheName">
 
 <?php
-SetSess("SOA_Ajax_Sign","");
+SetSess(Prefix."Ajax_Sign","");
 $SessionID=session_id();
 $Timestamp=time();
 $Ajax_Sign=sha1(md5($SessionID.$Timestamp));
-SetSess("SOA_Ajax_Sign",$Ajax_Sign);
+SetSess(Prefix."Ajax_Sign",$Ajax_Sign);
 ?>
 <script>
 var Sign="<?php echo $Ajax_Sign; ?>";

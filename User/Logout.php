@@ -3,7 +3,7 @@ require_once("../Functions/PDOConn.php");
 require_once("../Functions/PublicFunc.php");
 
 $SessionID=session_id();
-$UserID=getSess("SOA_Userid");
+$UserID=getSess(Prefix."Userid");
 
 $Cache=new Cache($dbcon,"login");
 $Cache->D("",$UserID);

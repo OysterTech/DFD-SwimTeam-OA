@@ -2,7 +2,7 @@
 require_once("../Functions/PDOConn.php");
 require_once("../Functions/PublicFunc.php");
 
-$SessName=array("SOA_Reg_isReg","SOA_Reg_UserID","SOA_Reg_RealName","SOA_Reg_Sign");
+$SessName=array(Prefix."Reg_isReg",Prefix."Reg_UserID",Prefix."Reg_RealName",Prefix."Reg_Sign");
 $Sign=getRanSTR(16);
 
 if(isset($_POST) && $_POST){

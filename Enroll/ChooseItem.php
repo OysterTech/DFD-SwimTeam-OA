@@ -1,8 +1,8 @@
 <?php
-$YearGroup=GetSess("SOA_Ath_YearGroup");
+$YearGroup=GetSess(Prefix."Ath_YearGroup");
 $GamesID=$_GET['GamesID'];
 $GamesName=urldecode($_GET['GamesName']);
-$AthID=GetSess("SOA_AthID");
+$AthID=GetSess(Prefix."AthID");
 $ItemIDs=array();
 $showItemID=array();
 $showItemName=array();

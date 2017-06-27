@@ -1,14 +1,14 @@
 <?php
 require_once("../Functions/PublicFunc.php");
-$Sign_Sess=GetSess("SOA_Reg_Sign");
+$Sign_Sess=GetSess(Prefix."Reg_Sign");
 $Sign_URL=$_GET['Sign'];
 
 if($Sign_Sess != $Sign_URL){
   toAlertDie("500","参数错误！\\n请从正确途径进入本页面！");
 }
 
-$RealName=GetSess("SOA_Reg_RealName");
-$UserID=GetSess("SOA_Reg_UserID");
+$RealName=GetSess(Prefix."Reg_RealName");
+$UserID=GetSess(Prefix."Reg_UserID");
 ?>
 
 <html>

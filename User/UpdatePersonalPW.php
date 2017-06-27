@@ -1,10 +1,10 @@
 <?php
-$RealName=getSess("SOA_RealName");
+$RealName=getSess(Prefix."RealName");
 
 if(isset($_POST) && $_POST){
   if(!isset($_GET['isFirst']) || $_GET['isFirst']!=1){
     $ipt_PW=$_POST['Password'];
-    $NowUserid=GetSess("SOA_Userid");
+    $NowUserid=GetSess(Prefix."Userid");
   
     $sql1="SELECT Password,salt,UserName,RealName FROM sys_user WHERE Userid=?";
     $rs1=PDOQuery($dbcon,$sql1,[$NowUserid],[PDO::PARAM_INT]);

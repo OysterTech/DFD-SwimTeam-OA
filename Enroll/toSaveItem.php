@@ -3,7 +3,7 @@ require_once("../Functions/PDOConn.php");
 require_once("../Functions/PublicFunc.php");
 
 $SQL_Insert="INSERT INTO enroll_item(AthID,GamesID,ItemID) VALUES ";
-$AthID=GetSess("SOA_AthID");
+$AthID=GetSess(Prefix."AthID");
 
 if(isset($_POST) && $_POST){
   $ItemIDs=$_POST['ItemIDs'];

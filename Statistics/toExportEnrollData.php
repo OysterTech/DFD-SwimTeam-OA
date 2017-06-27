@@ -17,7 +17,7 @@ $FileName="东风东游泳队-".$GamesName."报名表.xlsx";
 
 /******* ▼ 获取比赛所有人的报名数据 ▼ *******/
 $Cache=new Cache($dbcon,"enroll_export");
-$UserID=GetSess("SOA_Userid");
+$UserID=GetSess(Prefix."Userid");
 $SessionID=session_id();
 $getCacheCondition[0]=["UserID",$UserID];
 $getCacheCondition[1]=["SessionID",$SessionID];

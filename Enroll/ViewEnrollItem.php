@@ -1,8 +1,8 @@
 <?php
 $GamesID=isset($_GET['GamesID'])?$_GET['GamesID']:toAlertDie("500","参数错误！\n\n请从正确方式进入本页面！");
 $GamesName=isset($_GET['GamesName'])?$_GET['GamesName']:toAlertDie("500","参数错误！\n\n请从正确方式进入本页面！");
-$AthID=GetSess("SOA_AthID");
-$YearGroup=GetSess("SOA_Ath_YearGroup");
+$AthID=GetSess(Prefix."AthID");
+$YearGroup=GetSess(Prefix."Ath_YearGroup");
 
 $ItemIDs=array();
 $ItemNames=array();

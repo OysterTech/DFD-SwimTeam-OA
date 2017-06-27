@@ -1,7 +1,7 @@
 <?php
-$UserID=GetSess("SOA_Userid");
-$isAth=GetSess("SOA_isAthlete");
-$AthID=GetSess("SOA_AthID");
+$UserID=GetSess(Prefix."Userid");
+$isAth=GetSess(Prefix."isAthlete");
+$AthID=GetSess(Prefix."AthID");
 
 if($isAth!=1){
   die("<script>alert('当前用户非运动员！');history.go(-1);</script>");

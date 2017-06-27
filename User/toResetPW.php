@@ -2,15 +2,15 @@
 $Userid=@$_GET['UID'];
 $UserName=@$_GET['n'];
 $RealName=@$_GET['r'];
-$LocAuth=GetSess("SOA_inUserList");
-$NowUserName=getSess("SOA_RealName");
+$LocAuth=GetSess(Prefix."inUserList");
+$NowUserName=getSess(Prefix."RealName");
 
 if($LocAuth!="1") ErrCodedie("404");
 if(!$Userid || !$UserName || !$RealName) ErrCodedie("500");
 
 if(isset($_POST) && $_POST){
   $iptPW=$_POST['Password'];
-  $NowUserid=GetSess("SOA_Userid");
+  $NowUserid=GetSess(Prefix."Userid");
   
   $sql1="SELECT Password,salt FROM sys_user WHERE Userid=?";
   $rs1=PDOQuery($dbcon,$sql1,[$NowUserid],[PDO::PARAM_INT]);

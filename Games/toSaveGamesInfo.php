@@ -12,9 +12,9 @@ if($OprType=="Edit"){
   $isPrivate=$_POST['isPrivate'];
   
   if($EndDate>date("Ymd")){
-    $sql="UPDATE games_list SET GamesName=?,EndDate=?,isOpen='0',isPrivate=? WHERE GamesID=?";  
+    $sql="UPDATE games_list SET GamesName=?,EndDate=?,isOpen='1',isPrivate=? WHERE GamesID=?";  
   }else{
-    $sql="UPDATE games_list SET GamesName=?,EndDate=?,isOpen='1',isPrivate=? WHERE GamesID=?";
+    $sql="UPDATE games_list SET GamesName=?,EndDate=?,isOpen='0',isPrivate=? WHERE GamesID=?";
   }
   
   $rs=PDOQuery($dbcon,$sql,[$GamesName,$EndDate,$isPrivate,$GamesID],[PDO::PARAM_STR,PDO::PARAM_INT,PDO::PARAM_STR,PDO::PARAM_INT]);

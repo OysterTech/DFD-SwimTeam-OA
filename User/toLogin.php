@@ -2,10 +2,12 @@
 require_once("../Functions/PDOConn.php");
 require_once("../Functions/PublicFunc.php");
 
-$SessName=array("SOA_isLogged","SOA_Userid","SOA_Roleid","SOA_RealName","SOA_RoleName","SOA_isAthlete");
+$GB_Sets=new Settings("../GlobalSettings.json");
+define("Prefix",$GB_Sets->G("SessionPrefix",2,"System"));
+
+$SessName=array(Prefix."isLogged",Prefix."Userid",Prefix."Roleid",Prefix."RealName",Prefix."RoleName",Prefix."isAthlete");
 
 if(isset($_POST) && $_POST){
-  
   // 获取用户输入的数据
   $ipt_PW=$_POST['Password'];
   $ipt_UserName=$_POST['Name'];
@@ -19,6 +21,7 @@ if(isset($_POST) && $_POST){
     die();
   }
 
+  // 获取用户资料
   $PW_indb=$rs[0][0]['Password'];
   $salt=$rs[0][0]['salt'];
   $Userid=$rs[0][0]['Userid'];
@@ -41,24 +44,29 @@ if(isset($_POST) && $_POST){
   // 将数据库里的输入的密码和salt合并加密
   $ipt_PW=encryptPW($ipt_PW,$salt);
   
+  // 密码比对
   if($ipt_PW != $PW_indb){
     die();
   }else{
     $SessVal=array("1",$Userid,$Roleid,$RealName,$RoleName,$isAthlete);
     
+    // 如果是运动员
     if($isAthlete==1){
       $AthInfo_rs=PDOQuery($dbcon,"SELECT * FROM athlete_list WHERE UserID=?",[$Userid],[PDO::PARAM_STR]);
       $AthID=$AthInfo_rs[0][0]['AthID'];
       
-      array_push($SessName,"SOA_AthID");
+      array_push($SessName,Prefix."AthID");
       array_push($SessVal,$AthID);
     }
     
-    $Date=date("Y-m-d H:i:s");
-    $rs2=PDOQuery($dbcon,"UPDATE sys_user SET LastDate=? WHERE Userid=?",[$Date,$Userid],[PDO::PARAM_STR,PDO::PARAM_INT]);
-    
+    // 设置Session
     SetSess($SessName,$SessVal);
 
+    // 修改用户最后登录时间
+    $Date=date("Y-m-d H:i:s");
+    $rs2=PDOQuery($dbcon,"UPDATE sys_user SET LastDate=? WHERE Userid=?",[$Date,$Userid],[PDO::PARAM_STR,PDO::PARAM_INT]);
+
+    // 缓存的基本操作
     $Cache=new Cache($dbcon,"login");
     $Cache->E();
     $SessionID=session_id();
@@ -72,12 +80,15 @@ if(isset($_POST) && $_POST){
       die("2".$OldCache[0][0]['CacheTime'].$OldCache[0][0]['IP']);
     }
 
+    // 新增登录缓存
     $Cache_Param=array("SessionID","UserID","RealName","ExpTime","IP");
     $Cache_Value=array($SessionID,$Userid,$RealName,$ExpTime,$IP);
     $Cache_rs=$Cache->S($Cache_Param,$Cache_Value);
 
+    // 新增登录日志
     addLog($dbcon,"登录","[$RealName] 登录系统",$ipt_UserName);
 
+    // 返回跳转的URL
     if($_POST['re_Param']!=""){
       $re_Param=$_POST['re_Param'];
       $re_Param=base64_decode($re_Param);

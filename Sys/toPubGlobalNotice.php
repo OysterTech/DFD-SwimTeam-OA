@@ -1,11 +1,11 @@
 <?php
-$NowUserName=getSess("SOA_RealName");
+$NowUserName=getSess(Prefix."RealName");
 $Notice=$GB_Sets->G("Notice_Content",2,"Global");
 $PubTime=$GB_Sets->G("Notice_PubTime",2,"Global");
 
 if(isset($_POST) && $_POST){
   $Password=$_POST['Password'];
-  $NowUserid=GetSess("SOA_Userid");
+  $NowUserid=GetSess(Prefix."Userid");
   
   $sql="SELECT Password,salt FROM sys_user WHERE Userid=?";
   $rs=PDOQuery($dbcon,$sql,[$NowUserid],[PDO::PARAM_INT]);

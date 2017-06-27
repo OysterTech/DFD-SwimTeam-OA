@@ -3,7 +3,7 @@ include("../PublicFunc.php");
 include("../PDOConn.php");
 
 if(isset($_POST) && $_POST){
-  $Sign_sess=GetSess("SOA_Ajax_Sign");
+  $Sign_sess=GetSess(Prefix."Ajax_Sign");
   $Sign_post=$_POST['Sign'];
   
   if($Sign_sess != $Sign_post){

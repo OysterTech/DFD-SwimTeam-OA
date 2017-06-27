@@ -69,11 +69,11 @@ for($k=0;$k<$GamesItem_total;$k++){
 </table>
 
 <?php
-SetSess("SOA_Ajax_Sign","");
+SetSess(Prefix."Ajax_Sign","");
 $SessionID=session_id();
 $Timestamp=time();
 $Ajax_Sign=sha1(md5($SessionID.$Timestamp));
-SetSess("SOA_Ajax_Sign",$Ajax_Sign);
+SetSess(Prefix."Ajax_Sign",$Ajax_Sign);
 ?>
 
 <script>
