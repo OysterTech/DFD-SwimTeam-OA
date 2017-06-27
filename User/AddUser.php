@@ -13,7 +13,7 @@ if(isset($_POST) && $_POST){
 
   if($rs[1]==1){
   	$url="index.php?file=User&action=ShowOriginPW.php&u=$UserName&r=$RealName&p=$originPassword&re_file=User&re_action=toAdd.php";
-   echo "<script>alert('新增角色成功！');window.location.href='$url';</script>";
+   echo "<script>alert('新增用户成功！');window.location.href='$url';</script>";
   }
 }
 ?>

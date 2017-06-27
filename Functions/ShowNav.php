@@ -1,7 +1,7 @@
 <?php
 $Nav_rs=PDOQuery($dbcon,"SELECT * FROM sys_menu WHERE Fatherid=0",[],[]);
 $TotalFr=sizeof($Nav_rs[0]);
-$AllPurv=GetSess("AllPurv");
+$AllPurv=GetSess(Prefix."AllPurv");
 
 $ShowMenuFile=array();
 $ShowMenuDOS=array();

@@ -82,7 +82,7 @@ $NowMenuid_rs=PDOQuery($dbcon,"SELECT * FROM sys_menu WHERE PageFile=? AND PageD
 $NowMenuid=@$NowMenuid_rs[0][0]['Menuid'];
 
 //所有允许权限的Array Session
-$AllPurv=GetSess("AllPurv");
+$AllPurv=GetSess(Prefix."AllPurv");
 
 if($AllPurv==null){
   //获取当前角色的所有权限ID
