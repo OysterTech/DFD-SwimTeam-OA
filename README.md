@@ -100,7 +100,7 @@
 
 ## 鸣谢
 
-* [`@zhangjingye03`](https://github.com/zhangjingye03) 提供的PDO二次开发函数库、“表格内单击某行以选择该行”的思想
+* [`@zhangjingye03`](https://github.com/zhangjingye03) 提供的PDO二次开发函数库、“单击表格行以选择该行信息”的思想
 
 * [`@SmallOyster`](https://github.com/SmallOyster) 提供的[`小生蚝角色权限系统`](https://github.com/SmallOyster/Role-Purview-System)
 
@@ -111,5 +111,11 @@
 * [`jQuery`](https://jquery.org/)，遵循`MIT`协议
 
 * [`Bootstrap 3.3`](https://getbootstrap.com/)，遵循`MIT`协议
+
+* [`iCheck`](https://github.com/fronteed/iCheck)
+
+* [`wangEditor`](https://github.com/wangfupeng1988/wangEditor)，遵循`MIT`协议
+
+* [`dm_notify.js`](http://www.jqueryscript.net/other/Lightweight-Growl-style-Notification-Plugin-dm_notify-js.html)，遵循`GNU GPL`协议
 
 * Github提供的免费代码仓库
