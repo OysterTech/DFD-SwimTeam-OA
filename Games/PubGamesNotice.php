@@ -19,7 +19,7 @@ if(isset($_POST) && $_POST){
 }
 ?>
 
-<script src="https://unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+<script src="http://www.wangeditor.com/js/wangEditor.js"></script>
 
 <h1>发布比赛通知</h1>
 <div class="alert alert-success alert-dismissible" role="alert">
@@ -49,10 +49,9 @@ if(isset($_POST) && $_POST){
 
 <button type="button" class="btn btn-success" style="width:98%" onclick="toPublish()">发 布</button>
 <script>
-var E = window.wangEditor;
-var editor = new E('#wangEditor_div');
-editor.customConfig.uploadImgShowBase64 = true;
-editor.create();
+var E = window.wangEditor
+var editor = new E('#wangEditor_div')
+editor.create()
 
 function toPublish(){
   Content=editor.txt.html();

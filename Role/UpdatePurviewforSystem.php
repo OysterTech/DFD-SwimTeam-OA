@@ -1,16 +1,16 @@
 <?php
-$Roleid=isset($_GET['RID'])?$_GET['RID']:"";
-if($Roleid=="") ErrCodedie("500-GTDA");
+$RoleID=isset($_GET['RID'])?$_GET['RID']:"";
+if($RoleID=="") ErrCodedie("500-GTDA");
 $Insert_count=0;
 
 // 验证当前角色是否为系统内置角色
-$vfy_sql="SELECT * FROM role_list WHERE Roleid=?";
-$vfy_rs=PDOQuery($dbcon,$vfy_sql,[$Roleid],[PDO::PARAM_INT]);
-if($vfy_rs[0][0]['isSuper']!="1") ErrCodedie("500-NS");
+$vfy_sql="SELECT * FROM role_list WHERE RoleID=?";
+$vfy_rs=PDOQuery($dbcon,$vfy_sql,[$RoleID],[PDO::PARAM_INT]);
+if($vfy_rs[0][0]['isSuper']!="1") ErrCodedie("500-NP");
 
 // 删除当前角色所有权限
-$del_sql="DELETE FROM role_purview WHERE Roleid=?";
-$del_rs=PDOQuery($dbcon,$del_sql,[$Roleid],[PDO::PARAM_INT]);
+$del_sql="DELETE FROM role_purview WHERE RoleID=?";
+$del_rs=PDOQuery($dbcon,$del_sql,[$RoleID],[PDO::PARAM_INT]);
 if($del_rs[1]<0) ErrCodedie("500-DTFL");
 
 // 查询所有菜单的ID
@@ -20,9 +20,9 @@ $totalMenu=count($select_rs[0]);
 
 // 循环添加权限
 foreach($select_rs[0] as $key=>$value){
-  $Menuid=$select_rs[0][$key]['Menuid'];
-  $Insert_sql="INSERT INTO role_purview(Roleid,Purvid) VALUES(?,?)";
-  $Insert_rs=PDOQuery($dbcon,$Insert_sql,[$Roleid,$Menuid],[PDO::PARAM_INT,PDO::PARAM_INT]);
+  $MenuID=$select_rs[0][$key]['MenuID'];
+  $Insert_sql="INSERT INTO role_purview(RoleID,PurvID) VALUES(?,?)";
+  $Insert_rs=PDOQuery($dbcon,$Insert_sql,[$RoleID,$MenuID],[PDO::PARAM_INT,PDO::PARAM_INT]);
   
   // 成功添加
   if($Insert_rs[1]==1) $Insert_count++;

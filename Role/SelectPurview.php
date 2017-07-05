@@ -1,9 +1,8 @@
 <?php
-$Roleid=isset($_GET['RID'])?$_GET['RID']:"";
-if($Roleid=="") ErrCodedie("500-GTDA");
+$RoleID=isset($_GET['RID'])?$_GET['RID']:ErrCodedie("500-GTDA");
 
 $vfy_sql="SELECT * FROM role_list WHERE Roleid=?";
-$vfy_rs=PDOQuery($dbcon,$vfy_sql,[$Roleid],[PDO::PARAM_INT]);
+$vfy_rs=PDOQuery($dbcon,$vfy_sql,[$RoleID],[PDO::PARAM_INT]);
 if($vfy_rs[1]!="1") ErrCodedie("500-NR");
 $RoleName=$vfy_rs[0][0]['RoleName'];
 
@@ -14,13 +13,13 @@ $total=sizeof($ids);
 $Insert_count=0;
 
 //先删除该角色的所有权限
-$Del_sql="DELETE FROM role_purview WHERE Roleid=?";
-$Del_rs=PDOQuery($dbcon,$Del_sql,[$Roleid],[PDO::PARAM_INT]);
+$Del_sql="DELETE FROM role_purview WHERE RoleID=?";
+$Del_rs=PDOQuery($dbcon,$Del_sql,[$RoleID],[PDO::PARAM_INT]);
 
 for($i=0;$i<$total;$i++){
   //循环添加
-  $Insert_sql="INSERT INTO role_purview(Roleid,Purvid) VALUES (?,?)";
-  $Insert_rs=PDOQuery($dbcon,$Insert_sql,[$Roleid,$ids[$i]],[PDO::PARAM_INT,PDO::PARAM_STR]);
+  $Insert_sql="INSERT INTO role_purview(RoleID,PurvID) VALUES (?,?)";
+  $Insert_rs=PDOQuery($dbcon,$Insert_sql,[$RoleID,$ids[$i]],[PDO::PARAM_INT,PDO::PARAM_STR]);
   if($Insert_rs[1]>0){
     $Insert_count++;
   }

@@ -48,19 +48,19 @@ for($k=0;$k<$GamesItem_total;$k++){
 <hr>
 
 <!-- ▼ [隐藏]当前比赛报名人数 ▼ -->
-<input type="hidden" id="TotalAth">
+<input type="hIDden" ID="TotalAth">
 <!-- ▲ [隐藏]当前比赛报名人数 ▲ -->
 
 <!-- ▼ 数据导出按钮 ▼ -->
-<div id="ExportButton" style="display:none;">
+<div ID="ExportButton" style="display:none;">
   <center>
-    <button class="btn btn-primary" style="width:97%" onclick="exportEnrollData()">导出所有人的报名数据（Excel）</button>
+    <button class="btn btn-primary" style="wIDth:97%" onclick="exportEnrollData()">导出所有人的报名数据（Excel）</button>
   </center>
   <hr>
 </div>
 <!-- ▲ 数据导出按钮 ▲ -->
 
-<table class="table table-hover table-striped table-bordered" style="border-radius: 5px; border-collapse: separate;" id="AthList">
+<table class="table table-hover table-striped table-bordered" style="border-radius: 5px; border-collapse: separate;" ID="AthList">
 <tr>
   <th>运动员姓名</th>
   <th>选报项目</th>
@@ -68,17 +68,7 @@ for($k=0;$k<$GamesItem_total;$k++){
 </tr>
 </table>
 
-<?php
-SetSess(Prefix."Ajax_Sign","");
-$SessionID=session_id();
-$Timestamp=time();
-$Ajax_Sign=sha1(md5($SessionID.$Timestamp));
-SetSess(Prefix."Ajax_Sign",$Ajax_Sign);
-?>
-
 <script>
-var Sign="<?php echo $Ajax_Sign; ?>";
-
 window.onload=function(){
   showEnrollAthByAth();
 }
@@ -111,19 +101,13 @@ function showEnrollAthByAth(){
     url:"Functions/Api/getEnrollDataByAth.php",
     type:"post",
     dataType:"text",
-    data:{"Sign":Sign,"GamesID":GamesID},
+    data:{"GamesID":GamesID},
     error:function(e){
       alert(JSON.stringify(e));
       console.log(JSON.stringify(e));
     },
     success:function(got){
-      if(got=="InvaildSign"){
-        tips="签名错误！";
-        $("#tips").html(tips);
-        $("#Modal-Tips").modal('show');
-        unlockScreen();
-        return false;
-      }else if(got=="AddCacheFailed"){
+      if(got=="AddCacheFailed"){
         tips="新增缓存失败！";
         $("#tips").html(tips);
         $("#Modal-Tips").modal('show');
@@ -231,42 +215,42 @@ function toViewAthDataDetail(AthID){
 </script>
 
 
-<div class="modal fade" id="Modal-AthInfo">
+<div class="modal fade" ID="Modal-AthInfo">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-        <h3 class="modal-title" id="ModalTitle">运动员详细资料</h3>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hIDden="true">×</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title" ID="ModalTitle">运动员详细资料</h3>
       </div>
       <div class="modal-body">
         <table class="table table-hover table-striped table-bordered" style="border-radius: 5px; border-collapse: separate;">
           <tr>
             <th>姓名</th>
-            <td><p id="RealName"></p></td>
+            <td><p ID="RealName"></p></td>
           </tr>
           <tr>
             <th>性别</th>
-            <td><p id="Sex"></p></td>
+            <td><p ID="Sex"></p></td>
           </tr>
           <tr>
             <th>手机号</th>
-            <td><p id="Phone"></p></td>
+            <td><p ID="Phone"></p></td>
           </tr>
           <tr>
             <th>班别</th>
-            <td><p id="SchoolClass"></p></td>
+            <td><p ID="SchoolClass"></p></td>
           </tr>
           <tr>
             <th>年龄组</th>
-            <td><p id="YearGroup"></p></td>
+            <td><p ID="YearGroup"></p></td>
           </tr>
           <tr>
             <th>证件号</th>
-            <td><p id="IDCard"></p></td>
+            <td><p ID="IDCard"></p></td>
           </tr>
           <tr>
             <th>证件类型</th>
-            <td><p id="IDCardType"></p></td>
+            <td><p ID="IDCardType"></p></td>
           </tr>
         </table>
       </div>
@@ -278,17 +262,17 @@ function toViewAthDataDetail(AthID){
 </div><!-- /.modal -->
 
 
-<div class="modal fade" id="Modal-Tips">
+<div class="modal fade" ID="Modal-Tips">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-        <h3 class="modal-title" id="ModalTitle">温馨提示</h3>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hIDden="true">×</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title" ID="ModalTitle">温馨提示</h3>
       </div>
       <div class="modal-body">
         <form method="post">
           <font color="red" style="font-weight:bolder;font-size:26;text-align:center;">
-            <p id="tips"></p>
+            <p ID="tips"></p>
           </font>
         </form>
       </div>

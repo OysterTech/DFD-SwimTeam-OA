@@ -1,11 +1,13 @@
 <?php
 $isAthlete=getSess(Prefix."isAthlete");
 $nowDate=date("Ymd");
-PDOQuery($dbcon,"UPDATE games_list SET isOpen=0 WHERE EndDate<$nowDate",[],[]);
+PDOQuery($dbcon,"UPDATE games_list SET isEnd=1 WHERE EndDate<$nowDate",[],[]);
 ?>
 
+<img src="res/img/Logo.jpg" style="width:235px;height:222px;">
+
 <h2 style="text-align:center">
-  欢迎登录<br>东风东游泳队报名系统！
+  欢迎登录<br>东风东游泳队管理系统！
 </h2>
 <hr>
 <h3>快速菜单</h3>

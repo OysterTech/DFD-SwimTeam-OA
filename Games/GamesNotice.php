@@ -43,9 +43,9 @@ $rs=PDOQuery($dbcon,"UPDATE games_notice SET PageView=$PageView WHERE NoticeID=?
   <?php
     foreach($FileJSON as $Value){
     	$Name=$Value['Name'];
-    	$Path=$Value['Path'];
+    	$Code=$Value['Code'];
   ?>
-  ▲ <a href="<?php echo $Path; ?>"><?php echo $Name; ?></a><br>
+  ▲ <a href="Download.php?Code=<?php echo $Code; ?>"><?php echo $Name; ?></a><br>
   <?php } ?>
 </div>
 <!-- ▲ 附件列表 ▲ -->

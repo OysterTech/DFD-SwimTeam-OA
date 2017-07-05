@@ -1,5 +1,9 @@
 <?php
 require_once("../Functions/PublicFunc.php");
+
+$GB_Sets=new Settings("../GlobalSettings.json");
+define("Prefix",$GB_Sets->G("SessionPrefix",2,"System"));
+
 $Sign_Sess=GetSess(Prefix."Reg_Sign");
 $Sign_URL=$_GET['Sign'];
 

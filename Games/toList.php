@@ -1,5 +1,5 @@
 <?php
-$list=PDOQuery($dbcon,"SELECT * FROM games_list ORDER BY isOpen DESC,EndDate",[],[]);
+$list=PDOQuery($dbcon,"SELECT * FROM games_list ORDER BY isEnd ASC,EndDate",[],[]);
 $total=sizeof($list[0]);
 
 // 分页代码[Begin]
@@ -61,7 +61,7 @@ if($Limit>$total){$Limit=$total;}
     $EndDate=$list[0][$i]['EndDate'];
     $AllowUser=$list[0][$i]['AllowUser'];
     $isPrivate=$list[0][$i]['isPrivate'];
-    $isOpen=$list[0][$i]['isOpen'];
+    $isEnd=$list[0][$i]['isEnd'];
     $EndYear=substr($EndDate,0,4);
     $EndMD=substr($EndDate,4,4);
     $EndDate=$EndYear."<br>".$EndMD;
@@ -78,8 +78,8 @@ if($Limit>$total){$Limit=$total;}
     
     $oprURL=$oprURL." ".makeOprBtn("通知","primary","Games","toGamesNoticeList.php",[["GamesID",$GamesID],["GamesName",$GamesName]]);
     
-    if($isOpen=="0") $Status='<a onclick="changeOpen('.$GamesID.',0)" style="color:red;font-weight:bolder;" id="Status'.$GamesID.'">关闭</a>';
-    elseif($isOpen=="1") $Status='<a onclick="changeOpen('.$GamesID.',1)" style="color:green;font-weight:bolder;" id="Status'.$GamesID.'">开放</a>';
+    if($isEnd=="1") $Status='<a onclick="changeEnd('.$GamesID.',1)" style="color:red;font-weight:bolder;" id="Status'.$GamesID.'">关闭</a>';
+    elseif($isEnd=="0") $Status='<a onclick="changeEnd('.$GamesID.',0)" style="color:green;font-weight:bolder;" id="Status'.$GamesID.'">开放</a>';
 ?>
 <tr>
   <td><?php echo $GamesName; ?></td>
@@ -99,7 +99,7 @@ if($Limit>$total){$Limit=$total;}
     $Previous=$Page-1;
   ?>
   <li>
-   <a href="<?php echo $NowURL."?page=$Previous"; ?>" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a>
+   <a href="<?php echo $NowURL."&Page=$Previous"; ?>" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a>
   </li>
   <?php } ?>
   <?php
@@ -107,7 +107,7 @@ if($Limit>$total){$Limit=$total;}
    if($j==$Page){
     echo "<li class='disabled'><a>$j</a></li>";
    }else{
-    echo "<li><a href='$NowURL?page=$j'>$j</a></li>";
+    echo "<li><a href='$NowURL&Page=$j'>$j</a></li>";
    }
   }
   ?>
@@ -116,7 +116,7 @@ if($Limit>$total){$Limit=$total;}
     $next=$Page+1;
   ?>
   <li>
-   <a href="<?php echo $NowURL."?page=$next"; ?>" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
+   <a href="<?php echo $NowURL."&Page=$next"; ?>" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
   </li>
   <?php } ?>
  </ul>
@@ -124,10 +124,10 @@ if($Limit>$total){$Limit=$total;}
 <!-- 分页功能@选择页码[End] -->
 
 <script>
-function changeOpen(GamesID,Status){
+function changeEnd(GamesID,Status){
   lockScreen();
   $.ajax({
-    url:"Games/toChangeGamesOpen.php",
+    url:"Games/toChangeGamesEnd.php",
     type:"post",
     data:{"GamesID":GamesID,"Status":Status},
     error:function(e){
@@ -136,14 +136,13 @@ function changeOpen(GamesID,Status){
     },
     success:function(got){
       if(got=="1"){
-        if(Status=="0"){
+        if(Status=="1"){
           $("#Status"+GamesID).attr("style","color:green;font-weight:bolder;");
-          $("#Status"+GamesID).attr("onclick",'changeOpen('+GamesID+',1);');
+          $("#Status"+GamesID).attr("onclick",'changeEnd('+GamesID+',0);');
           $("#Status"+GamesID).html("开放");
-        }
-        else if(Status=="1"){
+        }else if(Status=="0"){
           $("#Status"+GamesID).attr("style","color:red;font-weight:bolder;");
-          $("#Status"+GamesID).attr("onclick",'changeOpen('+GamesID+',0);');
+          $("#Status"+GamesID).attr("onclick",'changeEnd('+GamesID+',1);');
           $("#Status"+GamesID).html("关闭");
         }
       }else{
@@ -156,16 +155,16 @@ function changeOpen(GamesID,Status){
 }
 
 function readyDelGames(GamesID,GamesName){
-  $("#GamesID").val(GamesID);
-  $("#GamesName").val(GamesName);
-  $("#GamesName").html("【"+GamesName+"】");
+  $("#GamesID_ipt").val(GamesID);
+  $("#GamesName_ipt").val(GamesName);
+  $("#GamesName_show").html("【"+GamesName+"】");
   $('#myModal').modal('show');
 }
 
 function toDelGames(){
   lockScreen();
-  GamesID=$("#GamesID").val();
-  GamesName=$("#GamesName").val();
+  GamesID=$("#GamesID_ipt").val();
+  GamesName=$("#GamesName_ipt").val();
   $.ajax({
     url:"Games/toDelGames.php",
     type:"post",
@@ -198,12 +197,12 @@ function toDelGames(){
       </div>
       <div class="modal-body">
         <form method="post">
-          <input type="hidden" id="GamesID" name="GamesID">
-          <input type="hidden" id="GamesName" name="GamesName">
+          <input type="hidden" id="GamesID_ipt" name="GamesID">
+          <input type="hidden" id="GamesName_ipt" name="GamesName">
           <center>
           <font color="red" style="font-weight:bolder;font-size:23;">确定要删除下列比赛吗？</font>
           <br><br>
-          <font color="blue" style="font-weight:bolder;font-size:23;"><p id="GamesName"></p></font>
+          <font color="blue" style="font-weight:bolder;font-size:23;"><p id="GamesName_show"></p></font>
           </center>
         </form>
       </div>

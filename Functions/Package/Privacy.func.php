@@ -38,7 +38,7 @@ function getRanPW()
 
 /**
 * -------------------------------------
-* getRanSTR 获取随机字符串
+* getRanSTR 获取随机字母串
 * -------------------------------------
 * @param int    欲获取的随机字符串长度
 * @param 0|1|2  0:只要大写|1:只要小写|2:无限制
@@ -72,15 +72,31 @@ function getRanSTR($length,$LettersType=2)
 * @param STR  需要加密的密码（明文）
 * @param STR  salt值
 * -------------------------------------
-* @return STR 加密后的字符串
+* @return STR 加密后的密文
 * -------------------------------------
 */
-function encryptPW($Password,$salt)
+function encryptPW($Password,$Salt)
 {
-  $Password=md5($Password);
-  $Password=base64_encode($salt.$Password);
-  $Password=sha1($Password);
-  return $Password;
+  // 加密后的Salt
+  $Salt=md5($Salt);
+
+  // 待处理的密文
+  $AllPwd=$Password.$Salt;
+
+  // 交换位置
+  $a=substr($AllPwd,0,5);
+  $b=substr($AllPwd,5,8);
+  $c=substr($AllPwd,13,8);
+  $d=substr($AllPwd,21,11);
+  $e=substr($AllPwd,32);
+  $ChangeLoc=$b.$d.$a.$c.$e;
+
+  // 再次组合
+  $Data=$Salt.$ChangeLoc;
+  $Data=base64_encode($Data);
+
+  // 返回加密后的密文
+  return $Data;
 }
 
 

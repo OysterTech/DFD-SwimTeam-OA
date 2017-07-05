@@ -2,6 +2,9 @@
 require_once("../Functions/PDOConn.php");
 require_once("../Functions/PublicFunc.php");
 
+$GB_Sets=new Settings("../GlobalSettings.json");
+define("Prefix",$GB_Sets->G("SessionPrefix",2,"System"));
+
 if(isset($_POST) && $_POST){
 	$Password=$_POST['Password'];
 	$Sign=$_POST['Sign'];
@@ -11,10 +14,10 @@ if(isset($_POST) && $_POST){
 		die("InvaildSign");
 	}
 
-	$NowUserid=GetSess(Prefix."Userid");
+	$NowUserID=GetSess(Prefix."UserID");
   
-  $sql1="SELECT Password,salt FROM sys_user WHERE Userid=?";
-  $Verify_rs=PDOQuery($dbcon,$sql1,[$NowUserid],[PDO::PARAM_INT]);
+  $sql1="SELECT Password,salt FROM sys_user WHERE UserID=?";
+  $Verify_rs=PDOQuery($dbcon,$sql1,[$NowUserID],[PDO::PARAM_INT]);
   $iptPW_indb=$Verify_rs[0][0]['Password'];
   $salt=$Verify_rs[0][0]['salt'];
 

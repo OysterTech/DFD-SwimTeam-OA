@@ -1,5 +1,5 @@
 <?php
-$Nav_rs=PDOQuery($dbcon,"SELECT * FROM sys_menu WHERE Fatherid=0",[],[]);
+$Nav_rs=PDOQuery($dbcon,"SELECT * FROM sys_menu WHERE FatherID=0",[],[]);
 $TotalFr=sizeof($Nav_rs[0]);
 $AllPurv=GetSess(Prefix."AllPurv");
 
@@ -18,20 +18,20 @@ $ShowMenuIcon=array();
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="index.php">东风东游泳队报名系统</a>
+    <a class="navbar-brand" href="index.php">东风东游泳队管理系统</a>
   </div>
   
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <div class="collapse navbar-collapse" ID="bs-example-navbar-collapse-1">
   <ul class="nav navbar-nav">
    <?php
    for($fri=0;$fri<$TotalFr;$fri++){
-    $FatherNavid=$Nav_rs[0][$fri]['Menuid'];
+    $FatherNavID=$Nav_rs[0][$fri]['MenuID'];
     $FatherName=$Nav_rs[0][$fri]['Menuname'];
     $FatherIcon=$Nav_rs[0][$fri]['MenuIcon'];
     //如果有该父菜单的权限
-    if(in_array($FatherNavid,$AllPurv)){
+    if(in_array($FatherNavID,$AllPurv)){
      $HaveChd=0;
-     $Child_rs=PDOQuery($dbcon,"SELECT * FROM sys_menu WHERE Fatherid=?",[$FatherNavid],[PDO::PARAM_INT]);
+     $Child_rs=PDOQuery($dbcon,"SELECT * FROM sys_menu WHERE FatherID=?",[$FatherNavID],[PDO::PARAM_INT]);
      //如果有子菜单
      if($Child_rs[1]>0){
       // 有多少个子菜单
@@ -39,7 +39,7 @@ $ShowMenuIcon=array();
       $nowchd=0;
       for($chd=0;$chd<$Totalchd;$chd++){
        // 如果有该子菜单的权限
-       if(in_array($Child_rs[0][$chd]['Menuid'],$AllPurv)){
+       if(in_array($Child_rs[0][$chd]['MenuID'],$AllPurv)){
         $HaveChd++;
         $ShowMenuFile[$fri][$nowchd]=$Child_rs[0][$chd]['PageFile'];
         $ShowMenuDOS[$fri][$nowchd]=$Child_rs[0][$chd]['PageDOS'];
@@ -56,16 +56,16 @@ $ShowMenuIcon=array();
      $HaveChd=-1;
     }
     
-    if(in_array($FatherNavid,$AllPurv)){
+    if(in_array($FatherNavID,$AllPurv)){
     if($HaveChd==0){
      $NavFile=$Nav_rs[0][$fri]['PageFile'];
      $NavAction=$Nav_rs[0][$fri]['PageDOS'];
      $NavIcon=$Nav_rs[0][$fri]['MenuIcon'];
    ?>
-   <li><a href="<?php echo '?file='.$NavFile.'&action='.$NavAction; ?>"><i class="fa fa-<?php echo $NavIcon; ?>" aria-hidden="true"></i> <?php echo $FatherName; ?></a></li>
+   <li><a href="<?php echo '?file='.$NavFile.'&action='.$NavAction; ?>"><i class="fa fa-<?php echo $NavIcon; ?>" aria-hIDden="true"></i> <?php echo $FatherName; ?></a></li>
    <?php }else{ ?>
    <li class="dropdown">
-    <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-<?php echo $FatherIcon; ?>" aria-hidden="true"></i> <?php echo $FatherName; ?><b class="caret"></b></a>
+    <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-<?php echo $FatherIcon; ?>" aria-hIDden="true"></i> <?php echo $FatherName; ?><b class="caret"></b></a>
     <ul class="dropdown-menu">
     <?php
     $TTshowChd=sizeof($ShowMenuName[$fri]);
@@ -74,7 +74,7 @@ $ShowMenuIcon=array();
      $nowdos=$ShowMenuDOS[$fri][$j];
      $nowicon=$ShowMenuIcon[$fri][$j];
     ?>
-    <li><a href="<?php echo '?file='.$nowfile.'&action='.$nowdos; ?>"><i class="fa fa-<?php echo $nowicon; ?>" aria-hidden="true"></i> <?php echo $ShowMenuName[$fri][$j]; ?></a></li>
+    <li><a href="<?php echo '?file='.$nowfile.'&action='.$nowdos; ?>"><i class="fa fa-<?php echo $nowicon; ?>" aria-hIDden="true"></i> <?php echo $ShowMenuName[$fri][$j]; ?></a></li>
     <?php } ?>
     </ul>
    </li>
@@ -83,13 +83,13 @@ $ShowMenuIcon=array();
   
   <ul class="nav navbar-nav navbar-right">
     <li class="dropdown">
-      <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown"><img style="width:22px;border-radius:9px;" src="res/img/user.png"></a>
+      <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown"><img style="wIDth:22px;border-radius:9px;" src="res/img/user.png"></a>
       <ul class="dropdown-menu">
-        <li><a href="javascript:void(0)">
+        <li><a href="javascript:voID(0)">
           <b><font color="green"><?php echo $RealName; ?></font></b>，欢迎回来！
         </a></li>
         <li class="divider"></li>
-        <li><a href="javascript:void(0)">
+        <li><a href="javascript:voID(0)">
           角色：<font color="#F57C00"><?php echo $RoleName; ?></font>
         </a></li>
         <li class="divider"></li>

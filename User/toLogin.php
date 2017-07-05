@@ -5,7 +5,7 @@ require_once("../Functions/PublicFunc.php");
 $GB_Sets=new Settings("../GlobalSettings.json");
 define("Prefix",$GB_Sets->G("SessionPrefix",2,"System"));
 
-$SessName=array(Prefix."isLogged",Prefix."Userid",Prefix."Roleid",Prefix."RealName",Prefix."RoleName",Prefix."isAthlete");
+$SessName=array(Prefix."isLogged",Prefix."UserID",Prefix."RoleID",Prefix."RealName",Prefix."RoleName",Prefix."isAthlete");
 
 if(isset($_POST) && $_POST){
   // 获取用户输入的数据
@@ -24,20 +24,20 @@ if(isset($_POST) && $_POST){
   // 获取用户资料
   $PW_indb=$rs[0][0]['Password'];
   $salt=$rs[0][0]['salt'];
-  $Userid=$rs[0][0]['Userid'];
-  $Roleid=$rs[0][0]['Roleid'];
+  $UserID=$rs[0][0]['UserID'];
+  $RoleID=$rs[0][0]['RoleID'];
   $RealName=$rs[0][0]['RealName'];
   $Status=$rs[0][0]['Status'];
   $originPassword=$rs[0][0]['originPassword'];
   
   // 用户被禁用
   if($Status==0){
-    die("UserForbidden");
+    die("UserForbIDden");
   }
   
   // 获取角色资料
-  $roleinfo_sql="SELECT RoleName,isAthlete FROM role_list WHERE Roleid=?";
-  $roleinfo_rs=PDOQuery($dbcon,$roleinfo_sql,[$Roleid],[PDO::PARAM_INT]);
+  $roleinfo_sql="SELECT RoleName,isAthlete FROM role_list WHERE RoleID=?";
+  $roleinfo_rs=PDOQuery($dbcon,$roleinfo_sql,[$RoleID],[PDO::PARAM_INT]);
   $RoleName=$roleinfo_rs[0][0]['RoleName'];
   $isAthlete=$roleinfo_rs[0][0]['isAthlete'];
   
@@ -48,11 +48,11 @@ if(isset($_POST) && $_POST){
   if($ipt_PW != $PW_indb){
     die();
   }else{
-    $SessVal=array("1",$Userid,$Roleid,$RealName,$RoleName,$isAthlete);
+    $SessVal=array("1",$UserID,$RoleID,$RealName,$RoleName,$isAthlete);
     
     // 如果是运动员
     if($isAthlete==1){
-      $AthInfo_rs=PDOQuery($dbcon,"SELECT * FROM athlete_list WHERE UserID=?",[$Userid],[PDO::PARAM_STR]);
+      $AthInfo_rs=PDOQuery($dbcon,"SELECT * FROM athlete_list WHERE UserID=?",[$UserID],[PDO::PARAM_STR]);
       $AthID=$AthInfo_rs[0][0]['AthID'];
       
       array_push($SessName,Prefix."AthID");
@@ -64,17 +64,17 @@ if(isset($_POST) && $_POST){
 
     // 修改用户最后登录时间
     $Date=date("Y-m-d H:i:s");
-    $rs2=PDOQuery($dbcon,"UPDATE sys_user SET LastDate=? WHERE Userid=?",[$Date,$Userid],[PDO::PARAM_STR,PDO::PARAM_INT]);
+    $rs2=PDOQuery($dbcon,"UPDATE sys_user SET LastDate=? WHERE UserID=?",[$Date,$UserID],[PDO::PARAM_STR,PDO::PARAM_INT]);
 
     // 缓存的基本操作
     $Cache=new Cache($dbcon,"login");
     $Cache->E();
-    $SessionID=session_id();
+    $SessionID=session_ID();
     $ExpTime=time()+600;// 10分钟后过期
     $IP=getIP();
 
     // 检查是否有重复登录
-    $Condition[0]=array("UserID",$Userid);
+    $Condition[0]=array("UserID",$UserID);
     $OldCache=$Cache->G($Condition);
     if($OldCache[1]!=0){
       die("2".$OldCache[0][0]['CacheTime'].$OldCache[0][0]['IP']);
@@ -82,7 +82,7 @@ if(isset($_POST) && $_POST){
 
     // 新增登录缓存
     $Cache_Param=array("SessionID","UserID","RealName","ExpTime","IP");
-    $Cache_Value=array($SessionID,$Userid,$RealName,$ExpTime,$IP);
+    $Cache_Value=array($SessionID,$UserID,$RealName,$ExpTime,$IP);
     $Cache_rs=$Cache->S($Cache_Param,$Cache_Value);
 
     // 新增登录日志

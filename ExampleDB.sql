@@ -64,13 +64,13 @@ CREATE TABLE IF NOT EXISTS `games_list` (
   `GamesID` int(11) NOT NULL AUTO_INCREMENT COMMENT '比赛ID',
   `GamesName` varchar(50) COLLATE utf8_unicode_ci NOT NULL COMMENT '比赛名称',
   `EndDate` varchar(8) COLLATE utf8_unicode_ci NOT NULL COMMENT '结束报名日期（格式：年月日，如20140711）',
-  `isOpen` varchar(1) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1' COMMENT '是否开放报名',
+  `isEnd` varchar(1) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1' COMMENT '是否开放报名',
   `isPrivate` varchar(1) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0' COMMENT '是否限制报名',
   `AllowUser` text COLLATE utf8_unicode_ci COMMENT '允许报名的运动员ID（JSON，关联athlete_list）',
   PRIMARY KEY (`GamesID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='比赛 - 比赛列表';
 
-INSERT INTO `games_list` (`GamesID`, `GamesName`, `EndDate`, `isOpen`, `isPrivate`, `AllowUser`) VALUES
+INSERT INTO `games_list` (`GamesID`, `GamesName`, `EndDate`, `isEnd`, `isPrivate`, `AllowUser`) VALUES
 (1, '2017广州市赛', '20170901', '1', '1', '1');
 
 CREATE TABLE IF NOT EXISTS `games_notice` (

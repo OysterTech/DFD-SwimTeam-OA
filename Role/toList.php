@@ -38,7 +38,7 @@ if($Limit>$total){$Limit=$total;}
 
 <?php
 for($i=0;$i<$total;$i++){
-  $RID=$list[0][$i]['Roleid'];
+  $RID=$list[0][$i]['RoleID'];
   $name=$list[0][$i]['RoleName'];
   $brief=$list[0][$i]['Brief'];
   $isSuper=$list[0][$i]['isSuper']; 

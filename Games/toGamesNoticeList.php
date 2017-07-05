@@ -17,13 +17,11 @@ $total=sizeof($rs[0]);
 <tr>
   <?php if($isAth==0){ ?>
   <td colspan=4>
-  <?php }else{ ?>
-  <td colspan=3>
-  <?php } ?>
     <center>
       <a class="btn btn-primary" href="index.php?file=Games&action=PubGamesNotice.php&GamesID=<?php echo $GamesID; ?>" style="width:97%">发 布 新 通 知</a>
     </center>
   </td>
+  <?php } ?>
 </tr>
 
 <tr>

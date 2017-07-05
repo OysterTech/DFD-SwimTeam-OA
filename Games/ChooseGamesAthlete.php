@@ -51,12 +51,13 @@ for($i=1;$i<=6;$i++){
 }
 ?>
 </table>
-<button onclick="lockScreen();saveGamesAthlete();" class="btn btn-success" style="width:98%">确 认 选 择</button>
+<button onclick="saveGamesAthlete();" class="btn btn-success" style="width:98%">确 认 选 择</button>
 
 <script>
 var AthIDs = Array();
 
 function saveGamesAthlete(){
+lockScreen();
 GamesID=getURLParam("GamesID");
 
 if(AthIDs.length===0){

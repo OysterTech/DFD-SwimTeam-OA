@@ -17,8 +17,8 @@ $FileName="东风东游泳队-".$GamesName."报名表.xlsx";
 
 /******* ▼ 获取比赛所有人的报名数据 ▼ *******/
 $Cache=new Cache($dbcon,"enroll_export");
-$UserID=GetSess(Prefix."Userid");
-$SessionID=session_id();
+$UserID=GetSess(Prefix."UserID");
+$SessionID=session_ID();
 $getCacheCondition[0]=["UserID",$UserID];
 $getCacheCondition[1]=["SessionID",$SessionID];
 $EnrollData=$Cache->G($getCacheCondition);
@@ -176,7 +176,7 @@ ob_start();
 header("Expires:-1");
 header("Cache-Control:no_cache");
 header("Pragma:no-cache");
-header("Cache-Control:must-revalidate, post-check=0, pre-check=0"); 
+header("Cache-Control:must-revalIDate, post-check=0, pre-check=0"); 
 header("Content-Type:application/force-download");
 header("Content-Type:application/vnd.ms-excel;");
 header("Content-Type:application/octet-stream");

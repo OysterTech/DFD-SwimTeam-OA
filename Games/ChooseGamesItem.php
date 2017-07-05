@@ -47,13 +47,14 @@ for($i=6;$i<=13;$i++){
 </table>
 
 <center>
-  <button onclick="lockScreen();saveGamesItem();" class="btn btn-success" style="width:98%">确 认 选 择</button>
+  <button onclick="saveGamesItem();" class="btn btn-success" style="width:98%">确 认 选 择</button>
 </center>
 
 <script>
 var ItemIDs = Array();
 
 function saveGamesItem(){
+lockScreen();
 GamesID=getURLParam("GamesID");
 
 if(ItemIDs.length==0){

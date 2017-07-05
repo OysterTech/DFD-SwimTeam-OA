@@ -1,16 +1,16 @@
 <?php
-$Roleid=isset($_GET['RID'])?$_GET['RID']:"";
+$RoleID=isset($_GET['RID'])?$_GET['RID']:"";
 $RoleName=isset($_GET['n'])?$_GET['n']:"";
 
-if($Roleid=="" || $RoleName=="") ErrCodedie("500");
+if($RoleID=="" || $RoleName=="") ErrCodedie("500");
 
 $rtnURL="index.php?file=Role&action=toList.php";
 
 if(isset($_POST) && $_POST){
   $RoleName=$_POST['RoleName'];
   $Brief=$_POST['Brief'];
-  $sql="UPDATE role_list SET RoleName=?,Brief=? WHERE Roleid=?";
-  $rs=PDOQuery($dbcon,$sql,[$RoleName,$Brief,$Roleid],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_INT]);
+  $sql="UPDATE role_list SET RoleName=?,Brief=? WHERE RoleID=?";
+  $rs=PDOQuery($dbcon,$sql,[$RoleName,$Brief,$RoleID],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_INT]);
 
   if($rs[1]==1){
     echo "<script>alert('修改成功！');window.location.href='$rtnURL';</script>";

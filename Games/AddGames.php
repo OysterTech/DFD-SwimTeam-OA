@@ -39,7 +39,7 @@
     <hr>
 
     <div class="input-group">
-      <span class="input-group-addon">结束报名<br><br>日期</span>
+      <span class="input-group-addon">报名截止<br><br>日期</span>
       <select id="EndYear" class="form-control">
         <option value="" selected="selected" disabled>请选择（年）</option>
         <?php
@@ -84,6 +84,53 @@
       <span class="input-group-addon" id="forgot">&lt;</span>
     </div>
     <hr>
+    
+    <div class="input-group">
+      <span class="input-group-addon">
+        比赛日<br><br>
+        <button class="btn btn-primary" onclick="unsureStartTime()">待定</button>
+      </span>
+      <select id="StartYear" class="form-control">
+        <option value="" selected="selected" disabled>请选择（年）</option>
+        <?php
+          $y=date("Y");
+          $yl=$y+3;
+          for($y;$y<=$yl;$y++){
+        ?>
+        <option value="<?php echo $y; ?>"><?php echo $y; ?>年</option>
+        <?php } ?>
+      </select>
+      <select id="StartMonth" class="form-control">
+        <option value="" selected="selected" disabled>请选择（月）</option>
+        <?php
+          for($m=1;$m<=12;$m++){
+            if($m<10) $m1="0".$m;
+            else $m1=$m;
+        ?>
+        <option value="<?php echo $m1; ?>"><?php echo $m1; ?></option>
+        <?php } ?>
+      </select>
+      <select id="StartDay" class="form-control">
+        <option value="" selected="selected" disabled>请选择（日）</option>
+        <?php
+          for($d=1;$d<=31;$d++){
+            if($d<10) $d1="0".$d;
+            else $d1=$d;
+        ?>
+        <option value="<?php echo $d1; ?>"><?php echo $d1; ?></option>
+        <?php } ?>
+      </select>
+      <span class="input-group-addon" id="forgot">&lt;</span>
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon">
+        比赛地<br><br>
+        <button class="btn btn-primary" onclick="unsureVenue()">待定</button>
+      </span>
+      <textarea class="form-control" id="Venue" style="height:100px;font-size:20"></textarea>
+      <span class="input-group-addon" id="forgot">&lt;</span>
+    </div>
+    <hr>
     <button class="btn btn-success" style="width:100%" onclick="toAddGames()">确 认 新 增</button>
   </div>
 </div>
@@ -93,6 +140,17 @@ function InputErrResponse(InputName,Content){
   alert(Content);
   unlockScreen();
   $("#"+InputName).focus();
+}
+
+function unsureStartTime(){
+  $("#StartYear").attr("disabled",true);
+  $("#StartMonth").attr("disabled",true);
+  $("#StartDay").attr("disabled",true);
+}
+
+function unsureVenue(){
+  $("#Venue").attr("disabled",true);
+  $("#Venue").val("待定");
 }
 
 function changePrivateType(){
@@ -111,32 +169,45 @@ function toAddGames(){
   TipsCT_c="请选择";
   
   lockScreen();
-  GamesName=$("#GamesName").val();
+  Name_Year=$("#Name_Year").val();
+  Name_Type=$("#Name_Type").val();
+  Name_District=$("#Name_District").val();
   EndYear=$("#EndYear").val();
   EndMonth=$("#EndMonth").val();
   EndDay=$("#EndDay").val();
   isPrivate=$("#isPrivate").val();
-  Name_Year=$("#Name_Year").val();
-  Name_Type=$("#Name_Type").val();
-  Name_District=$("#Name_District").val();
+  StartYear=$("#StartYear").val();
+  StartMonth=$("#StartMonth").val();
+  StartDay=$("#StartDay").val();
+  Venue=$("#Venue").val();
 
-  if(GamesName==""){
-    Tips=TipsCT_i+"比赛名称！";
-    InputErrResponse("GamesName",Tips);
+  if(Name_Year==null){
+    Tips=TipsCT_c+"比赛年份！";
+    InputErrResponse("Name_Year",Tips);
+    return false;
+  }
+  if(Name_District==null){
+    Tips=TipsCT_c+"赛区！";
+    InputErrResponse("Name_District",Tips);
+    return false;
+  }
+  if(Name_Type==null){
+    Tips=TipsCT_c+"比赛类型！";
+    InputErrResponse("Name_Type",Tips);
     return false;
   }
   if(EndYear==null){
-    Tips=TipsCT_c+"比赛结束时间（年份）！";
+    Tips=TipsCT_c+"截止报名时间（年份）！";
     InputErrResponse("EndYear",Tips);
     return false;
   }
   if(EndMonth==null){
-    Tips=TipsCT_c+"比赛结束时间（月份）！";
+    Tips=TipsCT_c+"截止报名时间（月份）！";
     InputErrResponse("EndMonth",Tips);
     return false;
   }
   if(EndDay==null){
-    Tips=TipsCT_c+"比赛结束时间（日期）！";
+    Tips=TipsCT_c+"截止报名时间（日期）！";
     InputErrResponse("EndDay",Tips);
     return false;
   }
@@ -145,38 +216,28 @@ function toAddGames(){
     InputErrResponse("isPrivate",Tips);
     return false;
   }
-  if(Name_Year==""){
-    Tips=TipsCT_c+"比赛年份！";
-    InputErrResponse("Name_Year",Tips);
-    return false;
-  }
-  if(Name_District==""){
-    Tips=TipsCT_c+"赛区！";
-    InputErrResponse("Name_District",Tips);
-    return false;
-  }
-  if(Name_Type==""){
-    Tips=TipsCT_c+"比赛类型！";
-    InputErrResponse("Name_Type",Tips);
-    return false;
-  }
   if(EndMonth==2 && EndDay>29){
-    Tips="比赛结束时间有误！";
+    Tips="截止报名时间有误！";
     InputErrResponse("EndDay",Tips);
     return false;
   }
-  
+  if(Venue==""){
+    Tips=TipsCT_i+"比赛地点！";
+    InputErrResponse("Venue",Tips);
+    return false;
+  }
   if(Name_Type=="0"){
     Name_Type="";
   }
-
+  
   GamesName=Name_Year+Name_District+"赛"+Name_Type;
   EndDate=EndYear+EndMonth+EndDay;
+  StartDate=StartYear+StartMonth+StartDay;
   
   $.ajax({
     url:"Games/toSaveGamesInfo.php",
     type:"post",
-    data:{"OprType":"Add","GamesName":GamesName,"EndDate":EndDate,"isPrivate":isPrivate},
+    data:{"OprType":"Add","GamesName":GamesName,"EndDate":EndDate,"StartDate":StartDate,"isPrivate":isPrivate,"Venue":Venue},
     error:function(e){
       alert(JSON.stringify(e));
       console.log(JSON.stringify(e));

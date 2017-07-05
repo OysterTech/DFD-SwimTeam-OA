@@ -8,14 +8,10 @@ $alreadyAthID=array();
 $rtn=array();
 $AllEnrollAthID=array();
 
+$GB_Sets=new Settings("../../GlobalSettings.json");
+define("Prefix",$GB_Sets->G("SessionPrefix",2,"System"));
+
 if(isset($_POST) && $_POST){
-  $Sign_sess=GetSess(Prefix."Ajax_Sign");
-  $Sign_post=$_POST['Sign'];
-  
-  if($Sign_sess != $Sign_post){
-    die("InvaildSign");
-  }
-  
   // 获取所有项目信息
   $rs1=PDOQuery($dbcon,"SELECT * FROM item_list",[],[]);
   $total1=sizeof($rs1[0]);

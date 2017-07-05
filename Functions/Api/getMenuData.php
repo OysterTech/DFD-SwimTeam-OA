@@ -1,12 +1,12 @@
 <?php
 include("../PDOConn.php");
 if(isset($_POST) && $_POST){
-$Menuid=$_POST['MID'];
-$rs=PDOQuery($dbcon,"SELECT * FROM sys_menu WHERE Menuid=?",[$Menuid],[PDO::PARAM_INT]);
+$MenuID=$_POST['MID'];
+$rs=PDOQuery($dbcon,"SELECT * FROM sys_menu WHERE MenuID=?",[$MenuID],[PDO::PARAM_INT]);
 $MenuData_arr=array();
 
-$MenuData_arr[0]['Menuid']=$Menuid;
-$MenuData_arr[0]['Fatherid']=$rs[0][0]['Fatherid'];
+$MenuData_arr[0]['MenuID']=$MenuID;
+$MenuData_arr[0]['FatherID']=$rs[0][0]['FatherID'];
 $MenuData_arr[0]['Menuname']=$rs[0][0]['Menuname'];
 $MenuData_arr[0]['MenuIcon']=$rs[0][0]['MenuIcon'];
 $MenuData_arr[0]['PageFile']=$rs[0][0]['PageFile'];

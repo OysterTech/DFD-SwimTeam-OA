@@ -99,17 +99,7 @@ for($k=0;$k<$GamesItem_total;$k++){
 </tr>
 </table>
 
-
-<?php
-SetSess(Prefix."Ajax_Sign","");
-$SessionID=session_id();
-$Timestamp=time();
-$Ajax_Sign=sha1(md5($SessionID.$Timestamp));
-SetSess(Prefix."Ajax_Sign",$Ajax_Sign);
-?>
-
 <script>
-var Sign="<?php echo $Ajax_Sign; ?>";
 
 window.onload=function(){
   TotalAth=$("#TotalAth").val();
@@ -149,19 +139,13 @@ function showEnrollAthByItem(ItemID){
     url:"Functions/Api/getEnrollDataByItem.php",
     type:"post",
     dataType:"text",
-    data:{"Sign":Sign,"GamesID":GamesID,"ItemID":ItemID},
+    data:{"GamesID":GamesID,"ItemID":ItemID},
     error:function(e){
       alert(JSON.stringify(e));
       console.log(JSON.stringify(e));
     },
     success:function(got){
-      if(got=="InvaildSign"){
-        tips="签名错误！";
-        $("#tips").html(tips);
-        $("#Modal-Tips").modal('show');
-        unlockScreen();
-        return false;
-      }else if(got=="NoData"){
+      if(got=="NoData"){
         ct=""
         +"<tr>"
         +'<td colspan="2"><center><font color="red" style="font-size:22;font-weight:bolder;">本项目暂无运动员报名！</font></center></td>'

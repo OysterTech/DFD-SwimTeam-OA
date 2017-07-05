@@ -2,6 +2,9 @@
 require_once("../Functions/PDOConn.php");
 require_once("../Functions/PublicFunc.php");
 
+$GB_Sets=new Settings("../GlobalSettings.json");
+define("Prefix",$GB_Sets->G("SessionPrefix",2,"System"));
+
 $isVerify=getSess(Prefix."FGPW_isVerify");
 $UserID=getSess(Prefix."FGPW_UserID");
 $RealName=getSess(Prefix."FGPW_RealName");
@@ -23,7 +26,7 @@ if(isset($_POST) && $_POST){
 
   $NewPW=encryptPW($ipt_New,$salt);
   
-  $sql="UPDATE sys_user SET Password=?,salt=?,OriginPassword='',Status=2 WHERE Userid=?";
+  $sql="UPDATE sys_user SET Password=?,salt=?,OriginPassword='',Status=2 WHERE UserID=?";
   $rs=PDOQuery($dbcon,$sql,[$NewPW,$salt,$UserID],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_INT]);
 
   if($rs[1]==1){
@@ -36,6 +39,7 @@ if(isset($_POST) && $_POST){
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="../favicon.ico">
   <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -47,21 +51,21 @@ if(isset($_POST) && $_POST){
 <br>
 <form method="post">
 <div class="well col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 text-center col-xs-10 col-xs-offset-1">
-  <img src="res/img/back.png" style="position:absolute;width:24px;top:17px;left:5%;cursor:pointer" onclick="history.back()" aria-label="返回">
+  <img src="res/img/back.png" style="position:absolute;wIDth:24px;top:17px;left:5%;cursor:pointer" onclick="history.back()" aria-label="返回">
   <h3>忘记密码</h3><br>
   <div class="col-md-offset-2" style="line-height:12px;">
       <div class="input-group">
         <span class="input-group-addon">新密码</span>
         <input type="password" class="form-control" name="NewPW">
-        <span class="input-group-addon" id="forgot">&lt;</span>
+        <span class="input-group-addon" ID="forgot">&lt;</span>
       </div>
       <div class="input-group">
         <span class="input-group-addon">再次输入</span>
         <input type="password" class="form-control" name="VerifyPW">
-        <span class="input-group-addon" id="forgot">&lt;</span>
+        <span class="input-group-addon" ID="forgot">&lt;</span>
       </div>
       <hr>
-      <input type="submit" class="btn btn-success" style="width:100%" value="确 认">
+      <input type="submit" class="btn btn-success" style="wIDth:100%" value="确 认">
   </div>
 </div>
 </form>

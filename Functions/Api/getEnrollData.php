@@ -2,6 +2,9 @@
 include("../PublicFunc.php");
 include("../PDOConn.php");
 
+$GB_Sets=new Settings("../GlobalSettings.json");
+define("Prefix",$GB_Sets->G("SessionPrefix",2,"System"));
+
 if(isset($_POST) && $_POST){
   $Sign_sess=GetSess(Prefix."Ajax_Sign");
   $Sign_post=$_POST['Sign'];

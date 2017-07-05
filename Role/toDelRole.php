@@ -1,17 +1,17 @@
 <?php
 if(isset($_GET['RID']) && $_GET['RID']){
-  $rid=$_GET['RID'];
-  $rs1=PDOQuery($dbcon,"SELECT * FROM role_list WHERE Roleid=?",[$rid],[PDO::PARAM_INT]);
+  $RoleID=$_GET['RID'];
+  $rs1=PDOQuery($dbcon,"SELECT * FROM role_list WHERE RoleID=?",[$RoleID],[PDO::PARAM_INT]);
   
   if($rs1[0][0]['isSuper']!="0"){
-    ErrCodedie("500-STM");
+    ErrCodedie("500-NP");
   }
   
-  $sql="DELETE FROM role_list WHERE Roleid=?";
-  $sql2="DELETE FROM role_purview WHERE Roleid=?";
+  $sql="DELETE FROM role_list WHERE RoleID=?";
+  $sql2="DELETE FROM role_purview WHERE RoleID=?";
   if(isset($_POST['sure']) && $_POST['sure']){
-    $rs=PDOQuery($dbcon,$sql,[$rid],[PDO::PARAM_INT]);
-    $rs2=PDOQuery($dbcon,$sql2,[$rid],[PDO::PARAM_INT]);
+    $rs=PDOQuery($dbcon,$sql,[$RoleID],[PDO::PARAM_INT]);
+    $rs2=PDOQuery($dbcon,$sql2,[$RoleID],[PDO::PARAM_INT]);
    
     $rtnURL="index.php?file=Role&action=toList.php";
     echo "<script>window.location.href='$rtnURL';</script>";

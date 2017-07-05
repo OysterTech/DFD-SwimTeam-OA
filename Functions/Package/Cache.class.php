@@ -28,7 +28,8 @@ class Cache{
   * @param Array 每列对应的值
   * -------------------------------------
   */
-  function S($Key,$Value){
+  function S($Key,$Value)
+  {
     $Key_Total=count($Key);
     $Value_Total=count($Value);
     $sql="INSERT INTO ".$this->TableName." SET ";
@@ -57,7 +58,8 @@ class Cache{
   * @param Array 条件(列名->内容)
   * -------------------------------------
   */
-  function G($condition){  
+  function G($condition)
+  {  
     $sql="SELECT * FROM ".$this->TableName." WHERE ";
     
     if(is_array($condition)==false){
@@ -80,7 +82,8 @@ class Cache{
   * E 清空已过期的缓存
   * -------------------------------------
   */
-  function E(){
+  function E()
+  {
     $time=time();
     $sql="DELETE FROM ".$this->TableName." WHERE ExpTime<$time";
     $rs=PDOQuery($this->dbcon,$sql,[],[]);
@@ -96,7 +99,8 @@ class Cache{
   * @param String 用户ID
   * -------------------------------------
   */
-  function D($SessionID,$UserID){
+  function D($SessionID,$UserID)
+  {
     if($SessionID==""){
       $sql="DELETE FROM ".$this->TableName." WHERE UserID=?";
       $rs=PDOQuery($this->dbcon,$sql,[$UserID],[PDO::PARAM_STR]);

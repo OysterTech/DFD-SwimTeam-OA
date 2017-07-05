@@ -13,9 +13,6 @@ $offset=$PageSize*($Page-1);
 $Begin=($Page-1)*$PageSize;
 $Limit=$Page*$PageSize;
 
-$list=PDOQuery($dbcon,"SELECT * FROM sys_log ORDER BY LogID LIMIT $offset,$PageSize",[],[]);
-$total=sizeof($list[0]);
-
 if($Page>$TotalPage && $TotalPage!=0){
   die("<script>window.location.href='$nowURL';</script>");
 }

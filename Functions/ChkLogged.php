@@ -14,17 +14,17 @@ if($re_Param!=""){
 }
 
 // 是否有登录
-$isLogged=GetSess("SOA_isLogged");
+$isLogged=GetSess(Prefix."isLogged");
 if($isLogged != "1") header("Location: $url");
 
 // 如果是主页面，不做任何处理
 if($file=="View" && $action=="Index.php"){}
 
-elseif($AllPurv!=null){
+elseif($AllPurview!=null){
   // 如果没有页面权限,查看是否为公有页面
-  if(!in_array($NowMenuid,$AllPurv)){
-    $Chk_sql="SELECT * FROM sys_menu WHERE Menuid=?";
-    $Chk_rs=PDOQuery($dbcon,$Chk_sql,[$NowMenuid],[PDO::PARAM_INT]);
+  if(!in_array($NowMenuID,$AllPurview)){
+    $Chk_sql="SELECT * FROM sys_menu WHERE MenuID=?";
+    $Chk_rs=PDOQuery($dbcon,$Chk_sql,[$NowMenuID],[PDO::PARAM_INT]);
     
     if($Chk_rs[1]==1){
       $isPublic=$Chk_rs[0][0]['isPublic'];

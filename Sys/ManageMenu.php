@@ -9,7 +9,7 @@ switch($OprType){
   $file=$_POST['File'];
   $DOS=$_POST['DOS'];
   $icon=$_POST['Icon'];
-  $sql="UPDATE sys_menu SET Menuname=?,PageFile=?,PageDOS=?,MenuIcon=? WHERE Menuid=?";
+  $sql="UPDATE sys_menu SET Menuname=?,PageFile=?,PageDOS=?,MenuIcon=? WHERE MenuID=?";
   $rs=PDOQuery($dbcon,$sql,[$name,$file,$DOS,$icon,$id],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_INT]);
   if($rs[1]>0){
   	echo "<script>alert('修改节点信息成功！');</script>";
@@ -24,7 +24,7 @@ switch($OprType){
   $file=$_POST['File'];
   $DOS=$_POST['DOS'];
   $icon=$_POST['Icon'];
-  $sql="INSERT INTO sys_menu(Fatherid,Menuname,MenuIcon,PageFile,PageDOS) VALUES(?,?,?,?,?)";
+  $sql="INSERT INTO sys_menu(FatherID,Menuname,MenuIcon,PageFile,PageDOS) VALUES(?,?,?,?,?)";
   $rs=PDOQuery($dbcon,$sql,[$fid,$name,$icon,$file,$DOS],[PDO::PARAM_INT,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR]);
   if($rs[1]>0){
   	echo "<script>alert('新增节点成功！');</script>";
@@ -35,8 +35,8 @@ switch($OprType){
  //删除
  case 3:
   $id=$_POST['id'];
-  $sql="DELETE FROM sys_menu WHERE Menuid=?";
-  $sql2="DELETE FROM role_purview WHERE Purvid=?";
+  $sql="DELETE FROM sys_menu WHERE MenuID=?";
+  $sql2="DELETE FROM role_purview WHERE PurvID=?";
   $rs=PDOQuery($dbcon,$sql,[$id],[PDO::PARAM_INT]);
   $rs2=PDOQuery($dbcon,$sql2,[$id],[PDO::PARAM_INT]);
   if($rs[1]>0){

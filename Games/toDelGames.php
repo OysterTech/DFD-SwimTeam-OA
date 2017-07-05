@@ -1,6 +1,9 @@
 <?php
 require_once("../Functions/PDOConn.php");
 require_once("../Functions/PublicFunc.php");
+
+$GB_Sets=new Settings("../GlobalSettings.json");
+define("Prefix",$GB_Sets->G("SessionPrefix",2,"System"));
 $NowUserName=getSess(Prefix."RealName");
 
 if(isset($_POST['GamesID']) && $_POST['GamesID']){

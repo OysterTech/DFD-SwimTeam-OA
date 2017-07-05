@@ -10,27 +10,36 @@ if($OprType=="Edit"){
   $GamesName=$_POST['GamesName'];
   $EndDate=$_POST['EndDate'];
   $isPrivate=$_POST['isPrivate'];
+  $StartDate=$_POST['StartDate'];
+  $Venue=$_POST['Venue'];
+  
+  $sql="UPDATE games_list SET GamesName=?,EndDate=?,StartDate=?,Venue=?,";
   
   if($EndDate>date("Ymd")){
-    $sql="UPDATE games_list SET GamesName=?,EndDate=?,isOpen='1',isPrivate=? WHERE GamesID=?";  
+    $sql.="isEnd='0',";  
   }else{
-    $sql="UPDATE games_list SET GamesName=?,EndDate=?,isOpen='0',isPrivate=? WHERE GamesID=?";
+    $sql.="isEnd='1',";
   }
   
-  $rs=PDOQuery($dbcon,$sql,[$GamesName,$EndDate,$isPrivate,$GamesID],[PDO::PARAM_STR,PDO::PARAM_INT,PDO::PARAM_STR,PDO::PARAM_INT]);
+  $sql.="isPrivate=? WHERE GamesID=?";
+  
+  $rs=PDOQuery($dbcon,$sql,[$GamesName,$EndDate,$StartDate,$Venue,$isPrivate,$GamesID],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_INT]);
 
   if($rs[1]==1){
     die("1");
   }else{
     die("2");
   }
+  
 }else if($OprType=="Add"){
   $GamesName=$_POST['GamesName'];
   $EndDate=$_POST['EndDate'];
   $isPrivate=$_POST['isPrivate'];
+  $StartDate=$_POST['StartDate'];
+  $Venue=$_POST['Venue'];
   
-  $sql="INSERT INTO games_list(GamesName,EndDate,isPrivate) VALUES(?,?,?)";
-  $rs=PDOQuery($dbcon,$sql,[$GamesName,$EndDate,$isPrivate],[PDO::PARAM_STR,PDO::PARAM_INT,PDO::PARAM_STR]);
+  $sql="INSERT INTO games_list(GamesName,EndDate,StartDate,Venue,isPrivate) VALUES(?,?,?,?,?)";
+  $rs=PDOQuery($dbcon,$sql,[$GamesName,$EndDate,$StartDate,$Venue,$isPrivate],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR]);
   
   if($rs[1]==1){
     die("1");

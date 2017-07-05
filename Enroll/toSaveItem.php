@@ -2,6 +2,9 @@
 require_once("../Functions/PDOConn.php");
 require_once("../Functions/PublicFunc.php");
 
+$GB_Sets=new Settings("../GlobalSettings.json");
+define("Prefix",$GB_Sets->G("SessionPrefix",2,"System"));
+
 $SQL_Insert="INSERT INTO enroll_item(AthID,GamesID,ItemID) VALUES ";
 $AthID=GetSess(Prefix."AthID");
 

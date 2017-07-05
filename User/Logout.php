@@ -2,8 +2,11 @@
 require_once("../Functions/PDOConn.php");
 require_once("../Functions/PublicFunc.php");
 
-$SessionID=session_id();
-$UserID=getSess(Prefix."Userid");
+$GB_Sets=new Settings("../GlobalSettings.json");
+define("Prefix",$GB_Sets->G("SessionPrefix",2,"System"));
+
+$SessionID=session_ID();
+$UserID=getSess(Prefix."UserID");
 
 $Cache=new Cache($dbcon,"login");
 $Cache->D("",$UserID);

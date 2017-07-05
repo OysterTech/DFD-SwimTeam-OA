@@ -1,77 +1,99 @@
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-	<script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="../res/js/utils.js"></script>
-	<title>登录 / 东风东游泳队报名系统</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	  <script type="text/javascript" src="../res/js/utils.js"></script>
+  <title>登录 / 东风东游泳队报名系统</title>
 </head>
 
-<body>
+<body style="font-family:Microsoft YaHei; background-color:#f9f9f9">
 <br>
-<div class="well col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 text-center col-xs-10 col-xs-offset-1">
-  <img src="../res/img/back.png" style="position:absolute;width:24px;top:17px;left:5%;cursor:pointer" onclick="history.back()" aria-label="返回">
-  <h3>登 录</h3><br>
-  <div class="col-md-offset-2" style="line-height:12px;">
-      <div class="input-group">
-        <span class="input-group-addon">用户名</span>
-        <input class="form-control" id="UserName" autocomplete="off" onkeyup="if(event.keyCode==13)$('#Password')[0].focus();">
-        <span class="input-group-addon" id="forgot">&lt;</span>
-      </div>
-      <div class="input-group">
-        <span class="input-group-addon">密码</span>
-        <input type="password" class="form-control" id="Password" onkeyup="if(event.keyCode==13)toLogin();">
-        <span class="input-group-addon" id="forgot">&lt;</span>
-      </div>
-      
-      <hr>
-      
+
+<div class="container text-center">
+  <img src="../res/img/Logo.jpg" style="width:235px;height:222px;">
+<h4>东风东游泳队管理系统 · 登录</h4>
+
+<hr>
+
+<div class="row">
+  <div class="well col-md-4 col-md-offset-4 col-sm-10 col-sm-offset-1 text-center col-xs-10 col-xs-offset-1" style="background-color:white">
+    <div class="" style="line-height:12px;">
+      <p class="text-left"><br>用户名</p>
+      <input class="form-control" id="UserName" autocomplete="off" onkeyup="if(event.keyCode==13)$('#Password')[0].focus();">
+
+      <p class="text-left"><br>密码（<a href="ForgetPwd.php" target="_blank" style="font-weight:bolder;color:red;">忘记密码</a>）</p>
+      <input type="password" class="form-control" id="Password" onkeyup="if(event.keyCode==13)toLogin();">
+
+      <br>
+
       <button class="btn btn-primary" style="width:48%" onclick="window.location.href='Reg.php'"> 注 册 Register </button> <button class="btn btn-success" style="width:48%" onclick="toLogin()"> 登 录 Login </button>
-     
+      
       <br><br>
       
-      <div style="text-align:right">
-        <a href="ForgetPwd.php" target="_blank">忘记密码</a>
-      </div>
+      <input type="checkbox" id="Remember"> <label for="Remember">记住用户名</label>
+    </div>
   </div>
+</div>
+<hr>
 </div>
 
 <script>
 window.onload=function(){
-  $("#UserName").focus();
+  
+  /********** ▼ 记住密码 ▼ **********/
+  Remember=getCookie("DSTO_RmUN");
+  if(Remember!=null){
+    $("#UserName").val(Remember);
+    $("#Password").focus();
+    $("#Remember").attr("checked",true);
+  }else{
+    $("#UserName").focus();
+  }
+  /********** ▲ 记住密码 ▲ **********/
 }
 
 function toLogin(){
   lockScreen();
   $("input")[0].disabled=1;
-  name=$("#UserName").val();
-  pw=$("#Password").val();
+  UserName=$("#UserName").val();
+  Password=$("#Password").val();
+  
+  /********** ▼ 记住密码 ▼ **********/
+  Remember=$("input[type='checkbox']").is(':checked');
+  if(Remember==true){
+    setCookie("DSTO_RmUN",UserName);
+  }else{
+    delCookie("DSTO_RmUN");
+  }
+  /********** ▲ 记住密码 ▲ **********/
   
   re_Param=getURLParam("re_Param");
   
-  if(name==""){
+  if(UserName==""){
     $("#tips").html("请输入用户名！");
     unlockScreen();
     $("input")[0].disabled=0;
     $("#myModal").modal('show');
     return false;
   }
-  if(name.length<4){
+  if(UserName.length<4){
     $("#tips").html("用户名错误！");
     unlockScreen();
     $("input")[0].disabled=0;
     $("#myModal").modal('show');
     return false;  
   }
-  if(pw==""){
+  if(Password==""){
     $("#tips").html("请输入密码！");
     unlockScreen();
     $("input")[0].disabled=0;
     $("#myModal").modal('show');
     return false;
   }
-  if(pw.length<6){
+  if(Password.length<6){
     $("#tips").html("密码错误！");
     unlockScreen();
     $("input")[0].disabled=0;
@@ -82,7 +104,7 @@ function toLogin(){
   $.ajax({
     url:"toLogin.php",
     type:"post",
-    data:{"Name":name,"Password":pw,"re_Param":re_Param},
+    data:{"Name":UserName,"Password":Password,"re_Param":re_Param},
     error:function(e){
       alert(JSON.stringify(e));
       console.log(JSON.stringify(e));
@@ -94,14 +116,14 @@ function toLogin(){
     },
     success:function(got){
       if(got.substr(0,1)=="1"){
-      	URL=got.substr(1);
+      	  URL=got.substr(1);
         window.location.href=URL;
       }else if(got=="UserForbidden"){
         $("#tips").html("当前用户被禁用！<br>请联系管理员！");
-		    unlockScreen();
-		    $("input")[0].disabled=0;
-		    $("#myModal").modal('show');
-		    return false;
+		      unlockScreen();
+		      $("input")[0].disabled=0;
+		      $("#myModal").modal('show');
+		      return false;
       }else if(got.substr(0,1)=="2"){
         LoginTime=got.substr(1,19);
         IP=got.substr(20);
@@ -111,15 +133,14 @@ function toLogin(){
         $("#myModal").modal('show');
       }else{
         $("#tips").html("用户名或密码错误！"+got);
-		    unlockScreen();
-		    $("input")[0].disabled=0;
-		    $("#myModal").modal('show');
-		    return false;
+		      unlockScreen();
+		      $("input")[0].disabled=0;
+		      $("#myModal").modal('show');
+		      return false;
       }
     }  
   });
 }
-
 
 function lockScreen(){
 $('body').append(

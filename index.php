@@ -31,16 +31,20 @@ unset($Query);
 
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="wIDth=device-wIDth, initial-scale=1">
   <meta name="author" content="生蚝科技 Oyster Tech">
-  <meta name="keyword" content="东风东,东风东路小学,东风东游泳队,生蚝科技,东风东游泳队报名系统">
-  
+  <meta name="keyword" content="广州市越秀区东风东路小学,东风东游泳队,生蚝科技,东风东游泳队管理系统">
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <!-- ▼ 引入CSS文件 ▼ -->
   <link rel="stylesheet" href="res/css/demo.css" type="text/css">
   <link rel="stylesheet" href="res/css/Notification.css" type="text/css">
   <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.bootcss.com/zTree.v3/3.5.28/css/zTreeStyle/zTreeStyle.min.css" type="text/css">
+  <!-- ▲ 引入CSS文件 ▲ -->
   
+  <!-- ▼ 引入JS文件 ▼ -->
   <script src="https://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://cdn.bootcss.com/zTree.v3/3.5.28/js/jquery.ztree.core.min.js"></script>
@@ -48,6 +52,7 @@ unset($Query);
   <script type="text/javascript" src="https://cdn.bootcss.com/zTree.v3/3.5.28/js/jquery.ztree.exedit.min.js"></script>
   <script src="res/js/utils.js"></script>
   <script src="res/js/Notification.js"></script>
+  <!-- ▲ 引入JS文件 ▲ -->
   
   <title><?php echo $Title; ?></title>
   	
@@ -63,48 +68,48 @@ unset($Query);
 </head>
 
 <body>
-
 <?php
-
-$Userid=GetSess(Prefix."Userid");
+$UserID=GetSess(Prefix."UserID");
 $RealName=GetSess(Prefix."RealName");
-$Roleid=GetSess(Prefix."Roleid");
+$RoleID=GetSess(Prefix."RoleID");
 $RoleName=GetSess(Prefix."RoleName");
 
-//待加载页面的参数 + 参数过滤
+// 待加载页面的参数 + 参数过滤
 $file=@$_GET['file']==''?'View':$_GET['file'];
 $action=@$_GET['action']==''?'Index.php':$_GET['action'];
 $file=TextFilter($file);
 $action=TextFilter($action);
 
-//获取当前页面的ID
-$NowMenuid_rs=PDOQuery($dbcon,"SELECT * FROM sys_menu WHERE PageFile=? AND PageDOS=?",[$file,$action],[PDO::PARAM_STR,PDO::PARAM_STR]);
-$NowMenuid=@$NowMenuid_rs[0][0]['Menuid'];
+// 获取当前页面的ID
+$NowMenuID_rs=PDOQuery($dbcon,"SELECT * FROM sys_menu WHERE PageFile=? AND PageDOS=?",[$file,$action],[PDO::PARAM_STR,PDO::PARAM_STR]);
+$NowMenuID=@$NowMenuID_rs[0][0]['MenuID'];
 
-//所有允许权限的Array Session
-$AllPurv=GetSess(Prefix."AllPurv");
+// 所有允许权限的Array Session
+$AllPurview=GetSess(Prefix."AllPurv");
 
-if($AllPurv==null){
-  //获取当前角色的所有权限ID
- 	$AllPurv_rs=PDOQuery($dbcon,"SELECT * FROM role_purview WHERE Roleid=?",[$Roleid],[PDO::PARAM_INT]);
+if($AllPurview==null){
+  // 获取当前角色的所有权限ID
+ 	$AllPurv_rs=PDOQuery($dbcon,"SELECT * FROM role_purview WHERE RoleID=?",[$RoleID],[PDO::PARAM_INT]);
  	$TotalPurv=sizeof($AllPurv_rs[0]);
 	
-	//循环添加给所有允许权限的Array Session
-	for($i=0;$i<$TotalPurv;$i++){
-	  $_SESSION['AllPurv'][$i]=$AllPurv_rs[0][$i]['Purvid'];
+  // 循环添加给所有允许权限的Array Session
+  for($i=0;$i<$TotalPurv;$i++){
+    $_SESSION[Prefix.'AllPurv'][$i]=$AllPurv_rs[0][$i]['PurvID'];
 	}
 }
 
 require_once("Functions/ChkLogged.php");
 
-// 引入页面文件
+// 引入导航栏
 include("Functions/ShowNav.php");
-$includeFileName=$file.'/'.$action;
 
+// 引入页面文件
+$includeFileName=$file.'/'.$action;
 echo '<div class="container text-center">';
 $includeStatus=include($includeFileName);
 echo '</div>';
 
+// 文件404
 if($includeStatus==false){
   $ErrTips="";
   $ErrTips.='<center>';
@@ -123,5 +128,5 @@ include("footer.php");
 ?>
 
 <!-- ▼ 警示框 ▼ -->
-<div id="dm-notif"></div>
+<div ID="dm-notif"></div>
 <!-- ▲ 警示框 ▲ -->

@@ -16,7 +16,6 @@ if($Page>$TotalPage && $TotalPage!=0){
 if($Limit>$total){$Limit=$total;}
 // 分页代码[End]
 
-
 ?>
 
 <center>

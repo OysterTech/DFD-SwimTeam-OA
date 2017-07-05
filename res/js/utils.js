@@ -2,7 +2,7 @@
 * -------------------------------
 * getURLParam 获取指定URL参数
 * -------------------------------
-* @param Str 参数名称
+* @param String 参数名称
 * -------------------------------
 **/
 function getURLParam(name){
@@ -107,4 +107,55 @@ function isChn(str){
   }else{
     return 1;
   }
+}
+
+
+/**
+* -----------------------------------
+* setCookie 设置Cookie
+* -----------------------------------
+* @param String Cookie名称
+* @param String Cookie内容
+* -----------------------------------
+**/
+function setCookie(name,value)
+{
+  var Days = 30;// Cookies有效天数
+  var exp = new Date();
+  exp.setTime(exp.getTime() + Days*24*60*60*1000);
+  document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+}
+
+
+/**
+* -----------------------------------
+* getCookie 获取Cookie
+* -----------------------------------
+* @param String Cookie名称
+* -----------------------------------
+**/
+function getCookie(name)
+{
+  var arr;
+  var reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+  if(arr=document.cookie.match(reg)){
+    return unescape(arr[2]);
+  }else{
+    return null;
+  }
+}
+
+
+/**
+* -----------------------------------
+* delCookie 删除Cookie
+* -----------------------------------
+* @param String Cookie名称
+* -----------------------------------
+**/
+function delCookie(name){
+  var exp = new Date();
+  exp.setTime(exp.getTime()-1);
+  var cval=getCookie(name);
+  if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString();
 }
