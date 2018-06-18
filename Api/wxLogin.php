@@ -1,20 +1,15 @@
 <?php
 /**
-	* wxLogin 微信登录API
-	* @author Jerry Cheung
-	* @create 2018-06-09
-	*/
+ * wxLogin 微信登录API
+ * @author Jerry Cheung
+ * @create 2018-06-09
+ */
 
 //require_once("../Functions/PDOConn.php");
 require_once("../Functions/Package/Api.func.php");
 
 define("APPID","wxd99996ad603a4750");
-define("SECRET","6f20300376b9a3cf98860fe5fa614c8e");
-/*
-$GB_Sets=new Settings("GlobalSettings.json");
-$Title=$GB_Sets->G("Title",2,"System");
-define("Prefix",$GB_Sets->G("SessionPrefix",2,"System"));
-*/
+define("SECRET","");
 
 if(isset($_GET) && $_GET){
 	$code=$_GET['code'];
