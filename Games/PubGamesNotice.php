@@ -19,7 +19,7 @@ if(isset($_POST) && $_POST){
 }
 ?>
 
-<script src="http://www.wangeditor.com/js/wangEditor.js"></script>
+<script src="res/js/wangEditor.js"></script>
 
 <h1>发布比赛通知</h1>
 <div class="alert alert-success alert-dismissible" role="alert">
@@ -30,42 +30,51 @@ if(isset($_POST) && $_POST){
 <hr>
 
 <form method="post" id="Form">
-[<select name="Type" id="Type">
-  <option value="0">-----请选择通知类型-----</option>
+<select name="Type" id="Type" style="width:165px;">
+  <option value="0">--- 请选择通知类型 ---</option>
   <option value="1">通知</option>
   <option value="2">规程</option>
   <option value="3">秩序册</option>
-</select>]：<input name="Title" style="width:300px" autocomplete="off">
-
+</select>
+<input name="Title" id="title" style="width:250px;" autocomplete="off">
 <hr>
 
 <div id="wangEditor_div"></div>
 <br>
 
-  <input type="hidden" id="Content" name="Content">
+<input type="hidden" id="Content" name="Content">
 </form>
 
 <hr>
 
 <button type="button" class="btn btn-success" style="width:98%" onclick="toPublish()">发 布</button>
 <script>
-var E = window.wangEditor
-var editor = new E('#wangEditor_div')
-editor.create()
+
+/** ▼ WangEditor 文本编辑器 ▼ */
+var E = window.wangEditor;
+var editor = new E('#wangEditor_div');
+editor.create();
+$("div").blur();
+/** ▲ WangEditor 文本编辑器 ▲ */
 
 function toPublish(){
   Content=editor.txt.html();
   
-  if(Content=="<p><br></p>"){
-    alert("请输入需要发布的内容！");
-    return false;
-  }
   if($("#Type").val()=="0"){
     alert("请选择通知类型！");
     $("#Type").focus();
     return false;
   }
-  
+  if($("#title").val()==""){
+    alert("请输入通知标题！");
+    $("#title").focus();
+    return false;
+  }
+  if(Content=="<p><br></p>"){
+    alert("请输入需要发布的内容！");
+    return false;
+  }
+
   $("#Content").val(Content);
   $("#Form").submit();
 }

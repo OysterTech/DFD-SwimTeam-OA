@@ -14,6 +14,15 @@ if(isset($_POST) && $_POST){
   $PW_ipt=$_POST['Password'];
   $UserName_ipt=$_POST['Name'];
   $RealName_ipt=$_POST['RealName'];
+  $Sex=$_POST['Sex'];
+  $Phone=$_POST['Phone'];
+  $YearGroup=$_POST['YearGroup'];
+  $IDCard=strtoupper($_POST['IDCard']);
+  $IDCardType=$_POST['IDCardType'];
+  $SchoolGrade=$_POST['SchoolGrade'];
+  $SchoolClass=$_POST['SchoolClass'];
+
+  // 密码处理
   $salt=getRanSTR(8);
   $indb_PW=encryptPW($PW_ipt,$salt);
   
@@ -24,6 +33,14 @@ if(isset($_POST) && $_POST){
   // 已经存在同名用户
   if($rs[1]!=0){
     die("HaveUser");
+  }
+
+  // 判断身份证是否已被使用
+  $sql1="SELECT AthID FROM athlete_list WHERE IDCard=?";
+  $rs1=PDOQuery($dbcon,$sql1,[$IDCard],[PDO::PARAM_STR]);
+  
+  if($rs1[1]!=0){
+    die("HaveIDCard");
   }
   
   // 获取运动员角色ID
@@ -40,20 +57,30 @@ if(isset($_POST) && $_POST){
   // 新增用户
   $sql3="INSERT INTO sys_user SET UserName=?,RealName=?,Password=?,Salt=?,RoleID=?,Status='2'";
   $rs3=PDOQuery($dbcon,$sql3,[$UserName_ipt,$RealName_ipt,$indb_PW,$salt,$RoleID],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR]);
-  
-  // 新增失败
+
+  // 新增用户失败
   if($rs3[1]!=1){
-    die("InsertErr");
+    die("InsertErr1");
   }
   
   // 获取用户ID
   $sql4="SELECT UserID FROM sys_user WHERE UserName=?";
-  $rs4=PDOQuery($dbcon,$sql,[$UserName_ipt],[PDO::PARAM_STR]);
+  $rs4=PDOQuery($dbcon,$sql4,[$UserName_ipt],[PDO::PARAM_STR]);
   $UserID=$rs4[0][0]['UserID'];
+
+  // 新增运动员
+  $sql5="INSERT INTO athlete_list SET UserID=?,RealName=?,Sex=?,Phone=?,YearGroup=?,IDCard=?,IDCardType=?,SchoolGrade=?,SchoolClass=?";
+  $rs5=PDOQuery($dbcon,$sql5,[$UserID,$RealName_ipt,$Sex,$Phone,$YearGroup,$IDCard,$IDCardType,$SchoolGrade,$SchoolClass],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR]);
   
-  $SessVal=array("1",$UserID,$RealName_ipt,$Sign);    
-  SetSess($SessName,$SessVal);
-  
-  die("1".$Sign);
+  // 新增运动员失败
+  if($rs5[1]!=1){
+    die("InsertErr2");
+  }
+
+  if($rs3[1]==1 && $rs5[1]==1){
+    die("1");
+  }else{
+    die("UnknownError");
+  }
 }
 ?>

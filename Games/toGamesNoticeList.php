@@ -18,7 +18,7 @@ $total=sizeof($rs[0]);
   <?php if($isAth==0){ ?>
   <td colspan=4>
     <center>
-      <a class="btn btn-primary" href="index.php?file=Games&action=PubGamesNotice.php&GamesID=<?php echo $GamesID; ?>" style="width:97%">发 布 新 通 知</a>
+      <a class="btn btn-primary btn-block" href="index.php?file=Games&action=PubGamesNotice.php&GamesID=<?php echo $GamesID; ?>">发 布 新 通 知</a>
     </center>
   </td>
   <?php } ?>
@@ -34,6 +34,7 @@ $total=sizeof($rs[0]);
 </tr>
 
 <?php
+if($total>0){
 for($i=0;$i<$total;$i++){
   $NoticeID=$rs[0][$i]['NoticeID'];
   $Type=$rs[0][$i]['Type'];
@@ -41,21 +42,24 @@ for($i=0;$i<$total;$i++){
   $PubTime=$rs[0][$i]['PubTime'];
   $PageView=$rs[0][$i]['PageView'];
   
-  if($Type==1) $Type="规程";
-  elseif($Type==2) $Type="秩序册";
-  elseif($Type==3) $Type="成绩册";
+  if($Type==1) $Type="通知";
+  elseif($Type==2) $Type="规程";
+  elseif($Type==3) $Type="秩序册";
 ?>
 <tr>
   <td>
-    <font color="green" style="font-weight:bolder;">[ <?php echo $Type; ?> ]</font>
-    <a href="index.php?file=Games&action=GamesNotice.php&NoticeID=<?php echo $NoticeID; ?>"><?php echo $Title; ?></a>
+    <font color="green" style="font-weight:bolder;">[ <?=$Type;?> ]</font>
+    <a href="index.php?file=Games&action=GamesNotice.php&NoticeID=<?=$NoticeID;?>"><?=$Title;?></a>
   </td>
-  <td><?php echo $PubTime; ?></td>
-  <td><?php echo $PageView; ?></td>
+  <td><?=$PubTime;?></td>
+  <td><?=$PageView;?></td>
   <?php if($isAth==0){ ?>
-  <td><button class="btn btn-danger" onclick="toDel('<?php echo $NoticeID; ?>')">删除</button></td>
+  <td><a class="btn btn-info" href="index.php?file=Games&action=toEditGamesNotice.php&NoticeID=<?=$NoticeID;?>&GamesID=<?=$GamesID;?>">编辑</a> <button class="btn btn-danger" onclick="toDel('<?=$NoticeID;?>')">删除</button></td>
   <?php } ?>
 </tr>
+<?php } ?>
+<?php }else{ ?>
+  <td colspan="4" style="color:red;text-align:center;font-size:21px;font-weight:bold;">暂无通知</td>
 <?php } ?>
 </table>
 

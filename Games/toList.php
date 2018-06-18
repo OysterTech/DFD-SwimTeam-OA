@@ -1,30 +1,10 @@
 <?php
 $list=PDOQuery($dbcon,"SELECT * FROM games_list ORDER BY isEnd ASC,EndDate",[],[]);
 $total=sizeof($list[0]);
-
-// 分页代码[Begin]
-$Page=isset($_GET['Page'])?$_GET['Page']:"1";
-$PageSize=isset($_GET['PageSize'])?$_GET['PageSize']:"20";
-$TotalPage=ceil($total/$PageSize);
-$Begin=($Page-1)*$PageSize;
-$Limit=$Page*$PageSize;
-
-if($Page>$TotalPage && $TotalPage!=0){
- header("Location: $nowURL");
-}
-
-if($Limit>$total){$Limit=$total;}
-// 分页代码[End]
-
-
 ?>
 
 <center>
-  <h1>比赛列表</h1><hr>
-  <?php
-  echo "<h2>第{$Page}页 / 共{$TotalPage}页</h2>";
-  echo "<h3>共 <font color=red>{$total}</font> 项比赛</h3>";
-  ?>
+  <h1>比赛列表</h1>
 </center>
 
 <hr>
@@ -38,15 +18,12 @@ if($Limit>$total){$Limit=$total;}
 
 <hr>
 
-<table class="table table-hover table-bordered" style="border-radius: 5px; border-collapse: separate;">
-<tr>
-  <td colspan=5>
-    <center>
-      <a class="btn btn-primary" href="index.php?file=Games&action=AddGames.php" style="width:97%">新增比赛</a>
-    </center>
-  </td>
-</tr>
+<a class="btn btn-primary" href="index.php?file=Games&action=AddGames.php" style="width:97%">新 增 比 赛</a>
 
+<hr>
+
+<table id="table" class="table table-hover table-bordered" style="border-radius: 5px; border-collapse: separate;">
+<thead>
 <tr>
   <th style="word-wrap:break-word;">比赛名称</th>
   <th style="word-wrap:break-word;">结束时间</th>
@@ -54,8 +31,11 @@ if($Limit>$total){$Limit=$total;}
   <th>开放状态</th>
   <th>操作</th>
 </tr>
+</thead>
+
+<tbody>
 <?php
-  for($i=$Begin;$i<$Limit;$i++){
+  for($i=0;$i<$total;$i++){
     $GamesID=$list[0][$i]['GamesID'];
     $GamesName=$list[0][$i]['GamesName'];
     $EndDate=$list[0][$i]['EndDate'];
@@ -89,41 +69,21 @@ if($Limit>$total){$Limit=$total;}
   <td><?php echo $oprURL; ?> <button onclick='readyDelGames("<?php echo $GamesID; ?>","<?php echo $GamesName; ?>")' class="btn btn-danger">删除</button></td>
 </tr>
 <?php } ?>
+</tbody>
 </table>
 
-<!-- 分页功能@选择页码[Begin] -->
-<center><nav>
- <ul class="pagination"> 
-  <?php
-  if($Page-1>0){
-    $Previous=$Page-1;
-  ?>
-  <li>
-   <a href="<?php echo $NowURL."&Page=$Previous"; ?>" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a>
-  </li>
-  <?php } ?>
-  <?php
-  for($j=1;$j<=$TotalPage;$j++){
-   if($j==$Page){
-    echo "<li class='disabled'><a>$j</a></li>";
-   }else{
-    echo "<li><a href='$NowURL&Page=$j'>$j</a></li>";
-   }
-  }
-  ?>
-  <?php
-  if($Page+1<=$TotalPage){
-    $next=$Page+1;
-  ?>
-  <li>
-   <a href="<?php echo $NowURL."&Page=$next"; ?>" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
-  </li>
-  <?php } ?>
- </ul>
-</nav></center>
-<!-- 分页功能@选择页码[End] -->
-
 <script>
+window.onload=function(){
+	$('#table').DataTable({
+		responsive: true,
+		"order":[[1,'desc']],
+		"columnDefs":[{
+			"targets":[4],
+			"orderable": false
+		}]
+	});
+};
+
 function changeEnd(GamesID,Status){
   lockScreen();
   $.ajax({

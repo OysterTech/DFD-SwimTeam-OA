@@ -1,5 +1,5 @@
 <?php
-$list=PDOQuery($dbcon,"SELECT * FROM games_list",[],[]);
+$list=PDOQuery($dbcon,"SELECT * FROM games_list ORDER BY GamesName DESC",[],[]);
 $total=sizeof($list[0]);
 ?>
 

@@ -3,20 +3,6 @@ $MyUserID=GetSess(Prefix."UserID");
 $list=PDOQuery($dbcon,"SELECT * FROM sys_user",[],[]);
 $total=sizeof($list[0]);
 
-// 分页代码[Begin]
-$Page=isset($_GET['Page'])?$_GET['Page']:"1";
-$PageSize=isset($_GET['PageSize'])?$_GET['PageSize']:"20";
-$TotalPage=ceil($total/$PageSize);
-$Begin=($Page-1)*$PageSize;
-$Limit=$Page*$PageSize;
-
-if($Page>$TotalPage && $TotalPage!=0){
- header("Location: $nowURL");
-}
-
-if($Limit>$total){$Limit=$total;}
-// 分页代码[End]
-
 if(isset($_POST) && $_POST){
   $OprType=$_POST['OprType'];
   // 用户ID
@@ -54,17 +40,17 @@ setSess(Prefix."inUserList","1");
 ?>
 
 <center>
-  <h1>用户列表</h1><hr>
-  <?php
-  echo "<h2>第{$Page}页 / 共{$TotalPage}页</h2>";
-  echo "<h3>共 <font color=red>{$total}</font> 个用户</h3>";
-  ?>
+  <h1>用户列表</h1>
 </center>
+
 <hr>
-<table class="table table-hover table-striped table-bordered" style="border-radius: 5px; border-collapse: separate;">
-<tr>
-  <td colspan="6"><center><a href="?file=User&action=AddUser.php" class="btn btn-success" style="wIDth:80%">新 增 用 户</a></center></td>
-</tr>
+
+<a href="?file=User&action=AddUser.php" class="btn btn-success btn-block">新 增 用 户</a>
+
+<hr>
+
+<table id="table" class="table table-hover table-striped table-bordered" style="border-radius: 5px; border-collapse: separate;">
+<thead>
 <tr>
   <th>用户名</th>
   <th>姓名</th>
@@ -73,8 +59,11 @@ setSess(Prefix."inUserList","1");
   <th>初始密码</th>
   <th>操作</th>
 </tr>
+</thead>
+
+<tbody>
 <?php
-  for($i=$Begin;$i<$Limit;$i++){
+  for($i=0;$i<$total;$i++){
     $UserID=$list[0][$i]['UserID'];
     $UserName=$list[0][$i]['UserName'];
     $RealName=$list[0][$i]['RealName'];
@@ -95,19 +84,19 @@ setSess(Prefix."inUserList","1");
     
     // 根据用户状态判断它能否重置密码
     switch($Status){
-     //禁用，不能重置密码
+     // 禁用，不能重置密码
      case 0:
       $Status="<a style='color:red' onclick='updateStatus($UserID)'>已禁用</a>";
       $originPassword="<center>/</center>";
       break;
-     //未激活，显示初始密码
+     // 未激活，显示初始密码
      case 1:
       $Status="<a style='color:blue' onclick='updateStatus($UserID)'>未激活</a>";
       break;
-     //启用，可以重置密码
+     // 启用，可以重置密码
      case 2:
       $Status="<a style='color:green' onclick='updateStatus($UserID)'>使用中</a>";
-      //如果不是现在这个用户，可以重置
+      // 如果不是现在这个用户，可以重置
       if($UserID!=$MyUserID){
         $originPassword='<a class="btn btn-warning" href="?file=User&action=toResetPW.php&UID='.$UserID.'&n='.$UserName.'&r='.$RealName.'">重置密码</a>';
       }else{
@@ -130,42 +119,22 @@ setSess(Prefix."inUserList","1");
   <td><?php echo $oprURL; ?></td>
 </tr>
 <?php } ?>
+</tbody>
 </table>
-
-<!-- 分页功能@选择页码[Begin] -->
-<center><nav>
- <ul class="pagination"> 
-  <?php
-  if($Page-1>0){
-    $Previous=$Page-1;
-  ?>
-  <li>
-   <a href="<?php echo $nowURL."&Page=$Previous"; ?>" aria-label="Previous"> <span aria-hIDden="true">&laquo;</span></a>
-  </li>
-  <?php } ?>
-  <?php
-  for($j=1;$j<=$TotalPage;$j++){
-   if($j==$Page){
-    echo "<li class='disabled'><a>$j</a></li>";
-   }else{
-    echo "<li><a href='$nowURL&Page=$j'>$j</a></li>";
-   }
-  }
-  ?>
-  <?php
-  if($Page+1<=$TotalPage){
-    $next=$Page+1;
-  ?>
-  <li>
-   <a href="<?php echo $nowURL."&Page=$next"; ?>" aria-label="Next"> <span aria-hIDden="true">&raquo;</span></a>
-  </li>
-  <?php } ?>
- </ul>
-</nav></center>
-<!-- 分页功能@选择页码[End] -->
 
 
 <script>
+window.onload=function(){
+	$('#table').DataTable({
+		"pageLength":100,
+		"order":[[0,'desc']],
+		"columnDefs":[{
+			"targets":[4,5],
+			"orderable": false
+		}]
+	});
+};
+
 function updateStatus(ID){
  msg='';
  msg='<input name="ID" type="radio" value="0" onclick="updateVALUE(0)"><font color="red">已禁用</font><br>'

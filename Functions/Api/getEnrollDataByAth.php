@@ -96,7 +96,7 @@ if(isset($_POST) && $_POST){
   $Cache=new Cache($dbcon,"enroll_export");
   // 删除导出缓存
   $SessionID=session_id();
-  $UserID=GetSess(Prefix."Userid");
+  $UserID=GetSess(Prefix."UserID");
   $Cache->E();
   $Cache->D($SessionID,$UserID);
   

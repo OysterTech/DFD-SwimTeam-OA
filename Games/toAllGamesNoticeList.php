@@ -34,14 +34,14 @@ for($i=0;$i<$total;$i++){
 ?>
 <tr>
   <td>
-    <font color="green" style="font-weight:bolder;">[ <?php echo $Type; ?> ]</font>
-    <a href="index.php?file=Games&action=GamesNotice.php&NoticeID=<?php echo $NoticeID; ?>"><?php echo $Title; ?></a>
+    <font color="green" style="font-weight:bolder;">[ <?=$Type;?> ]</font>
+    <a href="index.php?file=Games&action=GamesNotice.php&NoticeID=<?=$NoticeID;?>"><?=$Title;?></a>
   </td>
   <td>
-    <font color="red" style="font-weight:bolder;"><?php echo $GamesName; ?></font>
+    <font color="red" style="font-weight:bolder;"><?=$GamesName;?></font>
   </td>
-  <td><?php echo $PubTime; ?></td>
-  <td><?php echo $PageView; ?></td>
+  <td><?=$PubTime;?></td>
+  <td><?=$PageView;?></td>
 </tr>
 <?php } ?>
 </table>

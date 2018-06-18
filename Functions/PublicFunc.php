@@ -78,7 +78,7 @@ function TextFilter($str)
   $Letters="qwertyuiopasdfghjklzxcvbnm";
   $Numbers="1234567890";
   
-  $all=$Letters.$Numbers.".";
+  $all=$Letters.$Numbers."."."_";
   $length=strlen($str);
   
   for($i=0;$i<$length;$i++){

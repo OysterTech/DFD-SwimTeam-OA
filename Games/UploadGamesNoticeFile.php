@@ -5,8 +5,10 @@ if($GamesID=="" || $NoticeID=="") ErrCodedie("500");
 $FileDIR='UploadFile/Notice/'.$GamesID."/";
 $nowUserName=getSess(Prefix."RealName");
 
+$rs=PDOQuery($dbcon,"SELECT FileJSON FROM games_notice WHERE NoticeID=?",[$NoticeID],[PDO::PARAM_INT]);
+
 $FileJSON=getSess(Prefix."GN_File");
-if($FileJSON==NULL) $FileJSON=array();
+if($FileJSON==NULL) $FileJSON=json_decode($rs[0][0]['FileJSON']);
 else $FileJSON=json_decode($FileJSON);
 
 // 创建文件夹
@@ -21,14 +23,14 @@ if(isset($_FILES) && $_FILES){
     if($error == UPLOAD_ERR_OK){
       $name=$_FILES["file"]["name"][$key];
       $tmp_name=$_FILES["file"]["tmp_name"][$key];
-      $Suffix=strstr($name,".");
+      $Suffix=strstr($Name,".");
       $NumName=date("YmdHis").mt_rand(111,999).$Suffix;
       if(file_exists($FileDIR.$NumName)){
-        echo '<font color="red" style="font-size:20;font-weight:bolder;">'.$name."已经存在</font><hr>";
+        echo '<font color="red" style="font-size:20;font-weight:bolder;">'.$Name."已经存在</font><hr>";
       }else{
         if(move_uploaded_file($tmp_name,$FileDIR.$NumName)==true){
           echo '<font color="green" style="font-size:20;font-weight:bolder;">上传成功！</font><br>';
-          echo "文件名: ".$name."<br>";
+          echo "文件名: ".$Name."<br>";
           echo "文件大小: ".($_FILES["file"]["size"][$key]/1024)." Kb<br>";
 
           // 生成Code
@@ -40,11 +42,12 @@ if(isset($_FILES) && $_FILES){
           $Code_rs=PDOQuery($dbcon,"INSERT INTO file_list(FilePath,FileName,Code,UploadUser) VALUES (?,?,?,?)",[$FileDIR.$NumName,$name,$Code,$nowUserName],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR]);
 
           // 储存附件信息
-          $Info['Name']=$name;
+          $Info['Name']=$Name;
           $Info['Code']=$Code;
           array_push($FileJSON,$Info);
           $FileJSON=json_encode($FileJSON);
           setSess(Prefix."GN_File",$FileJSON);
+          $haveUploaded=TRUE;
         }else{
           echo '<font color="red" style="font-size:20;font-weight:bolder;">上传失败！</font><br>';
         }
@@ -62,14 +65,19 @@ if(isset($_FILES) && $_FILES){
 }
 
 if(isset($_POST['Pub']) && $_POST['Pub']){
-  $FileJSON=json_encode($FileJSON);
-  $rs=PDOQuery($dbcon,"UPDATE games_notice SET FileJSON=? WHERE NoticeID=?",[$FileJSON,$NoticeID],[PDO::PARAM_STR,PDO::PARAM_INT]);
-  if($rs[1]==1){
-    setSess(Prefix."GN_File","");
-    $URL="index.php?file=Games&action=toGamesNoticeList.php&GamesID=".$GamesID;
-    die("<script>window.location.href='$URL';</script>");
+  if($haveUploaded==TRUE){
+    $FileJSON=json_encode($FileJSON);
+    $rs=PDOQuery($dbcon,"UPDATE games_notice SET FileJSON=? WHERE NoticeID=?",[$FileJSON,$NoticeID],[PDO::PARAM_STR,PDO::PARAM_INT]);
+    if($rs[1]==1){
+      setSess(Prefix."GN_File","");
+      $URL="index.php?file=Games&action=toGamesNoticeList.php&GamesID=".$GamesID;
+      die("<script>alert('发布成功！');window.location.href='$URL';</script>");
+    }else{
+      toAlertDie("发布失败！");
+    }
   }else{
-    var_dump($rs);
+    $URL="index.php?file=Games&action=toGamesNoticeList.php&GamesID=".$GamesID;
+    die("<script>alert('发布成功！');window.location.href='$URL';</script>");
   }
 }
 ?>

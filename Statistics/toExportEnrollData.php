@@ -4,6 +4,9 @@ require_once("../Functions/PublicFunc.php");
 include('../res/Plugin/PHPExcel/PHPExcel.php');
 include('../res/Plugin/PHPExcel/PHPExcel/Writer/Excel2007.php');
 
+$GB_Sets=new Settings("../GlobalSettings.json");
+define("Prefix",$GB_Sets->G("SessionPrefix",2,"System"));
+
 $ItemIDs=array();
 $ItemNames=array();
 $ItemYearGroup=array();
@@ -18,7 +21,7 @@ $FileName="东风东游泳队-".$GamesName."报名表.xlsx";
 /******* ▼ 获取比赛所有人的报名数据 ▼ *******/
 $Cache=new Cache($dbcon,"enroll_export");
 $UserID=GetSess(Prefix."UserID");
-$SessionID=session_ID();
+$SessionID=session_id();
 $getCacheCondition[0]=["UserID",$UserID];
 $getCacheCondition[1]=["SessionID",$SessionID];
 $EnrollData=$Cache->G($getCacheCondition);
@@ -128,8 +131,8 @@ for($i=6;$i<13;$i++){
     
     $RealName=$Value['RealName'];
     $Sex=$Value['Sex'];
-    $Phone=$Value['Phone'];
-    $IDCard=$Value['IDCard'];
+    $Phone=" ".$Value['Phone'];
+    $IDCard=" ".$Value['IDCard'];
     $SchoolGrade=$Value['SchoolGrade'];
     $SchoolClass=$Value['SchoolClass'];
     $showClass=$SchoolGrade."年".$SchoolClass."班";

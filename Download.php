@@ -17,16 +17,16 @@ if(getSess(Prefix."isLogged")!="1"){
 if(isset($_GET['Code']) && $_GET['Code']){
   $Code=$_GET['Code'];
   $rs=PDOQuery($dbcon,"SELECT * FROM file_list WHERE Code=?",[$Code],[PDO::PARAM_STR]);
-  if($rs[1]!=1) die(toAlertDie("500","参数错误！\\n请从正确途径进入本页面！"));
+  if($rs[1]!=1) die(toAlertDie("500-DL01","文件记录不存在！\\n请从正确途径进入本页面！"));
   $FilePath=$rs[0][0]['FilePath'];
   $FileName=$rs[0][0]['FileName'];
 }else{
-	die(toAlertDie("500","参数错误！\\n请从正确途径进入本页面！"));
+	die(toAlertDie("500-DL02","参数错误！\\n请从正确途径进入本页面！"));
 }
 
 // 检查文件是否存在
 if(!file_exists($FilePath)){
-  die(toAlertDie("500","参数错误！\\n请从正确途径进入本页面！"));
+  die(toAlertDie("500-DL03","文件不存在！\\n请从正确途径进入本页面！"));
 }else{
   $File=fopen($FilePath,"r");
   Header("Content-type:application/octet-stream");

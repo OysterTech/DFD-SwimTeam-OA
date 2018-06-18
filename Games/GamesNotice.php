@@ -18,21 +18,21 @@ if($FileJSON!=""){
 $rs=PDOQuery($dbcon,"UPDATE games_notice SET PageView=$PageView WHERE NoticeID=?",[$NoticeID],[PDO::PARAM_INT]);
 ?>
 
-<h2><?php echo $Title; ?></h2>
+<h2><?=$Title;?></h2>
 
 <hr>
 
 <h4>
-  发布日期：<?php echo $PubTime; ?>
+  发布日期：<?=$PubTime;?>
   <br>
-  浏览量：<?php echo $PageView; ?>
+  浏览量：<?=$PageView;?>
 </h4>
 
 <hr>
 
 <!-- ▼ 通知内容 ▼ -->
 <div align="left" style="font-size:16px">
-  <?php echo $Content; ?>
+  <?=$Content;?>
 </div>
 <!-- ▲ 通知内容 ▲ -->
 
@@ -42,10 +42,10 @@ $rs=PDOQuery($dbcon,"UPDATE games_notice SET PageView=$PageView WHERE NoticeID=?
 <div align="right" style="font-size:16px">
   <?php
     foreach($FileJSON as $Value){
-    	$Name=$Value['Name'];
-    	$Code=$Value['Code'];
+      $Name=$Value['Name'];
+      $Code=$Value['Code'];
   ?>
-  ▲ <a href="Download.php?Code=<?php echo $Code; ?>"><?php echo $Name; ?></a><br>
+  ▲ <a href="Download.php?Code=<?=$Code;?>"><?=$Name;?></a><br>
   <?php } ?>
 </div>
 <!-- ▲ 附件列表 ▲ -->

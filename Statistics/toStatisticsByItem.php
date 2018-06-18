@@ -10,28 +10,22 @@ $showItemName=array();
 $showItemYearGroup=array();
 
 $GamesItem_list=PDOQuery($dbcon,"SELECT * FROM games_item WHERE GamesID=?",[$GamesID],[PDO::PARAM_STR]);
-$GamesItem_total=sizeof($GamesItem_list[0]);
+$GamesItem_total=count($GamesItem_list[0]);
 
-$Item_list=PDOQuery($dbcon,"SELECT * FROM item_list ORDER BY YearGroup",[],[]);
-$Item_total=sizeof($Item_list[0]);
+$Item_list=PDOQuery($dbcon,"SELECT * FROM item_list ORDER BY YearGroup DESC",[],[]);
+$Item_total=count($Item_list[0]);
 
-for($j=0;$j<$Item_total;$j++){
-  array_push($ItemIDs,$Item_list[0][$j]['ItemID']);
-  array_push($ItemNames,$Item_list[0][$j]['ItemName']);
-  array_push($ItemYearGroup,$Item_list[0][$j]['YearGroup']);
+for($j=0;$j<$GamesItem_total;$j++){
+  array_push($ItemIDs,$GamesItem_list[0][$j]['ItemID']);
 }
 
-for($k=0;$k<$GamesItem_total;$k++){
-  $ItemID=$GamesItem_list[0][$k]['ItemID'];
+for($k=0;$k<$Item_total;$k++){
+  $ItemID=$Item_list[0][$k]['ItemID'];
   
   if(in_array($ItemID,$ItemIDs)){
-    $Loc=array_search($ItemID,$ItemIDs);
-    $ItemName=$ItemNames[$Loc];
-    $YearGroup=$ItemYearGroup[$Loc];
-    
     array_push($showItemID,$ItemID);
-    array_push($showItemYearGroup,$YearGroup);
-    array_push($showItemName,$ItemName);
+    array_push($showItemYearGroup,$Item_list[0][$k]['YearGroup']);
+    array_push($showItemName,$Item_list[0][$k]['ItemName']);
   }
 }
 ?>
@@ -109,10 +103,29 @@ window.onload=function(){
 function exportEnrollData(){
   GamesID=getURLParam("GamesID");
   GamesName=getURLParam("GamesName");
-  
-  URL="Statistics/toExportEnrollData.php"+"?GamesID="+GamesID+"&GamesName="+GamesName+"&SortBy=Ath";
-  
-  window.open(URL);
+
+  $.ajax({
+    url:"Functions/Api/getEnrollDataByAth.php",
+    type:"post",
+    dataType:"text",
+    data:{"GamesID":GamesID},
+    error:function(e){
+      alert(JSON.stringify(e));
+      console.log(JSON.stringify(e));
+    },
+    success:function(got){
+      if(got=="AddCacheFailed"){
+        tips="新增缓存失败！";
+        $("#tips").html(tips);
+        $("#Modal-Tips").modal('show');
+        unlockScreen();
+        return false;
+      }
+
+      URL="Statistics/toExportEnrollData.php"+"?GamesID="+GamesID+"&GamesName="+GamesName+"&SortBy=Ath";
+      window.open(URL);
+    }
+  });
 }
 
 function showExportButton(){

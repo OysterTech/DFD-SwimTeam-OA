@@ -23,7 +23,7 @@ function getURLParam(name){
 function lockScreen(){
 $('body').append(
   '<div id="lockContent" style="opacity: 0.2; filter:alpha(opacity=20); width: 100%; height: 100%; z-index: 9999; position:fixed; _position:absolute; top:0; left:0;left:50%; margin-left:-20px; top:50%; margin-top:-20px;">'+
-  '<div><img src="res/img/loading.gif"></img></div>'+
+  '<div><i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i></div>'+
   '</div>'+
   '<div id="lockScreen" style="background: #000; opacity: 0.2; filter:alpha(opacity=20); width: 100%; height: 100%; z-index: 9999; position:fixed; _position:absolute; top:0; left:0;">'+
   '</div>'
@@ -78,8 +78,7 @@ function showCNNum(number){
 * -----------------------------------
 **/
 function isInArray(arr,val){
-  length=arr.length;
-  
+  length=arr.length;  
   if(length>0){
     for(var i=0;i<length;i++){
       if(arr[i] == val){

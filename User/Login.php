@@ -5,26 +5,33 @@
   <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	  <script type="text/javascript" src="../res/js/utils.js"></script>
+	<script type="text/javascript" src="../res/js/utils.js"></script>
   <title>登录 / 东风东游泳队报名系统</title>
+  <script>
+  var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?542f97a67d236404d5762fc15c4b21c3";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+  </script>
 </head>
 
 <body style="font-family:Microsoft YaHei; background-color:#f9f9f9">
 <br>
 
 <div class="container text-center">
-  <img src="../res/img/Logo.jpg" style="width:235px;height:222px;">
 <h4>东风东游泳队管理系统 · 登录</h4>
 
 <hr>
 
 <div class="row">
-  <div class="well col-md-4 col-md-offset-4 col-sm-10 col-sm-offset-1 text-center col-xs-10 col-xs-offset-1" style="background-color:white">
-    <div class="" style="line-height:12px;">
-      <p class="text-left"><br>用户名</p>
-      <input class="form-control" id="UserName" autocomplete="off" onkeyup="if(event.keyCode==13)$('#Password')[0].focus();">
+  <div class="well col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 text-center col-xs-10 col-xs-offset-1">
+    <p class="text-left"><br>用户名</p>
+    <input class="form-control" id="UserName" autocomplete="off" onkeyup="if(event.keyCode==13)$('#Password')[0].focus();">
 
-      <p class="text-left"><br>密码（<a href="ForgetPwd.php" target="_blank" style="font-weight:bolder;color:red;">忘记密码</a>）</p>
+      <p class="text-left"><br>密码（<a href="ForgetPwd.php" target="_blank" style="font-weight:bolder;color:red;">忘记用户名/密码</a>）</p>
       <input type="password" class="form-control" id="Password" onkeyup="if(event.keyCode==13)toLogin();">
 
       <br>
@@ -109,21 +116,21 @@ function toLogin(){
       alert(JSON.stringify(e));
       console.log(JSON.stringify(e));
       $("#tips").html("系统错误！");
-		    unlockScreen();
-		    $("input")[0].disabled=0;
-		    $("#myModal").modal('show');
-		    return false;
+		  unlockScreen();
+		  $("input")[0].disabled=0;
+		  $("#myModal").modal('show');
+		  return false;
     },
     success:function(got){
       if(got.substr(0,1)=="1"){
-      	  URL=got.substr(1);
+        URL=got.substr(1);
         window.location.href=URL;
       }else if(got=="UserForbidden"){
         $("#tips").html("当前用户被禁用！<br>请联系管理员！");
-		      unlockScreen();
-		      $("input")[0].disabled=0;
-		      $("#myModal").modal('show');
-		      return false;
+        unlockScreen();
+		    $("input")[0].disabled=0;
+		    $("#myModal").modal('show');
+		    return false;
       }else if(got.substr(0,1)=="2"){
         LoginTime=got.substr(1,19);
         IP=got.substr(20);
@@ -133,10 +140,10 @@ function toLogin(){
         $("#myModal").modal('show');
       }else{
         $("#tips").html("用户名或密码错误！"+got);
-		      unlockScreen();
-		      $("input")[0].disabled=0;
-		      $("#myModal").modal('show');
-		      return false;
+		    unlockScreen();
+		    $("input")[0].disabled=0;
+		    $("#myModal").modal('show');
+		    return false;
       }
     }  
   });

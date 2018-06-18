@@ -6,7 +6,12 @@ $AthID=$_POST['AthID'];
 $rs=PDOQuery($dbcon,"SELECT * FROM athlete_list WHERE AthID=?",[$AthID],[PDO::PARAM_INT]);
 $AthleteData_arr=array();
 
-$AthleteData_arr[0]['Athid']=$AthID;
+if($rs[1]!=1){
+  $AthleteData_arr[0]['Code']="0";
+  die(urldecode(json_encode($AthleteData_arr)));
+}
+
+$AthleteData_arr[0]['Code']="200";$AthleteData_arr[0]['AthID']=$AthID;
 $AthleteData_arr[0]['UserID']=$rs[0][0]['UserID'];
 $AthleteData_arr[0]['RealName']=$rs[0][0]['RealName'];
 $AthleteData_arr[0]['Phone']=$rs[0][0]['Phone'];

@@ -53,6 +53,9 @@ if(isset($_POST) && $_POST){
     // 如果是运动员
     if($isAthlete==1){
       $AthInfo_rs=PDOQuery($dbcon,"SELECT * FROM athlete_list WHERE UserID=?",[$UserID],[PDO::PARAM_STR]);
+      if($AthInfo_rs[1]!=1){
+        toAlertDie("500","当前用户不存在运动员资料！\\n\\n如有疑问，请联系管理员微信：zjhit0409（添加时注明东风东）");
+      }
       $AthID=$AthInfo_rs[0][0]['AthID'];
       
       array_push($SessName,Prefix."AthID");

@@ -1,11 +1,17 @@
 <?php
+include("Functions/OEA.php");
+$OEA=new OEA();
+
 $u=isset($_GET['u'])?$_GET['u']:"";
 $r=isset($_GET['r'])?$_GET['r']:"";
 $p=isset($_GET['p'])?$_GET['p']:"";
+$k=isset($_GET['k'])?$_GET['k']:"";
+$p2=$OEA->Decipher($p,$k);
+
 $f=isset($_GET['re_file'])?$_GET['re_file']:"";
 $a=isset($_GET['re_action'])?$_GET['re_action']:"";
 
-if(!$u || !$r || !$p){
+if(!$u || !$r || !$p || !$k || $p2==""){
   echo '<script>alert("参数错误！\n请从正确的途径进入页面！");window.location.href="index.php";</script>';
 }
 
@@ -24,7 +30,7 @@ if(!$u || !$r || !$p){
   </tr>   
   <tr>
     <th>初始密码</th>
-    <td><font color="red"><?php echo $p; ?></font></td>
+    <td><font color="red"><?php echo $p2; ?></font></td>
   </tr>
 </table>
 

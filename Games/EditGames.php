@@ -87,7 +87,10 @@ if($GamesID=="" || $GamesName=="" || $EndDate=="") ErrCodedie("500");
     <hr>
     
     <div class="input-group">
-      <span class="input-group-addon">比赛日</span>
+      <span class="input-group-addon">
+        比赛日<br><br>
+        <button class="btn btn-primary" onclick="unsureStartTime()">待定</button>
+      </span>
       <select id="StartYear" class="form-control">
         <option value="" selected="selected" disabled>请选择（年）</option>
         <?php
@@ -121,8 +124,11 @@ if($GamesID=="" || $GamesName=="" || $EndDate=="") ErrCodedie("500");
       <span class="input-group-addon" id="forgot">&lt;</span>
     </div>
     <div class="input-group">
-      <span class="input-group-addon">比赛地</span>
-      <input class="form-control" id="Venue" required>
+      <span class="input-group-addon">
+        比赛地<br><br>
+        <button class="btn btn-primary" onclick="unsureVenue()">待定</button>
+      </span>
+      <textarea class="form-control" id="Venue" style="height:100px;font-size:20"></textarea>
       <span class="input-group-addon" id="forgot">&lt;</span>
     </div>
     <hr>
@@ -146,6 +152,27 @@ window.onload=function(){
   $("#EndYear").val(EndYear);
   $("#EndMonth").val(EndMonth);
   $("#EndDay").val(EndDay);
+}
+
+function unsureStartTime(){
+  if($("#StartYear").attr("disabled")=="disabled"){
+    $("#StartYear").removeAttr("disabled");
+    $("#StartMonth").removeAttr("disabled");
+    $("#StartDay").removeAttr("disabled");
+  }else{
+    $("#StartYear").attr("disabled",true);
+    $("#StartMonth").attr("disabled",true);
+    $("#StartDay").attr("disabled",true);
+  }
+}
+
+function unsureVenue(){
+  if($("#Venue").attr("disabled")=="disabled"){
+    $("#Venue").removeAttr("disabled");
+  }else{
+    $("#Venue").attr("disabled",true);
+    $("#Venue").val("待定");
+  }
 }
 
 function InputErrResponse(InputName,Content){
@@ -232,6 +259,10 @@ function toEditGames(){
   EndDate=EndYear+EndMonth+EndDay;
   StartDate=StartYear+StartMonth+StartDay;
   
+  if(StartDate=="0"){
+    StartDate="待定";
+  }
+
   $.ajax({
     url:"Games/toSaveGamesInfo.php",
     type:"post",

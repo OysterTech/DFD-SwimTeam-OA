@@ -25,7 +25,12 @@ if(isset($_GET['UID']) && $_GET['UID']){
     addLog($dbcon,"用户","删除用户 [$RealName]",$NowUserName);
     
     $Del_rs=PDOQuery($dbcon,$Del_sql,[$UID],[PDO::PARAM_INT]);
-    $DelAth_rs=PDOQuery($dbcon,"DELETE FROM athlete_list WHERE UserID=?",[$UID],[PDO::PARAM_STR]);
+
+    $AthInfo_rs=PDOQuery($dbcon,"SELECT AthID FROM athlete_list WHERE UserID=?",[$UID],[PDO::PARAM_INT]);
+    $AthID=$AthInfo_rs[0][0]['AthID'];
+    
+    $DelAth_rs=PDOQuery($dbcon,"DELETE FROM athlete_list WHERE UserID=?",[$UID],[PDO::PARAM_INT]);
+    $DelEnroll_rs=PDOQuery($dbcon,"DELETE FROM enroll_item WHERE AthID=?",[$AthID],[PDO::PARAM_INT]);
     
     if($Del_rs[1]==1){
       echo "<script>alert('删除用户成功！');window.location.href='index.php?file=User&action=toList.php';</script>";

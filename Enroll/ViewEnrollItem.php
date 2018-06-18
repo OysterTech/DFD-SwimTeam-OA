@@ -1,6 +1,6 @@
 <?php
-$GamesID=isset($_GET['GamesID'])?$_GET['GamesID']:toAlertDie("500","参数错误！\n\n请从正确方式进入本页面！");
-$GamesName=isset($_GET['GamesName'])?$_GET['GamesName']:toAlertDie("500","参数错误！\n\n请从正确方式进入本页面！");
+$GamesID=isset($_GET['GamesID'])?$_GET['GamesID']:toAlertDie("500-Enrl-VEI-NoGID","参数错误！\n无比赛ID！\n\n请从正确方式进入本页面！");
+$GamesName=isset($_GET['GamesName'])?$_GET['GamesName']:toAlertDie("500-Enrl-VEI-NoGN","参数错误！\n无比赛名称！\n\n请从正确方式进入本页面！");
 $AthID=GetSess(Prefix."AthID");
 $YearGroup=GetSess(Prefix."Ath_YearGroup");
 
@@ -8,10 +8,10 @@ $ItemIDs=array();
 $ItemNames=array();
 
 $Enroll_list=PDOQuery($dbcon,"SELECT * FROM enroll_item WHERE AthID=? AND GamesID=?",[$AthID,$GamesID],[PDO::PARAM_STR,PDO::PARAM_STR]);
-$Enroll_total=sizeof($Enroll_list[0]);
+$Enroll_total=count($Enroll_list[0]);
 
 $Item_list=PDOQuery($dbcon,"SELECT * FROM item_list WHERE YearGroup=?",[$YearGroup],[PDO::PARAM_STR]);
-$Item_total=sizeof($Item_list[0]);
+$Item_total=count($Item_list[0]);
 
 for($j=0;$j<$Item_total;$j++){
   array_push($ItemIDs,$Item_list[0][$j]['ItemID']);
@@ -20,8 +20,8 @@ for($j=0;$j<$Item_total;$j++){
 ?>
 
 <center>
-  <h2><?php echo $GamesName; ?></h2>
-  <h2>报名项目</h2>
+  <h2><?=$GamesName;?></h2>
+  <h2>已报名的项目</h2>
 </center>
 <hr>
 
@@ -46,3 +46,7 @@ for($i=0;$i<$Enroll_total;$i++){
 </tr>
 <?php } ?>
 </table>
+
+<hr>
+
+<a href="index.php" class="btn btn-primary btn-block">返 回 首 页</a>

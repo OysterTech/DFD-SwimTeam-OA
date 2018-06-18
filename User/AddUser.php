@@ -1,4 +1,7 @@
 <?php
+include("Functions/OEA.php");
+$OEA=new OEA();
+
 if(isset($_POST) && $_POST){
   $UserName=$_POST['UserName'];
   $RealName=$_POST['RealName'];
@@ -11,9 +14,10 @@ if(isset($_POST) && $_POST){
   $sql="INSERT INTO sys_user(UserName,RealName,Password,salt,RoleID,Status,originPassword) VALUES(?,?,?,?,?,?,?)";
   $rs=PDOQuery($dbcon,$sql,[$UserName,$RealName,$Password,$salt,$RoleID,$Status,$originPassword],[PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_INT,PDO::PARAM_INT,PDO::PARAM_STR]);
 
-  if($rs[1]==1){
-  	$url="index.php?file=User&action=ShowOriginPW.php&u=$UserName&r=$RealName&p=$originPassword&re_file=User&re_action=toAdd.php";
-   echo "<script>alert('新增用户成功！');window.location.href='$url';</script>";
+  if($rs[1]==1){   
+    $ShowPwd=$OEA->Encrypt($originPassword);
+    $url="index.php?file=User&action=ShowOriginPW.php&u=$UserName&r=$RealName&p={$ShowPwd[0]}&k={$ShowPwd[1]}&re_file=User&re_action=AddUser.php";
+    echo "<script>alert('新增用户成功！');window.location.href='$url';</script>";
   }
 }
 ?>
