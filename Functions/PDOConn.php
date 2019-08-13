@@ -10,9 +10,9 @@
 $dbcon=null;
 $dbms="mysql";
 $host="localhost";
-$database="xsh_dfd2";
-$userName="xsh";
-$passWord="sozx027368%&";
+$database="dfd";
+$userName="root";
+$passWord="";
 $dsn="{$dbms}:host={$host};dbname={$database};charset=utf8";
 try{
  $dbcon=new PDO($dsn,$userName,$passWord);
